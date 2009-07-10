@@ -1,0 +1,27 @@
+How to set up JANUS
+===================
+
+To set up JANUS you need to do the following:
+
+  * Set up the Mailtoken authsource (See seperate documentation)
+  * Set up database
+  * Configure JANUS
+
+Most of the three steps can be accomplished by running the install script
+locates in the <janus-dir>/www/install/ folder. The script will create all
+necessary tables in your database (if your are using MySQL). It will also
+generate a config file, that you will need to copy manually to
+<ssp-dir>/config/ as well as a config string for the Mailtoken authsource
+which you have to copy to <ssp-dir>/config/authsources.php.
+
+If you do not want to use the install script, you can find the necessary SQL
+code in the file janus.sql located in the <janus-dir>/doc folder and
+a config file in <janus-dir>/config-template folder.
+
+To setup the Mailtoken authsource see seperate documentation in the
+<janus-dir>/docs folder. You can use other authsources, but you probably
+need to tweek JANUS a bit. JANUS is setup to use e-mail adresses as user
+dentifiers, but should work with other user identifiers.
+
+The last thing you need to do is to edit the config file. If you have used
+the install script, you only need to enter the metadatafields you allow.
