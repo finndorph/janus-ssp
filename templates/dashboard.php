@@ -449,24 +449,19 @@ echo '</table>';
 
 </div>
 
-<!-- TAB - FEDERATION -->
+<!-- TAB - ADMIN -->
 <?php
-if($this->data['uiguard']->hasPermission('federationtab', null, $this->data['user']->getType(), TRUE)) {
+if($this->data['user_type'] === 'admin') {
 ?>
+    <!-- TAB - FEDERATION -->
     <div id="federation">
     <?php
     echo '<h2>'.$this->t('tab_entities_federation_entity_subheader').'</h2>';
     echo '<a href="exportentities.php">'.$this->t('tab_entities_federation_exporting').'</a>';
     ?>
     </div>
-<?php
-}
-?>
 
-<!-- TAB - ADMIN -->
-<?php
-if($this->data['uiguard']->hasPermission('admintab', null, $this->data['user']->getType(), TRUE)) {
-?>
+
         <div id="admin">
         <div id="admin_tabdiv">
         <ul>
@@ -482,15 +477,14 @@ if($this->data['uiguard']->hasPermission('admintab', null, $this->data['user']->
             echo '<tbody>';
             $i = 0;
             foreach($users AS $user) {
-                echo '<tr id="delete-user-'. $user->getUid() .'" class="'. ($i % 2 == 0 ? 'even' : 'odd') .'" >';
-                $type = $user->getType();
-                echo '<td name="type" class="dashboard_user">', $type[0], '</td>';
-                echo '<td name="userid" class="dashboard_user">', $user->getUserid(). '</td>';
-                echo '<td name="active" class="dashboard_user">', $user->getActive(). '</td>';
+                echo '<tr id="delete-user-'. $user['uid'] .'" class="'. ($i % 2 == 0 ? 'even' : 'odd') .'" >';
+                echo '<td name="type" class="dashboard_user">', $user['type'], '</td>';
+                echo '<td name="userid" class="dashboard_user">', $user['userid']. '</td>';
+                echo '<td name="active" class="dashboard_user">', $user['active']. '</td>';
                 echo '<td name="action" class="dashboard_user" align="center">';
-                echo '<a name="admin_edit" class="janus_button" onClick="editUser(', $user->getUid(), ');">'. $this->t('admin_edit') .'</a>';
+                echo '<a name="admin_edit" class="janus_button" onClick="editUser(', $user['uid'], ');">'. $this->t('admin_edit') .'</a>';
                 echo '  ';
-                echo '<a name="admin_delete" class="janus_button" onClick="deleteUser(', $user->getUid(), ', \'', $user->getUserid(), '\');">'. $this->t('admin_delete') .'</a>';
+                echo '<a name="admin_delete" class="janus_button" onClick="deleteUser(', $user['uid'], ', \'', $user['userid'], '\');">'. $this->t('admin_delete') .'</a>';
                 echo '</td>';
                 echo '</tr>';
                 $i++;

@@ -299,18 +299,8 @@ class sspmod_janus_UserController extends sspmod_janus_Database
     public function getUsers()
     {
         $st = $this->execute('SELECT * FROM '. self::$prefix .'user;');
-
-        $rs = $st->fetchAll(PDO::FETCH_ASSOC);
-
-        $users = array();
-        foreach($rs AS $row) {
-            $user = new sspmod_janus_User($this->_config->getValue('store'));
-            $user->setUid($row['uid']);
-            $user->load();
-            $users[] = $user;
-        }
-        
-        return $users;
+ 
+        return $st->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
