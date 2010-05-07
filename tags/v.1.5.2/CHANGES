@@ -1,0 +1,150 @@
+Version 1.5.2
+(7 may, from branches/v.1.5)
+http://janus-ssp.googlecode.com/svn/tags/v.1.5.2
+  * Added a link to the ARP page.
+  * Applied the post/redirect/get design pattern on the dashboard and the editentity screen
+  * Added access control for access to all entities. Configer by setting permissions on 'allentities' in the access array
+  * Added ability to export federation metadata in SSP flat file format
+  * Fixed minor bug in exportmetadata related to danish chars
+
+Version 1.5.1
+(26 march, from branches/v.1.5)
+http://janus-ssp.googlecode.com/svn/tags/v.1.5.1
+  * Fixed minor bug in exportmetadata related to danish chars
+  * Improved perfomance on editentity page by delaying loading the entity history
+  * Fixed bug in metadatafield names.
+  * Fixed bug in handling of boolean metadatafields.
+  * Added script for importing exsisting SimpleSAMLphp metadata into JANUS
+  * Fixed minor bug in ARP editor
+
+Version 1.5.0
+(1 march, from branches/v.1.5)
+http://janus-ssp.googlecode.com/svn/tags/v.1.5.0
+
+Changes
+  * Require SimpleSAMLphp version 1.5
+  * Minor update to the inbox
+  * Minor update to access control
+  * Minor UI updates
+  * Added new ARP editor
+  * Added url checking to metadata editor
+  * Added 'cacheDuration' and 'validUntil' parameters to EntitiesDescriptor-Metadata because Shibboleth SP requires it. 
+  * Added name and extension to the file that exportentities.php exports. 
+  * Fixes issue 63 Added ARP editor to dashboard and remove old from the edit entity page
+  * Fixes issue 77 Added functionality to add validation functions to metadata fields. The validation functions has to be defined in /lib/Validation/Metadata.php. See the leneq40 example in the file. Add the validation function to the individual metadata fields by adding a 'validation' => 'functionname'.
+  * Fixes issue 82 Added multilangual description to attributes. Defaults to english if translation is missing
+  * Fixes issue 85 Error messages are now taken from the dictionary file Fied minor bug in the dashboard UI when accessing the export entities page
+  * Fixes issue 86 The mailtoken links now uses the port on the host if present. If no port is given the port argument is omitted.
+  * Fixes issue 90 Added config option to disable automatic user creation on login. 
+  * Fixes issue 95 Changed connection between attributea, blocked entities and entities to use eid instead og entityid
+  * Fixes issue 96 Postmaster.php: Moved the paginate_by var to _paginate and added getter and setter methods
+  * Fixes issue 97 aggregator.php: Modified the aggregator to only expose predefined metadata, as configured in the config file under aggragators Imported the aggregator from the YACO branch
+  * Fixes issue 102 Updated SQL file
+  * Fixes issue 106. Prints the type name rather that the type id when user du not have access to change entity type
+  * Fixes issue 105 editentity.php: Con no longer be called with the HTTP POST method. As far as i can see the use of the POSt method is not used.
+  * Fixes issue 103 Sorry. Check removed again
+
+Version 1.4.0
+(4 december 2009, from branches/v.1.4)
+http://janus-ssp.googlecode.com/svn/tags/v.1.4.0
+
+Changes
+  * Added resent spanish translation
+  * Variouse fixes to support resent changes in SimpleSAMLphp
+  * Variouse UI bugs fixed and moved all css to external file.   
+  * Code cleanup
+  * Fixes issue 65 Added functionaity to export to external sources. An exporter for the local filesystem and FTP has been implemented. One for SVN and CVS should be implemented as well.
+  * Fixes issue 72 Added functionality to disbale consent for a given service. 
+  * Fixes issue 83 Added multi language support for metadata description
+  * Fixes issue 87. Removed the USERDEFINED tag on metadata and attributes.
+  * Fixes issue 88 Empty metadata fileds are now allowed 
+  * Fixes issue 89 Removed all tab indents and replaced by 4 spaces Always use 4 spaces for indentation and no tabs following Pear Coding Standards. Also, remove trailing whitespace. See #89
+  * Fixes issue 91 Added defalt value for the state parameter nad parsed null in dashboard.
+  * Fixes issue 92 Added disableConsent able to DB
+  * Fixes issue 94. Fix a subtle bug in the deleteEntity method. See issue #94
+  * Fixes issue 99. Fix rendering problem in Internet Explorer due to Javascript syntax errors. 
+  * Added consent disabling functionality.
+  * Added cron hook to automatically fetch metadata for entities 
+  * Added metadata URL to entitites.
+  * Added 'select' type to the metadata types.
+  * Added backport of json_encode to support PHP < 5.2
+  * Added pagination to inbox tab
+  * Updated webinstaller
+  * Updated mailtoken authsource
+  * Updated message system
+  * Updated federation metadata export tab
+  * Updated metadata export functionality
+
+Version 1.3.0
+(30 october 2009, from branch/v.1.3)
+http://janus-ssp.googlecode.com/svn/tags/v.1.3
+
+Changes
+  * Updated web installer
+  * Added simple ARP editor for shib and saml sp
+  * Added shib entities to list of blockedable entities
+  * Added support for importing metadat via an URL
+  * Remove dependency on Mailtoken authsource
+  * Added support for adding multiple metadata fields
+  * Added suport for exporting federated metadata
+  * Updated the message system
+  * Variuos layout updates
+  * Various cleanups
+  * Fixed lifetime parameter in Mailtoken auth source
+  * Fixed authentication bug in AJAX file
+  * Fixes issue 3 Added support for configuring mailtoken lifetime
+  * Fixes issue 14 The save button blinks when changes have been made. This is not the optimal solution and needs some work. This feature can be disabled by commenting out the bind to the change event on all input elements.
+  * Fixes issue 16 Description text has been added to metadata as well as default values. The values are defined in the config file. Added support for boolean fields (checkbox)
+  * Fixes issue 17 Minor update to dictionary
+  * Fixes issue 41 Added ability to add more that one metadata entry at a time naddid a minor update to the screen
+  * Fixes issue 43 When creating a new user, you will now jump to the user tab. The parameter selectedtab can be set to preselect tabs in the dashboard. They are zero indexed from left to right.
+  * Fixes issue 49 Entity types are now defined in the JANUS config file and not taken from the SSP config file
+  * Fixes issue 53 Added a logout link to dashboard
+  * Fixes issue 55 
+  * Fixes issue 56 Updated web installer and put all text into dictionary file
+  * Fixes issue 57 Added support for exporting federation metadata
+  * Fixes issue 58 Entities can now be deleted
+  * Fixes issue 61, 66 Moved required metadata fields to the new metada field structure. Marked required metadata with red in the metadata tab Use the new metadata field structure to retrive required fields when exporting the metadata
+  * Fixes issue 63 Fixed last issues with the simple ARP editor. 
+  * Fixes issue 64 Fixed typo
+  * Fixes issue 67 NAme and description of workflowstates can now be given imultiple languages
+  * Fixes issue 74 Required metadata fileds are automaticaly added to newly created entities
+  * Fixes issue 75 Metadata fields already created at the entity is not shown in the dropdown list
+  * Fixes issue 76 Added support for giving the order of appearance for metadata
+  * Fixes issue 78 Add metadata select box moved beneath the metadata fields
+  * Fixes issue 79 Added possiblity to export metadata from predefined tates
+  * Fixes issue 84 Fix 3 bugs related to the user access in index.php
+
+Version 1.2.0
+(25 september 2009, from branches/v.1.2)
+http://janus-ssp.googlecode.com/svn/tags/v.1.2.0
+
+Changes
+  * Added simple notification system to enable users to be notified on changes to entities
+  * Updated connection table in dashboard to support more that two types of connection
+  * Fixes issue 9 Put Mailtoken auth source email content in janus config file
+  * Fixes issue 11 Added box to display info about state
+  * Fixes issue 19 Removed popup box on delete of user
+  * Fixes issue 23 Metadata now uses eid as connection to entities. Updated webinstaller to support change. 
+  * Fixes issue 35 Visual update to dashboard and entity editor
+  * Fixes issue 45 Take SQL from external file Patch provided by pitbulk
+  * Fixes issue 46 Added ability to edit and add new users to admin interface functionality provided by pitbulk
+  * Fixes issue 47 Added link to federation tab in new SSP interface Patch providedby pitbulk
+  * Fixes issue 48 moved initialization of variable to avoid error Fix provided by pitbulk
+  * Fixes issue 51 Added functionality so regex is used instead for filter_var in PHP version < 5.2.0 Patch provided by lorenzo.gil.sanchez
+  * Fixes issue 52 Added support for spanish Patch provided by pitbulk
+  * Fixes issue 54 Throw exception when not able to connect to database Patch provided by lorenzo.gil.sanchez
+
+Version 1.1.0
+(21 Aug 2009, from /branches/v.1.1)
+http://janus-ssp.googlecode.com/svn/tags/v.1.1.0
+
+Changes:
+  * added support for workflow
+  * added permission control to UI elements
+  * updated the inline documentation
+  * upgraded inline documentation to PEAR coding standard
+  * minor UI updates
+  * added revision notes
+  * documentation update
+  * Bux fixes: 4, 6, 7, 8, 12, 13, 15, 18, 22, 24, 26, 27, 28, 29, 30, 31, 33, 34, 36
