@@ -61,7 +61,7 @@ if(empty($metaflat) || empty($metaxml)) {
 
     $t->data['header'] = 'Metadata export';
     $t->data['metaurl'] = SimpleSAML_Utilities::selfURLNoQuery();
-    $t->data['metadata'] = htmlentities($metaxml);
+    $t->data['metadata'] = htmlentities($metaxml, ENT_COMPAT, 'UTF-8');
     $t->data['metadataflat'] = htmlentities($metaflat, ENT_COMPAT, 'UTF-8');
     $t->data['revision'] = $revisionid;
     $t->data['eid'] = $eid;
