@@ -33,7 +33,7 @@ $config = array(
                 </head>
                 <body>
                 <p>To login to JANUS click the following link:</p>
-                <a href="%RETURNURL%?token=%TOKEN%&source=mailtoken">%RETURNURL%?token=%TOKEN%&source=mailtoken</a>
+                <a href="%RETURNURL%?token=%TOKEN%">%RETURNURL%?token=%TOKEN%</a>
                 <p>If the link does not work, please try to copy the link
                 directly into your browsers address bar.</p>
                 <p>In case of problems contact the WAYF Secreteriat.</p>
@@ -58,7 +58,7 @@ $config = array(
                 </head>
                 <body>
                 <p>For at logge ind i JANUS, klik p&aring; linket:</p>
-                <a href="%RETUENURL%?token=%TOKEN%&source=mailtoken">%RETURNURL%?token=%TOKEN%&source=mailtoken</a>
+                <a href="%RETUENURL%?token=%TOKEN%">%RETURNURL%?token=%TOKEN%</a>
                 <p>Hvis det ikke virker, pr&oslash;v at kopiere linket til
                 adressefeltet i din browser.</p>
                 <p>I tilf&aelig;lde af problemer med JANUS, kontakt WAYF
@@ -98,11 +98,6 @@ $config = array(
      * Dashboard configuration.
      */
     'dashboard.inbox.paginate_by' => 20,
-
-    /*
-     * Metadata field used as pretty name for entities
-     */
-    'entity.prettyname' => 'entity:name:da',
 
     /*
      * Enable entity types
@@ -422,15 +417,6 @@ $config = array(
      * Allowed metadata names for IdPs.
      */
     'metadatafields.saml20-idp' => array(
-        'certificate' => array(
-            'type' => 'file',
-            'order' => 1,
-            'description' => array(
-                'da' => 'description',                       
-            ),
-            'filetype' => '*.pem', // *.jpg; *.gif; *.*
-            'maxsize' => '3 M', // Valid units are B, KB, MB, and GB. The default unit is KB.            
-        ),
         'SingleLogoutService' => array(
             'type' => 'text',
             'order' => 10,
