@@ -1,6 +1,3 @@
-#labels Featured
-#Startpage for JANUS documentation
-
 At this wiki you can find documentation for JANUS.
 
 JANUS are at the moment not wery well documented. So contributions are more than welcome.
