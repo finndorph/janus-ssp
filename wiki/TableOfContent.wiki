@@ -1,4 +1,2 @@
-#Table of content
-
-* [REST_API REST API]
-* [metacustomvalidation  Metadata validation functions]
+ * [REST_API REST API]
+ * [metacustomvalidation Metadata validation functions]
