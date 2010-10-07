@@ -1,4 +1,5 @@
 #summary Simple REST-ish API to get data fro JANUS
+#labels Featured
 
 ||<wiki:toc max_depth="3" />||
 
