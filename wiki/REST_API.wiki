@@ -1,5 +1,5 @@
 #Simple REST-ish API to get data fro JANUS
-#sidebar
+||<wiki:toc max_depth="3" />||
 
 = Introduction =
 This simple REST-ish API enables users to retrive data from JANUS, to be used in other systems.
@@ -127,7 +127,7 @@ Return data about the user
 
 Return data about the entity
 
-==getMetadata==
+===getMetadata===
 
 ||*Signing*|| ||
 ||Require signature|| Yes||
@@ -138,7 +138,7 @@ Return data about the entity
 
 Return metadata for the entity
 
-==isConnectionAllowed==
+===isConnectionAllowed===
 
 ||*Signing*|| ||
 ||Require signature|| Yes||
