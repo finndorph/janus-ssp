@@ -1,0 +1,12 @@
+#summary Metadata configuration options
+
+= Introduction =
+Here is the metadata configuration options documented.
+
+NOTE this document is not complete
+
+Types:
+ * text
+ * file
+ * select
+ * boolean
