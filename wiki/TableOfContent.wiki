@@ -3,4 +3,4 @@
  * [Introduction Introduction]
  * [REST_API REST API]
  * [metacustomvalidation Metadata validation functions]
- * [Metadata] Metadata configuration
+ * [Metadata Metadata configuration]
