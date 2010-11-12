@@ -1,4 +1,4 @@
-#summary JANSU system requirements
+#summary JANUS system requirements
 #labels Phase-Deploy
 
 The following are minimum requirements for JANUS.
