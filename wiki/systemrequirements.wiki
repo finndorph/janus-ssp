@@ -1,6 +1,6 @@
 #summary JANUS system requirements
 #labels Phase-Deploy
-
+=Requirements=
 The following are minimum requirements for JANUS.
 
 SimpleSAMLphp 1.6.2
