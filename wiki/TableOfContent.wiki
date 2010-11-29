@@ -5,3 +5,4 @@
  * [REST_API REST API]
  * [metacustomvalidation Metadata validation functions]
  * [Metadata Metadata configuration]
+ * [translation Translating JANUS]
