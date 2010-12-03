@@ -6,7 +6,6 @@
  * @package SimpleSAMLphp
  * @subpackeage JANUS
  * @version $Id$
- * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
 class sspmod_janus_MetaExport
 {
@@ -62,22 +61,9 @@ class sspmod_janus_MetaExport
 
         $metadata = array();
         foreach($metadata_raw AS $k => $v) {
-            if ($v->getValue() == '') {
-                continue;
-            }
-
-            $default_allow = false;
-            if(isset($metadata_required[$v->getKey()]['default_allow']) && is_bool($metadata_required[$v->getKey()]['default_allow'])) {
-                $default_allow = $metadata_required[$v->getKey()]['default_allow'];
-            }
-
-            if (!$default_allow && ($v->getValue() == $metadata_required[$v->getKey()]['default'])) {
-                continue;
-            }
-
             $metadata[] = $v->getKey();
         }
-
+        
         $missing_required = array_diff($required, $metadata);
         
         if (empty($missing_required)) {
@@ -148,7 +134,6 @@ class sspmod_janus_MetaExport
                         return $metaflat;
                 }
             } catch(Exception $exception) {
-                $session = SimpleSAML_Session::getInstance();
                 SimpleSAML_Utilities::fatalError($session->getTrackID(), 'JANUS - Metadatageneration', $exception);
             }
         }  else {

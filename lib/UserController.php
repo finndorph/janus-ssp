@@ -4,12 +4,25 @@
  *
  * PHP version 5
  *
+ * JANUS is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * JANUS is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JANUS. If not, see <http://www.gnu.org/licenses/>.
+ *
  * @category   SimpleSAMLphp
  * @package    JANUS
  * @subpackage Core
  * @author     Jacob Christiansen <jach@wayf.dk>
  * @copyright  2009 Jacob Christiansen
- * @license    http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license    http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @version    SVN: $Id$
  * @link       http://code.google.com/p/janus-ssp/
  * @since      File available since Release 1.0.0
@@ -24,7 +37,7 @@
  * @subpackage Core
  * @author     Jacob Christiansen <jach@wayf.dk>
  * @copyright  2009 Jacob Christiansen
- * @license    http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license    http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @version    SVN: $Id$
  * @link       http://code.google.com/p/janus-ssp/
  * @since      Class available since Release 1.0.0
@@ -102,22 +115,17 @@ class sspmod_janus_UserController extends sspmod_janus_Database
      * @return bool True on success and false on error.
      * @since Method available since Release 1.0.0
      */
-    private function _loadEntities($state = null, $state_exclude = null)
+    private function _loadEntities($state = null)
     {
-        $excludeSQL = ';';
-        if (!is_null($state_exclude)) {
-            $excludeSQL = ' AND `eid` NOT IN (SELECT DISTINCT `eid` FROM janus__entity WHERE `state` IN (\'' . $state_exclude . '\'));';
-        }
-
         $guard = new sspmod_janus_UIguard($this->_config->getArray('access', array()));
 
         if($guard->hasPermission('allentities', null, $this->_user->getType(), TRUE)) {
             if(!is_null($state)) {
-                $st = $this->execute('SELECT DISTINCT `eid` FROM '. self::$prefix .'entity WHERE `state` = ?' . $excludeSQL,
+                $st = $this->execute('SELECT DISTINCT `eid` FROM '. self::$prefix .'entity WHERE `state` = ?;',
                     array($state)                     
                 );
             } else {
-                $st = $this->execute('SELECT DISTINCT `eid` FROM '. self::$prefix .'entity' . $excludeSQL);
+                $st = $this->execute('SELECT DISTINCT `eid` FROM '. self::$prefix .'entity');
             }
 
             if ($st === false) {
@@ -129,14 +137,14 @@ class sspmod_janus_UserController extends sspmod_janus_Database
                 $st = $this->execute(
                     'SELECT * 
                     FROM '. self::$prefix .'hasEntity t1, '. self::$prefix .'entity t2 
-                    WHERE t1.`uid` = ? ANd t1.eid = t2.eid AND t2.state = ?' . $excludeSQL,
+                    WHERE t1.`uid` = ? ANd t1.eid = t2.eid AND t2.state = ? ;',
                     array($this->_user->getUid(), $state)
                 );
             } else {
                 $st = $this->execute(
                     'SELECT * 
                     FROM '. self::$prefix .'hasEntity 
-                    WHERE `uid` = ?' . $excludeSQL,
+                    WHERE `uid` = ?;',
                     array($this->_user->getUid())
                 );
             }
@@ -174,12 +182,12 @@ class sspmod_janus_UserController extends sspmod_janus_Database
      * @return bool|array Array of sspmod_janus_Entity or false on error
      * @since Method available since Release 1.0.0
      */
-    public function getEntities($force = false, $state = null, $state_exclude = null)
+    public function getEntities($force = false, $state = null)
     {
         assert('is_bool($force);');
 
         if (empty($this->_entities) || $force) {
-            if (!$this->_loadEntities($state, $state_exclude)) {
+            if (!$this->_loadEntities($state)) {
                 return false;
             }
         }
@@ -335,48 +343,12 @@ class sspmod_janus_UserController extends sspmod_janus_Database
         }
 
         foreach($this->_entities AS $key => $entity) {
-            if (stripos($entity->getPrettyname(), $query) === false && stripos($entity->getEntityId(), $query) === false) {
+            if(stripos($entity->getPrettyname(), $query) === false) {
                 unset($this->_entities[$key]);
             } 
         }
 
        return $this->_entities;
-    }
-    
-    /**
-     * Retrieve all Eids for entities of a certain type.
-     * 
-     * @param String $type The type of entity, e.g. "saml20-idp"
-     * @return array all entities that have been found
-     */
-    public function searchEntitiesByType($type)
-    {
-        $st = $this->execute(
-            'SELECT DISTINCT eid 
-            FROM '. self::$prefix ."entity
-            WHERE `type` = ?",
-            array($type)
-        );
-
-        if ($st === false) {
-            return 'error_db';
-        }
-
-        $this->_entities = array();
-        $rows = $st->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($rows AS $row) {
-            $entity = new sspmod_janus_Entity($this->_config);
-            $entity->setEid($row['eid']);
-            if ($entity->load()) {
-                $this->_entities[] = $entity;
-            } else {
-                SimpleSAML_Logger::error(
-                    'JANUS:UserController:searchEntitiesByType - Entity could not be
-                    loaded, eid: '.$row['eid']
-                );
-            }
-        }
-        return $this->_entities;        
     }
 
     /**
@@ -427,6 +399,27 @@ class sspmod_janus_UserController extends sspmod_janus_Database
             }
         }
         return $this->_entities;
+    }
+
+    /**
+     * Erases all entities in database
+     *
+     * Erases all entities and related metadata, attributes and blocked
+     * entities. NOTE this method is only for developing purpose
+     *
+     * @return True ALways return true, no matter if the DB calls fails or not
+     */
+    public function truncateDB()
+    {
+        $st = $this->execute('TRUNCATE TABLE '. self::$prefix .'entity;');
+        $st = $this->execute('TRUNCATE TABLE '. self::$prefix .'hasEntity;');
+        $st = $this->execute('TRUNCATE TABLE '. self::$prefix .'metadata;');
+        $st = $this->execute('TRUNCATE TABLE '. self::$prefix .'attribute;');
+        $st = $this->execute('TRUNCATE TABLE '. self::$prefix .'blockedEntity;');
+        $st = $this->execute('TRUNCATE TABLE '. self::$prefix .'message;');
+        $st = $this->execute('TRUNCATE TABLE '. self::$prefix .'subscriptions;');
+        $st = $this->execute('TRUNCATE TABLE '. self::$prefix .'tokens;');
+        return true;
     }
 }
 ?>

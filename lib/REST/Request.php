@@ -42,21 +42,21 @@ class sspmod_janus_REST_Request
 
     public function setMethod($method)
     {
-        $this->_method = $method;
+        $this->method = $method;
     }
 
     public function getMethod()
     {
-        return $this->_method;
+        return $this->method;
     }
 
     public function setRequestVars($request_vars)
     {
-        $this->_request_vars = $request_vars;
+        $this->request_vars = $request_vars;
     }
 
     public function getRequestVars()
     {
-        return $this->_request_vars;
+        return $this->request_vars;
     }
 }

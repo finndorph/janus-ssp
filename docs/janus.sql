@@ -58,20 +58,6 @@ CREATE TABLE IF NOT EXISTS `janus__blockedEntity` (
   `ip` char(15) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
---
--- Table structure for table `janus__allowedEntity`
---
-
-DROP TABLE IF EXISTS `janus__allowedEntity`;
-CREATE TABLE IF NOT EXISTS `janus__allowedEntity` (
-  `eid` int(11) NOT NULL,
-  `revisionid` int(11) NOT NULL,
-  `remoteentityid` text NOT NULL,
-  `created` char(25) NOT NULL,
-  `ip` char(15) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-
 -- --------------------------------------------------------
 
 --

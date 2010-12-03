@@ -112,13 +112,6 @@ $config = array(
     'enable.shib13-sp' =>   false,
     'enable.shib13-idp' =>  false,
 
-    /*
-     * Janus supports a blacklist (mark idps that are not allowed to connect to an sp)
-     * and/or a whitelist (mark idps that are allowed to connect to an sp). 
-     * You can enable both to make this choice per entity.
-     */
-    'entity.useblacklist' => true,
-    'entity.usewhitelist' => false,
 
     /*
      * Enable self user creation
@@ -309,17 +302,9 @@ $config = array(
     'metadatafields.saml20-idp' => array(
         // Endpoint fields
         'SingleSignOnService:0:Binding' => array(
-            'type' => 'select',
-            'select_values' => array(
-                'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:SOAP', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:PAOS', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:URI'
-            ),
-            'default' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
+            'type' => 'text',
             'order' => 110,
+            'default' => 'CHANGE THIS',
             'description' => array(
                 'da' => 'Endepunkts type for forbindelser der understøtter Single Sign On profilen [SAMLProf].',
                 'en' => 'Binding for the single sign on endpoint for connection that supports Single Sign On profile [SAMLProf].',
@@ -340,17 +325,9 @@ $config = array(
             'validate' => 'isurl',
         ),
         'SingleLogoutService:0:Binding' => array(
-            'type' => 'select',
-            'select_values' => array(
-                'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:SOAP', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:PAOS', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:URI'
-            ),
-            'default' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
+            'type' => 'text',
             'order' => 130,
+            'default' => 'CHAMGE THIS',
             'description' => array(
                 'da' => 'Endepunkts type for forbindelser der understøtter Single logout profilen [SAMLProf].',
                 'en' => 'Binding for the single logout endpoint for connection that supports Single Logout profile [SAMLProf].',
@@ -592,7 +569,6 @@ $config = array(
             'type' => 'boolean',
             'order' => 810,
             'default' => true,
-            'default_allow' => true,
             'description' => array(
                 'da' => 'Kræv signering af requests.',
                 'en' => 'Demand signing of requests.',
@@ -603,7 +579,6 @@ $config = array(
             'type' => 'boolean',
             'order' => 820,
             'default' => true,
-            'default_allow' => true,
             'description' => array(
                 'da' => 'Valider signatur på requests.',
                 'en' => 'Validate signature on requests and responses',
@@ -614,7 +589,6 @@ $config = array(
             'type' => 'boolean',
             'order' => 830,
             'default' => true,
-            'default_allow' => true,
             'description' => array(
                 'da' => 'Base 64 indkode attributter.',
                 'en' => 'Base 64 encode attributes',
@@ -625,7 +599,6 @@ $config = array(
             'type' => 'boolean',
             'order' => 830,
             'default' => false,
-            'default_allow' => true,
             'description' => array(
                 'da' => 'Er assertions fra denne forbindelse krypteret?',
                 'en' => 'Is assertions from this connection encrypted?',
@@ -830,17 +803,9 @@ $config = array(
     'metadatafields.saml20-sp' => array(
         // Endpoint fields
         'AssertionConsumerService:0:Binding' => array(
-            'type' => 'select',
-            'select_values' => array(
-                'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:SOAP', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:PAOS', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:URI'
-            ),
-            'default' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
+            'type' => 'text',
             'order' => 110,
+            'default' => 'CHANGE THIS',
             'description' => array(
                 'da' => 'Endepunkts type for forbindelser der understøtter Authentication Request protokollen [SAMLProf].',
                 'en' => 'Binding for the endpoint for connection that supports the Authentication Request protocol [SAMLProf].',
@@ -873,17 +838,9 @@ $config = array(
             'validate' => 'isurl',
         ),
         'SingleLogoutService:0:Binding' => array(
-            'type' => 'select',
-            'select_values' => array(
-                'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:SOAP', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:PAOS', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact', 
-                'urn:oasis:names:tc:SAML:2.0:bindings:URI'
-            ),
-            'default' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
+            'type' => 'text',
             'order' => 140,
+            'default' => 'defaultvalue',
             'description' => array(
                 'da' => 'Endepunkts type for forbindelser der understøtter Single Logout profilen [SAMLProf].',
                 'en' => 'Binding for the single logout endpoint for connection that supports Single Logout profile [SAMLProf].',
@@ -1123,7 +1080,6 @@ $config = array(
             'type' => 'boolean',
             'order' => 810,
             'default' => true,
-            'default_allow' => true,
             'description' => array(
                 'da' => 'Kræv signering af requests.',
                 'en' => 'Demand signing of requests.',
@@ -1134,7 +1090,6 @@ $config = array(
             'type' => 'boolean',
             'order' => 820,
             'default' => true,
-            'default_allow' => true,
             'description' => array(
                 'da' => 'Valider signatur på requests.',
                 'en' => 'Validate signature on requests and responses',
@@ -1145,7 +1100,6 @@ $config = array(
             'type' => 'boolean',
             'order' => 830,
             'default' => true,
-            'default_allow' => true,
             'description' => array(
                 'da' => 'Base 64 indkode attributter.',
                 'en' => 'Base 64 encode attributes',
@@ -1156,7 +1110,6 @@ $config = array(
             'type' => 'boolean',
             'order' => 830,
             'default' => false,
-            'default_allow' => true,
             'description' => array(
                 'da' => 'Er assertions fra denne forbindelse krypteret?',
                 'en' => 'Is assertions from this connection encrypted?',
@@ -1632,6 +1585,13 @@ $config = array(
 
         // Adminitsartion tab
         'admintab' => array(
+            'role' => array(
+                'admin',
+            ),
+        ),
+        
+        // Federation tab
+        'federationtab' => array(
             'role' => array(
                 'admin',
             ),

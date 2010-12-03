@@ -4,13 +4,26 @@
  *
  * PHP version 5
  *
+ * JANUS is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * JANUS is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JANUS. If not, see <http://www.gnu.org/licenses/>.
+ *
  * @category   SimpleSAMLphp
  * @package    JANUS
  * @subpackage Core
  * @author     Jacob Christiansen <jach@wayf.dk>
  * @author     Ivo Jansch <ivo@ibuildings.nl>
  * @copyright  2009 Jacob Christiansen 
- * @license    http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license    http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @version    SVN: $Id$
  * @link       http://code.google.com/p/janus-ssp/
  * @since      File available since Release 1.0.0
@@ -26,7 +39,7 @@
  * @author     Jacob Christiansen <jach@wayf.dk>
  * @author     Ivo Jansch <ivo@ibuildings.nl>
  * @copyright  2009 Jacob Christiansen 
- * @license    http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license    http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @version    SVN: $Id$
  * @link       http://code.google.com/p/janus-ssp/
  * @since      Class available since Release 1.0.0
@@ -51,15 +64,11 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
      */
     private $_metadata;
 
-    private $_blocked = array();
-    private $_blockedLoaded = false;
-    
-    private $_allowed = array();
-    private $_allowedLoaded = false;
+    private $_blocked;
 
     private $_users;
 
-    private $_modified = false;
+    private $_modified;
 
     private $_arp;
     
@@ -74,6 +83,7 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
     {
         parent::__construct($config->getValue('store'));
         $this->_config = $config;
+        $this->_modified = false;
     }
 
     /**
@@ -221,27 +231,12 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
     {
         assert('$this->_entity instanceof Sspmod_Janus_Entity');
 
-        if (empty($this->_blocked) && !$this->_blockedLoaded) {
-            // Only load if we haven't loaded it already; otherwise we keep loading repeatedly if the result is empty.
+        if (empty($this->_blocked)) {
             if (!$this->_loadBlockedEntities()) {
                 return false;
             }
-            $this->_blockedLoaded = true;
         }
         return $this->_blocked;
-    }
-    
-    public function getAllowedEntities()
-    {
-        assert('$this->_entity instanceof Sspmod_Janus_Entity');
-
-        if (empty($this->_allowed) && !$this->_allowedLoaded) {
-            if (!$this->_loadAllowedEntities()) {
-                return false;
-            }
-            $this->_allowedLoaded = true;
-        }
-        return $this->_allowed;
     }
 
     private function _loadArp() {
@@ -353,7 +348,6 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         $metadata->setKey($key);
         $metadata->setValue($value);
         $this->_metadata[] = $metadata;
-        $this->_modified = true;
         // The metadata is not saved, since it is not part of the current
         // entity with current revision id
         return $metadata;
@@ -372,6 +366,7 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
     public function saveEntity()
     {
         assert('$this->_entity instanceof Sspmod_Janus_Entity');
+
         $this->_entity->save();
         $new_revisionid = $this->_entity->getRevisionid();
  
@@ -381,9 +376,8 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         }  
 
         $this->_saveBlockedEntities($new_revisionid);
-        $this->_saveAllowedEntities($new_revisionid);
         $this->_saveDisableConsent($new_revisionid);
-        
+
         return true;	
     }
 
@@ -402,11 +396,8 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         $this->getMetadata();
         $this->getArp();
         $this->getBlockedEntities();
-        $this->getAllowedEntities();
         $this->getDisableConsent();
         $this->getUsers();
-        
-        $this->_modified = false;
 
         return true;
     }
@@ -636,7 +627,7 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
      * error_not_valid_saml20, error_metadata_not_parsed or 
      * error_entityid_no_match on error.
      */
-    public function importMetadata20IdP($metadata, &$updated)
+    public function importMetadata20IdP($metadata)
     {
         assert('$this->_entity instanceof Sspmod_Janus_Entity');
         assert('$this->_entity->getType() == \'saml20-idp\'');
@@ -765,7 +756,6 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         foreach ($this->_metadata AS &$data) {
             if ($data->getKey() === $key && $data->getValue() !== $value) {
                 $data->setValue($value);
-                $this->_modified = true;
                 $update = true;
             }
         }
@@ -799,7 +789,6 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         foreach ($this->_metadata AS $index => &$data) {
             if ($data->getKey() == $key) {
                 unset($this->_metadata[$index]);
-                $this->_modified = true;
                 $update = true;
             }
         }
@@ -842,79 +831,12 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
     {
         assert('is_string($remoteentityid)');
 
-        if (isset($this->_blocked[$remoteentityid])) {
-            unset($this->_blocked[$remoteentityid]);
-            $this->_modified = true;
-        }
+        unset($this->_blocked[$remoteentityid]);
+        $this->_modified = true;
+
         return true;
     }
 
-    /**
-     * Remove all blockedEntities
-     * @since Method available since Release 1.8.0
-     */
-    public function clearBlockedEntities()
-    {
-        if (count($this->_blocked)) {
-            $this->_blocked = array();
-            $this->_modified = true;
-        }
-    }
-
-    /**
-     * Add an entity to the current entitys allowed list
-     *
-     * If the blocked entity is alreade sey, the methos will return true.
-     *
-     * @param string $remoteentityid Entity id of blocked entity
-     *
-     * @return true Return true on success
-     * @since Method available since Release 1.8.0
-     */
-    public function addAllowedEntity($remoteentityid)
-    {
-        assert('is_string($remoteentityid)');
-
-        if (!array_key_exists($remoteentityid, $this->_allowed)) {
-            $this->_allowed[$remoteentityid] 
-                = array('remoteentityid' => $remoteentityid);
-            $this->_modified = true;
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * remove an entity from the current entity allowed list.
-     *
-     * @param string $remoteentityid The entity to be removed
-     *
-     * @return true Returns true on success
-     * @since Method available since Release 1.8.0
-     */
-    public function removeAllowedEntity($remoteentityid)
-    {
-        assert('is_string($remoteentityid)');
-
-        if (isset($this->_allowed[$remoteentityid])) {
-            unset($this->_allowed[$remoteentityid]);
-            $this->_modified = true;
-        }
-        return true;
-    }
-    
-    /**
-     * Remove all allowedEntities
-     * @since Method available since Release 1.8.0
-     */
-    public function clearAllowedEntities()
-    {
-        if (count($this->_allowed)) {
-            $this->_allowed = array();
-            $this->_modified = true;
-        }
-    }
-    
     /**
      * Load the blocked entities from the database
      *
@@ -927,32 +849,9 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
      */
     private function _loadBlockedEntities()
     {
-        return $this->_loadLinkedEntities('blocked');
-    }
-    
-    /**
-     * Load the allowed entities from the database
-     *
-     * Fetches the entity id of the allowed entities from the database. The 
-     * revision id needs to be set othervise no entities will be returned from 
-     * the database.
-     *
-     * @return bool Return true on success and false on error
-     * @since Method available since Release 1.8.0
-     */
-        private function _loadAllowedEntities()
-    {
-        return $this->_loadLinkedEntities('allowed');
-    }
-    
-    /**
-     * @param String $type must be 'blocked' or 'allowed'
-     */
-    private function _loadLinkedEntities($type)
-    {
         $st = $this->execute(
             'SELECT * 
-            FROM '. self::$prefix . $type . 'Entity 
+            FROM '. self::$prefix .'blockedEntity 
             WHERE `eid` = ? AND `revisionid` = ?;',
             array($this->_entity->getEid(), $this->_entity->getRevisionid())
         );
@@ -962,12 +861,12 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         }
 
         $row = $st->fetchAll(PDO::FETCH_ASSOC);
-        
-        $this->{'_'.$type} = array();
+        $this->_blocked = array();
 
         foreach ($row AS $data) {
-            $this->{'_'.$type}[$data['remoteentityid']] = $data;
+            $this->_blocked[$data['remoteentityid']] = $data;
         }
+        $this->_modified = false;
 
         return true;
     }
@@ -975,33 +874,23 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
     /**
      * Set the allowedAll flag for the current entity
      *
-     * @param string $allowedall allowedAll flag, 'yes'/'no'
+     * When setting the allowedAll flag all blocked entities of the current
+     * entity is removed.
      *
-     * @return bool True if the allowAll flag was changed. Othervise false. 
+     * @param string $allowedall AllowedAll flag, 'yes'/'no'
+     *
+     * @return bool True if the allowedAll flag was changed. Othervise false. 
      * @since      Method available since Release 1.0.0
      */
     public function setAllowedAll($allowedall)
     {
-        $return = $this->_entity->setAllowedAll($allowedall);
-        
-        // If $return = true, it means it changed.
-        if ($return) {
-            $this->_modified = true;
-        }
+        $return = $this->_entity->setAllowedall($allowedall);
         if ($allowedall === 'yes') {
             $this->_blocked = array();
-            $this->_allowed = array();
+            $this->_modified = true;
+            return true;
         }
         return $return;
-    }
-    
-    /**
-     * Get the allowedAll flag for the current entity
-     * @returb bool True if the entity's allowedAll is true, false if not.
-     */
-    public function getAllowedAll()
-    {
-        return $this->_entity->getAllowedAll();
     }
 
     /**
@@ -1018,31 +907,21 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
      */
     private function _saveBlockedEntities($revision)
     {
-        return $this->_saveLinkedEntities($revision, "blocked");
-    }
-    
-    private function _saveAllowedEntities($revision)
-    {
-        return $this->_saveLinkedEntities($revision, "allowed");
-    }
-    
-    private function _saveLinkedEntities($revision, $type)
-    {    
         if ($this->_modified) {
-            foreach ($this->{'_'.$type} AS $linked) {
+            foreach ($this->_blocked AS $blocked) {
                 $st = $this->execute(
-                    'INSERT INTO '. self::$prefix . $type . 'Entity (
+                    'INSERT INTO '. self::$prefix .'blockedEntity (
                     `eid`, `revisionid`, `remoteentityid`, `created`, `ip`)
                     VALUES (?, ?, ?, ?, ?);', 
                     array(
                         $this->_entity->getEid(), 
                         $revision, 
-                        $linked['remoteentityid'], 
+                        $blocked['remoteentityid'], 
                         date('c'), 
                         $_SERVER['REMOTE_ADDR'],
                     )
                 );
-                
+
                 if ($st === false) {
                     return false;
                 }
@@ -1096,6 +975,7 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         foreach ($row AS $data) {
             $this->_users[$data['userid']] = true;
         }
+        $this->_modified = false;
 
         return true;
     }
@@ -1246,10 +1126,9 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
     {
         assert('is_string($remoteentityid)');
 
-        if (isset($this->_disableConsent[$remoteentityid])) {
-            unset($this->_disableConsent[$remoteentityid]);
-            $this->_modified = true;
-        }
+        unset($this->_disableConsent[$remoteentityid]);
+        $this->_modified = true;
+
         return true;
     }
     
@@ -1294,6 +1173,7 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
         foreach ($row AS $data) {
             $this->_disableConsent[$data['remoteentityid']] = $data;
         }
+        $this->_modified = false;
 
         return true;
     }
@@ -1337,10 +1217,9 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
      */
     public function clearConsent()
     {
-        if (count($this->_disableConsent)>0) {
-            $this->_disableConsent = array();
-            $this->_modified = true;
-        }
+        $this->_disableConsent = array();
+        $this->_modified = true;
+
         return true;
     } 
     

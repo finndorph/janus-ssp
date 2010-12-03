@@ -4,13 +4,26 @@
  *
  * PHP version 5
  *
+ * JANUS is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * JANUS is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JANUS. If not, see <http://www.gnu.org/licenses/>.
+ *
  * @category   SimpleSAMLphp
  * @package    JANUS
  * @subpackage Hooks
  * @author     Sixto Martín <smartin@yaco.es>
  * @author     Lorenzo Gil <lgs@yaco.es>
  * @copyright  2009 Yaco Sistemas
- * @license    http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license    http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @version    SVN: $Id$
  * @link       http://code.google.com/p/janus-ssp/
  * @since      File available since Release 1.4.0
@@ -72,11 +85,11 @@ function janus_hook_cron(&$croninfo) {
             }
 
             if($entity->getType() == 'saml20-sp') {
-                if($mcontroller->importMetadata20SP($xml, $updated) !== 'status_metadata_parsed_ok') {
+                if(!$mcontroller->importMetadata20SP($xml, $updated)) {
                     $croninfo['summary'][] = '<p>Entity: ' . $entity_id . ' not updated</p>';
                 }
             } else if($entity->getType() == 'saml20-idp') {
-                if($mcontroller->importMetadata20IdP($xml, $updated) !== 'status_metadata_parsed_ok') {
+                if(!$mcontroller->importMetadata20IdP($xml, $updated)) {
                     $croninfo['summary'][] = '<p>Entity: '. $entity_id . ' not updated</p>';
                 }
             }

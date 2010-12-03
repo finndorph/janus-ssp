@@ -4,12 +4,25 @@
  *
  * PHP version 5
  *
+ * JANUS is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * JANUS is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JANUS. If not, see <http://www.gnu.org/licenses/>.
+ *
  * @category   SimpleSAMLphp
  * @package    JANUS
  * @subpackage Core
  * @author     Jacob Christiansen <jach@wayf.dk>
  * @copyright  2009 Jacob Christiansen
- * @license    http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license    http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @version    SVN: $Id$
  * @link       http://code.google.com/p/janus-ssp/
  * @since      File available since Release 1.0.0
@@ -24,7 +37,7 @@
  * @subpackage Core
  * @author     Jacob Christiansen <jach@wayf.dk>
  * @copyright  2009 Jacob Christiansen
- * @license    http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license    http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License
  * @version    SVN: $Id$
  * @link       http://code.google.com/p/janus-ssp/
  * @since      Class available since Release 1.0.0
@@ -504,7 +517,7 @@ class sspmod_janus_Entity extends sspmod_janus_Database
      * @todo Should return true on success. Also if the new value is the same as
      * the old one.
      */
-    public function setAllowedAll($allowedall)
+    public function setAllowedall($allowedall)
     {
         assert('is_string($allowedall)');
 
@@ -517,11 +530,12 @@ class sspmod_janus_Entity extends sspmod_janus_Database
     }
 
     /**
-     * Retrieve the allowall flag for the entity
-     * @return string allowAll flag
+     * Retrive the allowAll flag for the entity
+     *
+     * @return string AllowAll flag
      * @since Method available since Release 1.0.0
      */
-    public function getAllowedAll()
+    public function getAllowedall()
     {
         return $this->_allowedall;
     }
@@ -647,6 +661,7 @@ class sspmod_janus_Entity extends sspmod_janus_Database
         }
         
         $fieldname = $this->_config->getString('entity.prettyname', NULL);
+
         $default = $this->_config->getArray('metadatafields.' . $this->_type);
 
         if(!is_null($fieldname)) {
@@ -665,7 +680,7 @@ class sspmod_janus_Entity extends sspmod_janus_Database
 
             if(empty($rows)) {
                 $this->_prettyname =  $this->_entityid;
-            } else if(isset($default[$fieldname]['default']) && $default[$fieldname]['default'] == $rows[0]['value']) {
+            } else if($default[$fieldname]['default'] == $rows[0]['value']) {
                 $this->_prettyname =  $this->_entityid; 
             } else {
                 $this->_prettyname = $rows[0]['value'];

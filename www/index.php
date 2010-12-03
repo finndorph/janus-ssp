@@ -31,11 +31,25 @@ if ($session->isValid($authsource)) {
         throw new Exception('User ID is missing');
     $userid = $attributes[$useridattr][0];
 } else {
+    $extra_data['SPMetadata'] = $_GET;
+    /*
+    $extra_data = array();
+    if ($authsource === 'mailtoken') {
+        $sp_metadata = array();
+        if (isset($_REQUEST['token'])) {
+            $sp_metadata['token'] = $_REQUEST['token'];
+        }
+        if (isset($_REQUEST['mail'])) {
+            $sp_metadata['mail'] = $_REQUEST['mail'];
+        }
+        $extra_data['SPMetadata'] = $sp_metadata;
+    }
+    */
     SimpleSAML_Auth_Default::initLogin(
         $authsource,
         SimpleSAML_Utilities::selfURL(),
         NULL,
-        $_GET
+        $extra_data
     );
 }
 
@@ -52,6 +66,10 @@ if(!$user->load(sspmod_janus_User::USERID_LOAD)) {
         SimpleSAML_Utilities::redirect(SimpleSAML_Module::getModuleURL('janus/noNewUser.php'), array('userid' => $userid));
     }
 } else {
+    if(isset($_GET['truncate'])) {
+        $ucontrol = new sspmod_janus_UserController($janus_config);
+        $ucontrol->truncateDB();
+    }
     if ($user->getActive() === 'yes') {
         SimpleSAML_Utilities::redirect(SimpleSAML_Module::getModuleURL('janus/dashboard.php?selectedtab='.$selectedtab));
     } else {

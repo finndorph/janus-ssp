@@ -27,7 +27,7 @@ $(document).ready(function() {
                 eid: this.id.substr(12)
             },
             function(data) {
-                $("#entityuser-" + data.eid + "-" + data.uid).remove();
+                $("#" + data.eid + "-" + data.uid).remove();
                 $("select#remove-user-" + data.eid).hide();
             },
             "json"
@@ -44,7 +44,7 @@ $(document).ready(function() {
                 eid: this.id.substr(9)
             },
             function(data) {
-                $("tr#entity-" + data.eid + " > td.users").append("<span id=\"entityuser-" + data.eid + "-" + data.uid + "\">" + data.userid + ", </span>");
+                $("tr#" + data.eid + " > td.users").append("<span id=\"" + data.eid + "-" + data.uid + "\">" + data.userid + ", </span>");
                 $("select#add-user-" + data.eid).hide();
             },
             "json"
@@ -353,7 +353,7 @@ function deleteEntity(eid, entityid) {
             },
             function(data) {
                 if(data.status == "success") {
-                    $("#entity-" + eid).hide();
+                    $("#" + eid).hide();
                     $("#list-" + eid).hide();
                 }
             },
@@ -405,106 +405,71 @@ $util = new sspmod_janus_AdminUtil();
     if($this->data['uiguard']->hasPermission('createnewentity', null, $this->data['user']->getType(), TRUE)) {
     ?>
     <form method="post" action="">
-        <h3><a onClick="$('#options').toggle();"><b>Options</b></a></h3>
-        <table border="0" id="options" style="display: none;">
+        <table border="0">
             <tr>
                 <td>
-                    <input type="hidden" name="userid" value="<?php echo $this->data['userid']; ?>" />
-                    <?php echo $this->t('tab_entities_new_entity_text'); ?>:
-                </td>
-                <td>
-                    <?php
-                    if (isset($this->data['old_entityid'])) {
-                        echo '<input type="text" size="40" name="entityid" value="'. $this->data['old_entityid'] .'" />';
-                    } else {
-                        echo '<input type="text" size="40" name="entityid" />';
-                    }
-                    ?>
-                </td>
-                <td>
-                    <?php
-                    echo '<select name="entitytype">';
-                    echo '<option value="">' . $this->t('text_select_type') . '</option>';
-                    foreach ($enablematrix AS $typeid => $typedata) {
-                        if ($typedata['enable'] === true) {
-                            echo '<option value="'. $typeid .'">'. $typedata['name'] .'</option>';
-                        }
-                    }
-                    echo '</select>';
-                    ?>
-                </td>
-                <td>
-                    <input class="janus_button" type="submit" name="submit" value="<?php echo $this->t('text_submit_button'); ?>" />
-                </td>
-            </tr>
-            <tr>
-                <td style="vertical-align: top;">Create entity from XML</td>
-                <td colspan="2">
-                    <textarea name="metadata_xml" cols="60" rows="5" onfocus="this.value = '';">Put your XML here...</textarea>
-                </td>
-                <td></td>
-            </tr>
+        <input type="hidden" name="userid" value="<?php echo $this->data['userid']; ?>" />
+        <?php echo $this->t('tab_entities_new_entity_text'); ?>:
+        </td>
+        <td>
+        <?php
+            if (isset($this->data['old_entityid'])) {
+                echo '<input type="text" name="entityid" value="'. $this->data['old_entityid'] .'" />';
+            } else {
+                echo '<input type="text" name="entityid" />';
+            }
+        ?>
+        </td>
+        <td>
+        <?php
+            echo '<select name="entitytype">';
+            echo '<option value="">' . $this->t('text_select_type') . '</option>';
+            foreach ($enablematrix AS $typeid => $typedata) {
+                if ($typedata['enable'] === true) {
+                    echo '<option value="'. $typeid .'">'. $typedata['name'] .'</option>';
+                }
+            }
+            echo '</select>';
+        ?>
+        </td>
+        <td>
+            <input class="janus_button" type="submit" name="submit" value="<?php echo $this->t('text_submit_button'); ?>" />
+        </td>
+        </tr>
         </table>
     </form>
     <?php
         }
     ?>
-    <h3><a onclick="$('#search').toggle();"><b><?php echo $this->t('text_entities_search'); ?></b></a></h3>
+    <h3><?php echo $this->t('text_entities_search'); ?></h3>
     <form method="get" action="">
-    <table id="search" style="display: none;">
-        <tr>
-            <td>Search:</td>
-            <td><input type="text" name="q" value="<?php echo $this->data['query']; ?>" /></td>
-            <td><input type="submit" value="<?php echo $this->t('text_entities_search'); ?>" name="submit_search" /></td>
-        </tr>
-        <tr>
-            <td colspan="3"><b><?php echo $this->t('text_entities_filter'); ?></b></td>
-        </tr>
-        <tr>
-            <td><?php echo $this->t('text_entities_filter_state'); ?>:</td>
-            <td> 
-                <select name="entity_filter">
-                    <?php
-                    $states = $janus_config->getArray('workflowstates');
-                    echo '<option value="nofilter">' . $this->t('text_entities_filter_select') . '</option>';
-                    foreach($states AS $key => $val) {
-                        if($key == $this->data['entity_filter']) {
-                            echo '<option value="' . $key . '" selected="selected">' . $val['name'][$this->getLanguage()] . '</option>';  
-                        } else  {
-                            echo '<option value="' . $key . '">' . $val['name'][$this->getLanguage()] . '</option>';  
-                        }
+        <input type="text" name="q" />
+        <input type="submit" value="<?php echo $this->t('text_entities_search'); ?>" name="submit_search" />
+        <br />
+        <br />
+        <b><?php echo $this->t('text_entities_filter'); ?></b>
+        <br />
+        <?php echo $this->t('text_entities_filter_state'); ?>: 
+        <select name="entity_filter" onchange="this.form.submit();">
+            <?php
+                $states = $janus_config->getArray('workflowstates');
+                echo '<option value="nofilter">' . $this->t('text_entities_filter_select') . '</option>';
+                foreach($states AS $key => $val) {
+                    if($key == $this->data['entity_filter']) {
+                        echo '<option value="' . $key . '" selected="selected">' . $val['name'][$this->getLanguage()] . '</option>';  
+                    } else  {
+                        echo '<option value="' . $key . '">' . $val['name'][$this->getLanguage()] . '</option>';  
                     }
-                    ?>
-                </select>
-            </td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><?php echo $this->t('text_entities_filter_state_exclude'); ?>:</td>
-            <td>
-                <select name="entity_filter_exclude">
-                    <?php
-                    $states = $janus_config->getArray('workflowstates');
-                    echo '<option value="noexclude">-- Exclude</option>';
-                    foreach($states AS $key => $val) {
-                        if($key == $this->data['entity_filter_exclude']) {
-                            echo '<option value="' . $key . '" selected="selected">' . $val['name'][$this->getLanguage()] . '</option>';  
-                        } else  {
-                            echo '<option value="' . $key . '">' . $val['name'][$this->getLanguage()] . '</option>';  
-                        }
-                    }
-                    ?>
-                </select>
-            </td>
-            <td></td>
-        </tr>
-    </table>
+                }
+            ?>
+        </select>
     </form>
     <br />
     <p><?php echo $this->t('text_entities_help'); ?></p>
 <?php
 $connections = array();
 
+//$show_state = $janus_config->getArray('workflow_states.show');
 foreach($enablematrix AS $typeid => $typedata) {
     if($typedata['enable'] === true) {
         $connections[$typeid] = array();
@@ -521,7 +486,7 @@ $tfooter = '';
 $theader .= '<tr>';
 $tfooter .= '<tr>';
 foreach($connections AS $ckey => $cval) {
-    $theader.= '<td class="connection_header" width="' . (int) 100/$count_types . '%"><b>' . $this->t('text_'.$ckey) . ' - ' . count($cval) . '</b></td>';
+    $theader.= '<td class="connection_header" width="' . (int) 100/$count_types . '%"><b>' . $this->t('text_'.$ckey) . '</b></td>';
 
     $tfooter .= '<td valign="top" class="connection_footer">';
     $tfooter .= '<table class="connection">';
@@ -529,7 +494,17 @@ foreach($connections AS $ckey => $cval) {
     foreach($cval AS $sp) {
         $tfooter .= '<tr id="list-'.$sp->getEid().'">';
         $tfooter .= '<td class="'.($i % 2 == 0 ? 'even' : 'odd').'">';
-        $tfooter .= '<a title="' . $sp->getEntityid() . '" href="editentity.php?eid='.$sp->getEid().'&amp;revisionid=' . $sp->getRevisionid() . '">'. htmlspecialchars($sp->getPrettyname()) . ' - r' . $sp->getRevisionid() . '</a></td>';
+        $tfooter .= '<a href="editentity.php?eid='.$sp->getEid().'&amp;revisionid=' . $sp->getRevisionid() . '">'. $sp->getPrettyname() . ' - r' . $sp->getRevisionid() . '</a></td>';
+        /*
+        $tfooter .= '<td class="'.($i % 2 == 0 ? 'even' : 'odd').'">';
+        foreach($show_state As $show) {
+            $sp->setWorkflow($show);
+            $sp->setRevisionid(null);
+            $sp->load();
+            $tfooter .= ' | <a href="editentity.php?eid='.$sp->getEid().'&amp;revisionid=' . $sp->getRevisionid() . '">'. $sp->getRevisionid() . '</a>';
+        }
+        $tfooter .= '</td>';
+        */
         $tfooter .= '</tr>';
         $i++;
     }
@@ -624,20 +599,20 @@ if($this->data['uiguard']->hasPermission('admintab', null, $this->data['user']->
             echo '<tbody>';
             $i = 0;
             foreach($entities AS $entity) {
-                echo '<tr id="entity-'. $entity['eid'] .'" class="'. ($i % 2 == 0 ? 'even' : 'odd') .'">';
+                echo '<tr id="'. $entity['eid'] .'" class="'. ($i % 2 == 0 ? 'even' : 'odd') .'">';
                 $entity_users = $util->hasAccess($entity['eid']);
 
                 echo '<td class="dashboard_entity">', $entity['entityid'] , '</td>';
                 echo '<td class="dashboard_entity users">';
                 foreach($entity_users AS $entity_user) {
-                    echo '<span id="entityuser-', $entity['eid'],'-', $entity_user['uid'],'">',$entity_user['userid'], ', </span>';
+                    echo '<span id="', $entity['eid'],'-', $entity_user['uid'],'">',$entity_user['userid'], ', </span>';
                 }
                 echo '</td>';
                 echo '<td class="dashboard_entity" align="center">';
-                echo '<a class="janus_button" onclick="getNonEntityUsers(\'', $entity['eid'], '\');">'. $this->t('admin_add') .'</a>';
-                echo '<a class="janus_button" onclick="getEntityUsers(\'', $entity['eid'], '\');">'. $this->t('admin_remove') .'</a>';
-                echo '<select class="add-user display_none" id="add-user-' .$entity['eid']. '"><option>VOID</option></select>';
-                echo '<select class="remove-user display_none" id="remove-user-' .$entity['eid']. '"><option>VOID</option></select>';
+                echo '<a class="janus_button" onclick="getNonEntityUsers(\'', str_replace(array(':', '.', '#'), array('\\\\:', '\\\\.', '\\\\#'), $entity['eid']), '\');">'. $this->t('admin_add') .'</a>';
+                echo '<a class="janus_button" onclick="getEntityUsers(\'', str_replace(array(':', '.', '#'), array('\\\\:', '\\\\.', '\\\\#'), $entity['eid']), '\');">'. $this->t('admin_remove') .'</a>';
+                echo '<select class="add-user display_none" id="add-user-' .$entity['eid']. '"></select>';
+                echo '<select class="remove-user display_none" id="remove-user-' .$entity['eid']. '"></select>';
                 echo '</td>';
                 echo '<td>';
                 echo '<a class="janus_button" onclick="deleteEntity(\'', str_replace(array(':', '.', '#'), array('\\\\:', '\\\\.', '\\\\#'), $entity['eid']), '\', \'' . $entity['entityid'] . '\');">'. $this->t('admin_delete') .'</a>';
