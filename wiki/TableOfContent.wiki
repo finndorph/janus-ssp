@@ -6,3 +6,4 @@
  * [metacustomvalidation Metadata validation functions]
  * [Metadata Metadata configuration]
  * [translation Translating JANUS]
+ * [MetadataExport Export of metadata]
