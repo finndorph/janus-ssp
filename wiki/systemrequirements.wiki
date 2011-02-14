@@ -3,5 +3,5 @@
 =Requirements=
 The following are minimum requirements for JANUS.
 
-SimpleSAMLphp 1.6.2
-PHP 5.3 (most features may work with PHP 5.2)
+ * SimpleSAMLphp >= 1.7.0
+ * PHP 5.3 (most features may work with PHP 5.2)
