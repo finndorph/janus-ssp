@@ -2,7 +2,8 @@
 `NOTE this document is not complete`
 
 = Introduction =
-
+this document will explain how
+= Options =
 The following table document the different options used when configuring a metadata field. Se the example config file, foe examples.
 
 || *Option* || *Value(s)* || *Description* || *Required* ||
@@ -17,3 +18,20 @@ The following table document the different options used when configuring a metad
 || validate || _string_ || Name of function that should validate input. See [metacustomvalidation this page] for more details. || No ||
 || supported || _array_ || Add multiple of same kind, with given subarrays || No ||
 || default_allow || _boolean_ || Is the given default values allowed as valid input || No ||
+
+== Example ==
+Below is an example of how to define a new metadata field.
+
+{{{
+'metadatafieldname' => array(
+    'type' => 'text',
+    'description' => array(
+        'en' => 'A new metadata field description',
+        'da' => 'En ny beskrivelse',
+    ),
+    'order' => 130,
+    'default' => 'CHANGE ME',
+    'default_allowed' => false,
+    'required' => false,
+),
+}}}
