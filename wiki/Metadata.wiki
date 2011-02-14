@@ -2,7 +2,8 @@
 `NOTE this document is not complete`
 
 = Introduction =
-this document will explain how
+this document will explain how to  configure metadata fields in the JANUS configuration file.
+ 
 = Options =
 The following table document the different options used when configuring a metadata field. Se the example config file, foe examples.
 
@@ -20,7 +21,7 @@ The following table document the different options used when configuring a metad
 || default_allow || _boolean_ || Is the given default values allowed as valid input || No ||
 
 == Example ==
-Below is an example of how to define a new metadata field.
+Below is an example of how to define a new metadata field using the most common options.
 
 {{{
 'metadatafieldname' => array(
