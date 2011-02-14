@@ -7,10 +7,10 @@ JANUS supplies different ways of exporting metadata. On entity level and on fede
 = Entity export =
 In the edit entity view, you can hit the Export tab and click the Export matadata link. This will export the metadata to either the screen or as XML.
 
-|| Parametername || Allowed values ||
-|| eid || entityid(int) ||
-|| revisionid || revisionid(int)||
-|| output || xhtml(optional) ||
+|| *Parameter* || Value || *Required* ||
+|| eid || _int_ || Yes ||
+|| revisionid || _int_ || Yes ||
+|| output || 'xhtml' || No ||
 
 = Federation export =
 In dashboard view, hit the Federation tab oand click the link. This interface allows you to export federation metadata accordint to entity type and current workflow state. It is also possible to select the appropriate mimetype and to select an extern exporter function.
