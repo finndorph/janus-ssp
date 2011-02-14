@@ -19,4 +19,4 @@ You can define your function in the Metadata.php file in the lib/Validation dire
 }}}
 The above function checks that the entered value is no longer that 40 characters.
 
-Your function should always return `true` or `false`. the value of the metadata field is always accessible int the `$value` variable.
+Your function should always return `true` or `false`. The value of the metadata field is always accessible in the `$value` variable.
