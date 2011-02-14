@@ -1,12 +1,19 @@
 #summary Metadata configuration options
+`NOTE this document is not complete`
 
 = Introduction =
-Here is the metadata configuration options documented.
 
-NOTE this document is not complete
+The following table document the different options used when configuring a metadata field. Se the example config file, foe examples.
 
-Types:
- * text
- * file
- * select
- * boolean
+|| *Option* || *Value(s)* || *Description* || *Required* ||
+|| type || 'text', 'file', 'select', 'boolean' || Type of metadata || Yes ||
+|| description || _array_ (language indexed) || Description of the field. || Yes ||
+|| filetype || _string_ || Type of file that are accepted for upload || Yes (when type is file) ||
+|| maxsize || _string_ || Max size of files uploaded || Yes (when type is file) ||
+|| select_values || _array_ || Values in the select box (used for both value and display) || Yes (if type is select) ||
+|| order || _int_ || The sort order || No ||
+|| default|| _string_, _boolean_ || Default value (_string_ when type is text, file, select and _boolean_ when type is boolean) || No ||
+|| required || _boolean_ || Is field required || No ||
+|| validate || _string_ || Name of function that should validate input || No ||
+|| supported || _array_ || Add multiple of same kind, with given subarrays || No ||
+|| default_allow || _boolean_ || Is the given default values allowed as valid input || No ||
