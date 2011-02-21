@@ -17,7 +17,7 @@ The following table document the different options used when configuring a metad
 || default|| _string_, _boolean_ || Default value (_string_ when type is text, file, select and _boolean_ when type is boolean) || No ||
 || required || _boolean_ || Is field required || No ||
 || validate || _string_ || Name of function that should validate input. See [metacustomvalidation this page] for more details. || No ||
-|| supported || _array_ || Add multiple of same kind, with given subarrays || No ||
+|| supported || _array_ || Substitute a # char in the name to produce multible keys, with different index. || No ||
 || default_allow || _boolean_ || Is the given default values allowed as valid input || No ||
 
 == Example ==
