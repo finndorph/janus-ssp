@@ -3,8 +3,16 @@
 
 = What is JANUS? =
 
-Add your content here.
+JANUS is a fully features metadata registrary build on top of SimppleSAMLphp.
 
+JANUS is focus around selfservice ofr registering SAML entities.
+
+JANUS key features are:
+  * Full workflow support
+  * Highly configurable UI
+  * Highly configurable metadata interface
+  * Full support for notifications on state changes, entity edit and user updates
+  * Highly customizable export functionality
 
 = Quick overview =
 
@@ -12,9 +20,20 @@ To get a quick feel of what JANUS does please have a look of the videos below. T
 
 NOTE these videos do not reflect the functionality fot the current JANUS version and functionality will wary from the current version
 
+== Login intro ==
 <wiki:video url="http://www.youtube.com/v/-iNDtGhaA_8">
+
+== Handling service providers ==
 <wiki:video url="http://www.youtube.com/v/c_iX-WlewlU">
+
+== Handling identity providers ==
 <wiki:video url="http://www.youtube.com/v/nheuywlAdXs">
+
+== Handling attribute release profiles (ARPs) ==
 <wiki:video url="http://www.youtube.com/v/ogmmD_MsK2g">
+
+== Inbox and mangement of roles and connections ==
 <wiki:video url="http://www.youtube.com/v/4oqmnJyMBBA">
+
+== Metadata export ==
 <wiki:video url="http://www.youtube.com/v/4oqmnJyMBBA">
