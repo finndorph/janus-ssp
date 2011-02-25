@@ -2,7 +2,7 @@
 #labels Featured
 
 = What is JANUS? =
-JANUS is a fully features metadata registrary administration module build on top of [SimpleSAMLphp].
+JANUS is a fully features metadata registrary administration module build on top of [http://code.google.com/p/simplesamlphp/ SimpleSAMLphp].
 
 JANUS is focus around selfservice ofr registering SAML entities.
 
