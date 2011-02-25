@@ -8,7 +8,7 @@ Add your content here.
 
 = Quick overview =
 
-<wiki:video url="http://www.youtube.com/watch?v=-iNDtGhaA_8">
+<wiki:video url="http://www.youtube.com/watch?v=-iNDtGhaA_8?hd=1">
 <wiki:video url="http://www.youtube.com/watch?v=c_iX-WlewlU">
 <wiki:video url="http://www.youtube.com/watch?v=nheuywlAdXs">
 <wiki:video url="http://www.youtube.com/watch?v=ogmmD_MsK2g">
