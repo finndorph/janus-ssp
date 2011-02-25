@@ -8,9 +8,13 @@ Add your content here.
 
 = Quick overview =
 
-<wiki:video url="http://www.youtube.com/apiplayer?video_id=-iNDtGhaA_8&hd=1&version=3">
-<wiki:video url="http://www.youtube.com/watch?v=c_iX-WlewlU">
-<wiki:video url="http://www.youtube.com/watch?v=nheuywlAdXs">
-<wiki:video url="http://www.youtube.com/watch?v=ogmmD_MsK2g">
-<wiki:video url="http://www.youtube.com/watch?v=4oqmnJyMBBA">
-<wiki:video url="http://www.youtube.com/watch?v=4oqmnJyMBBA">
+To get a quick feel of what JANUS does please have a look of the videos below. The videos is a quick tour of JANSU and displays the basic features.
+
+NOTE these videos do not reflect the functionality fot the current JANUS version and functionality will wary from the current version
+
+<wiki:video url="http://www.youtube.com/v/-iNDtGhaA_8">
+<wiki:video url="http://www.youtube.com/v/c_iX-WlewlU">
+<wiki:video url="http://www.youtube.com/v/nheuywlAdXs">
+<wiki:video url="http://www.youtube.com/v/ogmmD_MsK2g">
+<wiki:video url="http://www.youtube.com/v/4oqmnJyMBBA">
+<wiki:video url="http://www.youtube.com/v/4oqmnJyMBBA">
