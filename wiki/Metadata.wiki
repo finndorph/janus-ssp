@@ -36,3 +36,17 @@ Below is an example of how to define a new metadata field using the most common 
     'required' => false,
 ),
 }}}
+
+An example of the use of supported
+{{{
+'AssertionConsumerService:#:Location' => array(
+    'type' => 'text',
+    'description' => array(
+        'en' => 'Assertion Consumer Service endpoint',
+    ),
+    'order' => 140,
+    'default' => 'CHANGE ME',
+    'supported' => array(0,1,2,3,4),
+),
+}}}
+The above example will give 5 entries for adding AssertionConsumerService endpoints.
