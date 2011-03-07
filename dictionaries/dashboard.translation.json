@@ -87,7 +87,7 @@
 		"es": "La ID de conexion ya existe"
 	},
 	"error_entity_not_url": {
-		"da": "Forbindelses ID skal v\u00e6re en gyldig URI jf. RFC 2396.<br \/>Syntaksen er &lt;scheme&gt;:&lt;scheme-specific-part&gt;",
+		"da": "Forbindelses ID skal v\u00e6re en gyldig URI jf. RFC 2396.<br \/>Syntaksen er <scheme>:<scheme-specific-part>",
 		"es": " "
 	},
 	"error_no_type": {
@@ -199,22 +199,6 @@
 		"da": "Brugeren eksisterer allerede"
 	},
 	"text_entities_create": {
-		"da": "Opret forbindelse"
-	},
-	"tab_entities_federation_status": {
-		"da": "Klik her for at se status p\u00e5 alle forbindelser i f\u00f8derationen",
-		"es": "Haz click aqui para validar las entidades de la federaci\u00f3n"
-	},
-	"text_subscription_add_header": {
-		"da": "Tilf\u00f8j abonnement"
-	},
-	"tab_subscription_header": {
-		"da": "Abonnementer"
-	},
-	"text_message_select_all": {
-		"da": "Marker alle"
-	},
-	"text_message_mark_read": {
-		"da": "Marker som l\u00e6st"
+		"da": "Opret"
 	}
 }

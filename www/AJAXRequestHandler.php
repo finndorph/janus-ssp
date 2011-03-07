@@ -205,11 +205,11 @@ function getMessageList($params) {
         foreach($messages AS $message) {
             if($message['read'] == 'no') {
                 $output[] = '<div style="border-bottom: 1px solid #AAAAAA;">';
-                $output[] = '<input type="checkbox" name="message_cb[]" value="message_cb-'. $message['mid'] .'"> <a id="message-title-'. $message['mid'] .'" style="font-weight: bold;" onclick="openMessage('. $message['mid'] .')">'. date("d/n-Y H:i:s", strtotime($message['created'])) .' - '. $message['subject'] .'</a>';
+                $output[] = '<a id="message-title-'. $message['mid'] .'" style="font-weight: bold;" onclick="openMessage('. $message['mid'] .')">'. date("d/n-Y H:i:s", strtotime($message['created'])) .' - '. $message['subject'] .'</a>';
                 $output[] = '</div>';
             } else {
                 $output[] = '<div style="border-bottom: 1px solid #AAAAAA;">';
-                $output[] = '<input type="checkbox" name="message_cb[]" value="message_cb-'. $message['mid'] .'"> <a id="message-title-'. $message['mid'] .'" onclick="openMessage('. $message['mid'] .')">'. date("d/n-Y H:i:s", strtotime($message['created'])) .' - '. $message['subject'] .'</a>';
+                $output[] = '<a id="message-title-'. $message['mid'] .'" onclick="openMessage('. $message['mid'] .')">'. date("d/n-Y H:i:s", strtotime($message['created'])) .' - '. $message['subject'] .'</a>';
                 $output[] = '</div>';
             }
             $output[] = '<div id="message-'. $message['mid'] .'" class="dashboard_inbox_message_desc"></div>';
@@ -225,35 +225,24 @@ function getMessage($params) {
     if(!isset($params['mid'])) {
         return FALSE;
     }
-    
-    $janus_config = SimpleSAML_Configuration::getConfig('module_janus.php');
 
     $pm = new sspmod_janus_Postman();
     $message = $pm->getMessage($params['mid']);
-
-    $user = new sspmod_janus_User($janus_config->getValue('store'));
-    $user->setUid($message['from']);
-    $user->load();
-
     $return = wordwrap($message['message'], 75, "\n", TRUE);
 
-    return array(
-        'data' => $return,
-        'from' => $user->getUserid(),
-        'address' => $message['subscription']
-    );
+    return array('data' => $return);
 }
 
 function deleteSubscription($params) {
     if(!isset($params['uid'])) {
         return FALSE;
     }
-    if(!isset($params['sid'])) {
+    if(!isset($params['subscription'])) {
         return FALSE;
     }
 
     $pm = new sspmod_janus_Postman();
-    $return = $pm->unSubscribe($params['uid'], $params['sid']);
+    $return = $pm->unSubscribe($params['uid'], $params['subscription']);
 
     return $return;
 }
@@ -268,27 +257,6 @@ function addSubscription($params) {
 
     $pm = new sspmod_janus_Postman();
     $return = $pm->subscribe($params['uid'], $params['subscription']);
-    
-    if($return === false) {
-        return array('status' => 'User is already subscribing to that address');
-    }
-
-    return array('sid' => $return);
-}
-
-function updateSubscription($params) {
-    if(!isset($params['uid'])) {
-        return FALSE;
-    }
-    if(!isset($params['sid'])) {
-        return FALSE;
-    }
-    if(!isset($params['type'])) {
-        return FALSE;
-    }
-
-    $pm = new sspmod_janus_Postman();
-    $return = $pm->updateSubscription($params['sid'], $params['uid'], $params['type']);
 
     return $return;
 }

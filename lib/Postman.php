@@ -72,17 +72,16 @@ class sspmod_janus_Postman extends sspmod_janus_Database
      */
     public function post($subject, $message, $address, $from)
     {
-        $external_messengers = $this->_config->getArray('messenger.external', array());
-
         $addresses = array();
         if (!is_array($address)) {
             $addresses[] = $address;
         } else {
             $addresses = $address;
         }
+
         foreach ($addresses AS $ad) {
             $subscripers = $this->_getSubscripers($ad);
-            $subscripers[] = array('uid' => '0', 'type' => 'INBOX');
+            $subscripers[] = 0;
 
             foreach ($subscripers AS $subscriper) {
                 $st = self::execute(
@@ -97,7 +96,7 @@ class sspmod_janus_Postman extends sspmod_janus_Database
                     `ip`
                     ) VALUES (?, ?, ?, ?, ?, ?, ?);',
                     array(
-                        $subscriper['uid'],
+                        $subscriper,
                         $subject,
                         $message,
                         $from,
@@ -110,24 +109,6 @@ class sspmod_janus_Postman extends sspmod_janus_Database
                 if ($st === false) {
                     SimpleSAML_Logger::error('JANUS: Error fetching all entities');
                     return false;
-                }
-                
-                if(array_key_exists($subscriper['type'], $external_messengers))
-                {
-                    $externalconfig = $external_messengers[$subscriper['type']];
-                    try {
-                        $messenger = sspmod_janus_Messenger::getInstance($externalconfig['class'], $externalconfig['option']);
-                        $messenger->send(array(
-                            'uid' => $subscriper['uid'],
-                            'subject' => $subject,
-                            'message' => $message,
-                            'from' => $from,
-                            'address' => $ad  
-                        ));
-                    }
-                    catch(Exception $e) {
-                        SimpleSAML_Logger::error('JANUS: Error sending external message. ' . var_export($messenger));
-                    }
                 }
             }
         }
@@ -145,27 +126,10 @@ class sspmod_janus_Postman extends sspmod_janus_Database
      */
     public function subscribe($uid, $subscription, $type = 'INBOX')
     {
-        // Check if subscription already exists
-        $st = self::execute(
-            'SELECT * 
-             FROM `'. self::$prefix .'subscription`
-             WHERE `uid` = ? AND `subscription` = ?',
-            array($uid, $subscription)    
-        );
-        
-        if ($st === false) {
-            return false;
-        }
-
-        if($st->rowCount() > 0) {
-            return false;
-        }
-
-        // Insert new subscription
         $st = self::execute(
             'INSERT INTO `'. self::$prefix .'subscription` 
             (`uid`, `subscription`, `type`, `created`, `ip`) 
-            VALUES
+            VALUES 
             (?, ?, ?, ?, ?);',
             array(
                 $uid,
@@ -181,32 +145,9 @@ class sspmod_janus_Postman extends sspmod_janus_Database
             return false;
         }
 
-        return self::$db->lastInsertId();
-    }
-
-    public function updateSubscription($sid, $uid, $type)
-    {
-        $st = self::execute(
-            'UPDATE `'. self::$prefix .'subscription` 
-             SET `type` = ?, `uid` = ?, `created` = ?, `ip` = ?
-             WHERE `sid` = ?;',
-            array(
-                $type,
-                $uid,
-                date('c'),
-                $_SERVER['REMOTE_ADDR'],
-                $sid
-            )
-        );
-
-        if ($st === false) {
-            simplesaml_logger::error('janus: Error updating subscription - ' . var_export(array($sid, $uid, $subscription, $type), true));
-            return false;
-        }
-
         return true;
-
     }
+
     /**
      * Unsubscribe to an address
      *
@@ -215,14 +156,14 @@ class sspmod_janus_Postman extends sspmod_janus_Database
      *
      * @return bool Return true on success and false on error
      */
-    public function unSubscribe($uid, $sid)
+    public function unSubscribe($uid, $subscription)
     {
         $st = self::execute(
             'DELETE FROM `'. self::$prefix .'subscription`
-            WHERE `uid` = ? AND `sid` = ?;',
+            WHERE `uid` = ? AND `subscription` = ?;',
             array(
                 $uid,
-                $sid,
+                $subscription,
             )
         );
 
@@ -243,25 +184,12 @@ class sspmod_janus_Postman extends sspmod_janus_Database
      */
     private function _getSubscripers($address)
     {
-        $addtp = array($address);
+        $ad = explode('-', $address);
         $addressses = array();
-        while (list($akey, $address) = each($addtp))
-        {
-            $ad = explode('-', $address);
-            foreach ($ad AS $key => $value) {
-                $tmp = array_slice($ad, 0, $key+1);
-                $addressses[] = implode('-', $tmp);
-                // Insert wildcard address
-                if (ctype_digit($ad[$key])) {
-                    $oldval = $ad[$key];
-                    $ad[$key] = '#';
-                    $addtp[] = implode('-', $ad);
-                    $ad[$key] = $oldval;
-                }
-            }
-            unset($addtp[$akey]);
+        foreach ($ad AS $key => $value) {
+            $tmp = array_slice($ad, 0, $key+1);
+            $addressses[] = implode('-', $tmp);
         }
-        $addressses = array_unique($addressses);
         $subscripers = array();
         foreach ($addressses AS $a) {
             $st = self::execute(
@@ -276,7 +204,7 @@ class sspmod_janus_Postman extends sspmod_janus_Database
             }
 
             while ($row = $st->fetch(PDO::FETCH_ASSOC)) {
-                $subscripers[] = $row;
+                $subscripers[] = $row['uid'];
             }
             $st = null;
         }
@@ -340,13 +268,6 @@ class sspmod_janus_Postman extends sspmod_janus_Database
         while ($row = $st->fetch(PDO::FETCH_ASSOC)) {
             $subscriptionList[] = 'ENTITYUPDATE-' . $row['eid'];
         }
-
-        $workflowstates = $this->_config->getArray('workflowstates');
-
-        foreach($workflowstates AS $key => $value) {
-            $subscriptionList[] = 'ENTITYUPDATE-#-CHANGESTATE-' . $key;
-        }
-        $subscriptionList[] = 'ENTITYUPDATE-#-CHANGESTATE';
         
         // Remove dublicates
         $sl = array_unique($subscriptionList);
@@ -365,7 +286,7 @@ class sspmod_janus_Postman extends sspmod_janus_Database
     public function getSubscriptions($uid)
     {
         $st = self::execute(
-            'SELECT `sid`, `subscription`, `type` FROM `'. self::$prefix .'subscription` 
+            'SELECT `sid`, `subscription` FROM `'. self::$prefix .'subscription` 
             WHERE `uid` = ?;',
             array($uid)
         );

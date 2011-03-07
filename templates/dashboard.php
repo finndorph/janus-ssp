@@ -16,7 +16,6 @@ $(document).ready(function() {
     $("#tabdiv").tabs();
     $("#tabdiv").tabs("select", '. $this->data['selectedtab'] .');
     $("#admin_tabdiv").tabs();
-    $("#message_tabdiv").tabs();
 
     // Remove user function
     $("select.remove-user").change(function () {
@@ -262,52 +261,24 @@ function addSubscription(uid, subscription) {
         function(data) {
             if(data.status == "success") {
                 var text = $("select#subscriptions_select option:selected").text();
-                $("#subscription_list").append("<tr id=\"subscription_list_" + data.sid + "\"><td style=\"padding: 3px;\">" + text + "</td><td id=\"subscription_type_"+data.sid+"\">INBOX</td></tr>");
-                
-                $("#subscription_list_"+data.sid).append("<td><a class=\"janus_button\" onclick=\"deleteSubscription("+uid+", "+data.sid+");\">Delete</a></td>");
-
-                $("#subscription_list_"+data.sid+" td:last-child").append("  <a id=\"edit_subscription_link_"+data.sid+"\" class=\"janus_button\" onclick=\"editSubscription("+uid+", "+data.sid+");\">Edit</a>");
-                
-                $("tr[id^=\'subscription_list_\']:even").addClass("even");
-                $("tr[id^=\'subscription_list_\']:odd").addClass("odd");
+                $("#subscription_list").append("<div class=\"subscription\" id=\"subscription_list_" + subscription + "\">" + text + " - <a onclick=\"deleteSubscription(" + uid + ", \'" + subscription + "\');\">X</a></div>");
             }
         },
         "json"
     );
 }
 
-function updateSubscription(sid, uid, type) {
-    $.post(
-        "AJAXRequestHandler.php",
-        {
-            func: "updateSubscription",
-            sid: sid,
-            uid: uid,
-            type: type
-        },
-        function(data) {
-            if(data.status == "success") {
-                $("#subscription_type_select_"+sid).replaceWith(type);
-                $("#save_subscription_link_"+sid).replaceWith("<a id=\"edit_subscription_link_"+sid+"\" class=\"janus_button\" onclick=\"editSubscription("+uid+", "+sid+");\">Edit</a>");
-            }
-        },
-        "json"
-    );
-}
-
-function deleteSubscription(uid, sid) {
+function deleteSubscription(uid, subscription) {
     $.post(
         "AJAXRequestHandler.php",
         {
             func: "deleteSubscription",
             uid: uid,
-            sid: sid
+            subscription: subscription
         },
         function(data) {
             if(data.status == "success") {
-                $("#subscription_list_" + sid).remove();
-                $("#subscription_list tr:even").css("background-color", "#EEEEEE");
-                $("#subscription_list tr:odd").css("background-color", "#FFFFFF");
+                $("#subscription_list_" + subscription).remove();
             }
         },
         "json"
@@ -346,8 +317,6 @@ function openMessage(mid) {
             function(data) {
                 if(data.status == "success") {
                     $("#message-"+mid).html(data.data);
-                    $("#message-"+mid).prepend("<b>To: "+data.address+"</b><br /><br />");
-                    $("#message-"+mid).prepend("<b>From: "+data.from+"</b><br />");
                     $("#message-"+mid).show();
                     markRead(mid);
                 }
@@ -371,16 +340,6 @@ function markRead(mid) {
             }
         },
         "json"
-    );
-}
-
-function markAsRead() {
-    $("#message-list input:checkbox:checked").each(
-        function(index) {
-            mid = $(this).val();
-            mid = mid.substr(11,mid.length);
-            markRead(mid);
-        }    
     );
 }
 
@@ -488,7 +447,6 @@ $util = new sspmod_janus_AdminUtil();
                     <textarea name="metadata_xml" cols="60" rows="5" onfocus="this.value = '';">Put your XML here...</textarea>
                 </td>
                 <td></td>
-                <td></td>
             </tr>
         </table>
     </form>
@@ -497,7 +455,7 @@ $util = new sspmod_janus_AdminUtil();
     ?>
     <h3><a onclick="$('#search').toggle();"><?php echo $this->t('text_entities_search'); ?></a></h3>
     <form method="get" action="">
-    <table id="search" style="display: <?php echo !empty($this->data['query']) ? 'block' : 'none'; ?>;">
+    <table id="search" style="display: none;">
         <tr>
             <td>Search:</td>
             <td><input type="text" name="q" value="<?php echo $this->data['query']; ?>" /></td>
@@ -602,9 +560,6 @@ if($this->data['uiguard']->hasPermission('federationtab', null, $this->data['use
     <?php
     echo '<h2>'.$this->t('tab_entities_federation_entity_subheader').'</h2>';
     echo '<a href="exportentities.php">'.$this->t('tab_entities_federation_exporting').'</a>';
-    if($this->data['uiguard']->hasPermission('experimental', null, $this->data['user']->getType(), TRUE)) {
-        echo '<br><a href="metalisting.php">'.$this->t('tab_entities_federation_status').'</a><br>';
-    }
     ?>
     </div>
 <?php
@@ -618,130 +573,78 @@ if($this->data['uiguard']->hasPermission('admintab', null, $this->data['user']->
         <div id="admin">
             <div id="admin_tabdiv">
                 <ul>
-                    <?php
-                    if($this->data['uiguard']->hasPermission('adminusertab', null, $this->data['user']->getType(), TRUE)) {
-                        echo '<li><a href="#admin_users">' . $this->t('tab_admin_tab_users_header') . '</a></li>';
-                    }
-                    if($this->data['uiguard']->hasPermission('admintab', null, $this->data['user']->getType(), TRUE)) {
-                        echo '<li><a href="#admin_entities">' . $this->t('tab_admin_tab_entities_header') . '</a></li>';
-                    }
-                    ?>
+                    <li><a href="#admin_users"><?php echo $this->t('tab_admin_tab_users_header'); ?></a></li>
+                    <li><a href="#admin_entities"><?php echo $this->t('tab_admin_tab_entities_header'); ?></a></li>
                 </ul>
-                <!-- ADMIN USER TAB  STARTE-->
-                <?php
-                if($this->data['uiguard']->hasPermission('adminusertab', null, $this->data['user']->getType(), TRUE)) {
-                ?>
                 <div id="admin_users">
-                    <?php
-                    $color = 'EEEEEE';
-                    $users = $this->data['users'];
-                    echo '<table class="dashboard_container">';
-                    echo '<thead><tr><th>'. $this->t('admin_type') .'</th><th>'. $this->t('admin_userid') .'</th><th>'. $this->t('admin_active') .'</th><th align="center">'. $this->t('admin_action') .'</th></tr></thead>';
-                    echo '<tbody>';
-                    $i = 0;
-                    foreach($users AS $user) {
-                        echo '<tr id="delete-user-'. $user->getUid() .'" class="'. ($i % 2 == 0 ? 'even' : 'odd') .'" >';
-                        $type = $user->getType();
-                        echo '<td name="type" class="dashboard_user">';
-                        foreach($type AS $t) {
-                            echo '<span class="usertype">' . $t . ', </span>';
-                        }
-                        echo '</td>';
-                        echo '<td name="userid" class="dashboard_user">', $user->getUserid(). '</td>';
-                        echo '<td name="active" class="dashboard_user">', $user->getActive(). '</td>';
-                        echo '<td name="action" class="dashboard_user" align="center">';
-                        echo '<a name="admin_edit" class="janus_button" onclick="editUser(', $user->getUid(), ');">'. $this->t('admin_edit') .'</a>';
-                        echo '  ';
-                        echo '<a name="admin_delete" class="janus_button" onclick="deleteUser(', $user->getUid(), ', \'', $user->getUserid(), '\');">'. $this->t('admin_delete') .'</a>';
-                        echo '</td>';
-                        echo '</tr>';
-                        $i++;
-                    }
-                    echo '</tbody>';
-                    echo '</table>';
-                    echo '<br /><a id="admin_add_user_link" class="janus_button">'.$this->t('admin_add_user').'</a>';
-                    ?>
-                    <div id="admin_add_user" class="display_none">
-                        <form id="admin_add_user_form" method="post" action="<?php echo SimpleSAML_Utilities::selfURLNoQuery(); ?>">
-                            <table style="margin-top: 20px;">
-                                <tr>
-                                    <td><?php echo $this->t('admin_type'); ?>:</td>
-                                    <td><?php echo $select_type; ?><?php echo $this->t('admin_active'); ?>: <input type="checkbox" name="active" checked="checked" /></td>
-                                <tr>
-                                    <td><?php echo $this->t('admin_userid'); ?>:</td>
-                                    <td><input type="text" name="userid" value="" size="20" /></td>
-                                </tr>
-                                <tr>
-                                    <td><?php echo $this->t('tab_user_data_otherinfo');  ?>:</td>
-                                    <td><textarea name="userdata" cols="100" rows="3"></textarea></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"><input type="submit" name="add_usersubmit" value="<?php echo $this->t('tab_edit_entity_save'); ?>" /></td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
-                </div>
-                <!-- ADMIN USER TAB END-->
-                <?php
+        <?php
+            $color = 'EEEEEE';
+            $users = $this->data['users'];
+            echo '<table class="dashboard_container">';
+            echo '<thead><tr><th>'. $this->t('admin_type') .'</th><th>'. $this->t('admin_userid') .'</th><th>'. $this->t('admin_active') .'</th><th align="center">'. $this->t('admin_action') .'</th></tr></thead>';
+            echo '<tbody>';
+            $i = 0;
+            foreach($users AS $user) {
+                echo '<tr id="delete-user-'. $user->getUid() .'" class="'. ($i % 2 == 0 ? 'even' : 'odd') .'" >';
+                $type = $user->getType();
+                echo '<td name="type" class="dashboard_user">';
+                foreach($type AS $t) {
+                    echo '<span class="usertype">' . $t . ', </span>';
                 }
-                ?>
-                <!-- ADMIN ENTITIES TAB START -->
+                echo '</td>';
+                echo '<td name="userid" class="dashboard_user">', $user->getUserid(). '</td>';
+                echo '<td name="active" class="dashboard_user">', $user->getActive(). '</td>';
+                echo '<td name="action" class="dashboard_user" align="center">';
+                echo '<a name="admin_edit" class="janus_button" onclick="editUser(', $user->getUid(), ');">'. $this->t('admin_edit') .'</a>';
+                echo '  ';
+                echo '<a name="admin_delete" class="janus_button" onclick="deleteUser(', $user->getUid(), ', \'', $user->getUserid(), '\');">'. $this->t('admin_delete') .'</a>';
+                echo '</td>';
+                echo '</tr>';
+                $i++;
+            }
+            echo '</tbody>';
+            echo '</table>';
+            echo '<br /><a id="admin_add_user_link" class="janus_button">'.$this->t('admin_add_user').'</a>';
+        ?>
+            <br />
+            <br />
+            <div id="admin_add_user" class="display_none">
+                <form id="admin_add_user_form" method="post" action="<?php echo SimpleSAML_Utilities::selfURLNoQuery(); ?>">
+                    <?php echo $this->t('admin_type');  echo ': '.$select_type; ?>
+                    <?php echo $this->t('admin_active'); ?>: <input type="checkbox" name="active" checked="checked" /><br />
+                    <?php echo $this->t('admin_userid'); ?>: <input type="text" name="userid" value="" size="20" /><br />
+                    <?php echo $this->t('tab_user_data_otherinfo');  ?>: <textarea name="userdata" cols="100" rows="3"></textarea><br />
+                    <input type="submit" name="add_usersubmit" value="<?php echo $this->t('tab_edit_entity_save'); ?>" />
+                </form>
+            </div>
+        </div>
+
         <div id="admin_entities">
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    var entities = $('#admin_entities_table tr[id^="entity-"]'),
-                        len = $(entities).length,
-                        entities_search = Array(),
-                        tmp;
+        <?php
+            $entities = $util->getEntities();
 
-                    // Get searchable content
-                    for(var x = 0; x < len; x++){
-                        entities_search[x] = $(entities[x]).find('td:eq(0)').html();
-                        tmp = $(entities[x]).find('td:eq(1) span');
-                        for(var y = 0; y < $(tmp).length; y++) {
-                            entities_search[x] = entities_search[x].concat(" ", $(tmp[y]).html());
-                        }
-                    }
-
-                    $('#admin_entities_search').keyup(function() {
-                        var patt1 = new RegExp($(this).val());
-                        for(var x = 0; x < len; x++){
-                            if(patt1.test(entities_search[x])) {
-                                $(entities[x]).show();
-                            } else {
-                                $(entities[x]).hide();
-                            }
-                        }
-                    })
-                }); 
-            </script>
-            <span><?php echo $this->t('text_entities_search'); ?>: </span><input type="text" id="admin_entities_search" />
-            <?php
-            $entities = $this->data['adminentities'];
-
-            echo '<table class="dashboard_container2" style="border-collapse: collapse;" id="admin_entities_table">';
+            echo '<table class="dashboard_container2">';
             echo '<thead><tr><th width="40%">'. $this->t('tab_admin_tab_entities_header') .'</th><th>'. $this->t('admin_users') .'</th><th width=" 230px" align="center">'. $this->t('admin_permission') .'</th><th>' . $this->t('admin_action') . '</th></tr></thead>';
             echo '<tbody>';
             $i = 0;
             foreach($entities AS $entity) {
-                echo '<tr id="entity-'. $entity->getEid() .'" class="'. ($i % 2 == 0 ? 'even' : 'odd') .'">';
-                $entity_users = $util->hasAccess($entity->getEid());
+                echo '<tr id="entity-'. $entity['eid'] .'" class="'. ($i % 2 == 0 ? 'even' : 'odd') .'">';
+                $entity_users = $util->hasAccess($entity['eid']);
 
-                echo '<td class="dashboard_entity">', $entity->getEntityid() , '</td>';
+                echo '<td class="dashboard_entity">', $entity['entityid'] , '</td>';
                 echo '<td class="dashboard_entity users">';
                 foreach($entity_users AS $entity_user) {
-                    echo '<span id="entityuser-', $entity->getEid(),'-', $entity_user['uid'],'">',$entity_user['userid'], ', </span>';
+                    echo '<span id="entityuser-', $entity['eid'],'-', $entity_user['uid'],'">',$entity_user['userid'], ', </span>';
                 }
                 echo '</td>';
                 echo '<td class="dashboard_entity" align="center">';
-                echo '<a class="janus_button" onclick="getNonEntityUsers(\'', $entity->getEid(), '\');">'. $this->t('admin_add') .'</a>';
-                echo '<a class="janus_button" onclick="getEntityUsers(\'', $entity->getEid(), '\');">'. $this->t('admin_remove') .'</a>';
-                echo '<select class="add-user display_none" id="add-user-' .$entity->getEid(). '"><option>VOID</option></select>';
-                echo '<select class="remove-user display_none" id="remove-user-' .$entity->getEid(). '"><option>VOID</option></select>';
+                echo '<a class="janus_button" onclick="getNonEntityUsers(\'', $entity['eid'], '\');">'. $this->t('admin_add') .'</a>';
+                echo '<a class="janus_button" onclick="getEntityUsers(\'', $entity['eid'], '\');">'. $this->t('admin_remove') .'</a>';
+                echo '<select class="add-user display_none" id="add-user-' .$entity['eid']. '"><option>VOID</option></select>';
+                echo '<select class="remove-user display_none" id="remove-user-' .$entity['eid']. '"><option>VOID</option></select>';
                 echo '</td>';
                 echo '<td>';
-                echo '<a class="janus_button" onclick="deleteEntity(\'', str_replace(array(':', '.', '#'), array('\\\\:', '\\\\.', '\\\\#'), $entity->getEid()), '\', \'' . $entity->getEntityid() . '\');">'. $this->t('admin_delete') .'</a>';
+                echo '<a class="janus_button" onclick="deleteEntity(\'', str_replace(array(':', '.', '#'), array('\\\\:', '\\\\.', '\\\\#'), $entity['eid']), '\', \'' . $entity['entityid'] . '\');">'. $this->t('admin_delete') .'</a>';
                 echo '</td>';
                 echo '</tr>';
                 $i++;
@@ -751,7 +654,6 @@ if($this->data['uiguard']->hasPermission('admintab', null, $this->data['user']->
         ?>
         </div>
     </div>
-    <!-- ADMIN ENTITIES TAB END -->
 </div>
 <?php
 }
@@ -772,12 +674,11 @@ if($this->data['uiguard']->hasPermission('admintab', null, $this->data['user']->
 </div>
 <!-- TABS END - USERDATE -->
 
-<!-- TABS - MESSAGES -->
+<!-- TABS - INBOX -->
 <?php
 function renderPaginator($uid, $currentpage, $lastpage) {
-    if($lastpage < 1) {
+    if($lastpage < 1)
         $lastpage = 1;
-    }
     foreach(range(1, $lastpage) as $page) {
         echo '<a class="pagelink'. $page;
         if($page == $currentpage) {
@@ -791,174 +692,124 @@ function renderPaginator($uid, $currentpage, $lastpage) {
 }
 ?>
 <div id="message">
-    <div id="message_tabdiv">
-        <ul>
-        <li><a href="#inbox"><?php echo $this->t('tab_message_header'); ?></a></li>
+    <table class="dashboard_container">
+        <tr>
+            <td width="70%" valign="top">
+                <h2>Inbox</h2>
+                <?php
+                if($this->data['uiguard']->hasPermission('showsubscriptions', null, $this->data['user']->getType(), TRUE)) {
+                    echo '<a onclick=\'$("#subscription_control").toggle();\'>Subscriptions</a>';
+                }
+                ?>
+                <div class="paginator"><?php renderPaginator($this->data['user']->getUid(), $this->data['current_page'], $this->data['last_page']); ?></div>
+                <div id="message-list">
+                <?php
+                if(empty($this->data['messages'])) {
+                    echo "Empty";
+                } else {
+                    foreach($this->data['messages'] AS $message) {
+                        echo '<div class="dashboard_inbox">';
+                        if($message['read'] == 'no') {
+                            echo '<a id="message-title-'. $message['mid'] .'" class="dashboard_inbox_unread_message" onclick="openMessage('. $message['mid'] .')">'. date("d/n-Y H:i:s", strtotime($message['created'])) .' - '. $message['subject'] .'</a>';
+                        } else {
+                            echo '<a id="message-title-'. $message['mid'] .'" onclick="openMessage('. $message['mid'] .')">'. date("d/n-Y H:i:s", strtotime($message['created'])) .' - '. $message['subject'] .'</a>';
+
+                        }
+                        echo '</div>';
+                        echo '<div id="message-'. $message['mid'] .'" class="dashboard_inbox_message_desc"></div>';
+                    }
+                }
+                ?>
+                </div>
+                <div class="paginator"><?php renderPaginator($this->data['user']->getUid(), $this->data['current_page'], $this->data['last_page']); ?></div>
+            </td>
             <?php
             if($this->data['uiguard']->hasPermission('showsubscriptions', null, $this->data['user']->getType(), TRUE)) {
-                echo '<li><a href="#subscriptions">' . $this->t('tab_subscription_header') . '</a></li>';
-            }
             ?>
-        </ul>
-        <!-- START - INBOX SUBTAB -->
-        <div id="inbox">
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    $('#select_all_messages').toggle(function() {
-                        $('#message-list input:checkbox').attr("checked", "checked");
-                    }, function() {
-                        $('#message-list input:checkbox').removeAttr("checked");
-                    });
-
-                    $('.dashboard_inbox, .dashboard_inbox_message_desc').hover(
-                        function() {
-                            $(this).css('background-color', '#F0F0F0');
-                        },
-                        function() {
-                            $(this).css('background-color', '#FFFFFF');
+            <td width="30%" valign="top" id="subscription_control" style="display: none;">
+                <h2>Subscriptions</h2>
+                <?php
+                echo '<div id="subscription_list">';
+                foreach($this->data['subscriptions'] AS $subscription) {
+                    $tmp = explode("-", $subscription['subscription']);
+                    if($tmp[0] == 'USER') {
+                        if(isset($tmp[1]) && ctype_digit((string) $tmp[1])) {
+                            $user = new sspmod_janus_User($janus_config);
+                            $user->setUid($tmp[1]);
+                            $user->load();
+                            $name = $user->getUserid();
+                        } else if($tmp[1] == 'NEW'){
+                            $name = 'NEW';
+                        } else {
+                            $name = '';
                         } 
-                    );
-
-                    $("tr[id^='subscription_list_']:even").addClass("even");
-                    $("tr[id^='subscription_list_']:odd").addClass("odd");
-                });
-            </script>
-            <div id="inbox_menu">
-            <a id="select_all_messages" class="janus_button"><?php echo $this->t('text_message_select_all'); ?></a>
-            <a id="messages_mark_as_read" class="janus_button" onClick="markAsRead();"><?php echo $this->t('text_message_mark_read'); ?></a>
-            </div>
-            <div class="paginator"><?php renderPaginator($this->data['user']->getUid(), $this->data['current_page'], $this->data['last_page']); ?></div>
-            <div id="message-list">
-            <?php
-            if (empty($this->data['messages'])) {
-                echo "Empty";
-            } else {
-                foreach($this->data['messages'] AS $message) {
-                    echo '<div class="dashboard_inbox" onclick="openMessage('. $message['mid'] .')">';
-                    echo '<input type="checkbox" name="message_cb[]" value="message_cb-'. $message['mid'] .'">';
-                    $messageRead = ($message['read'] == 'no') ? 'class="dashboard_inbox_unread_message"' : '';
-                    echo ' <a id="message-title-'. $message['mid'] .'" '. $messageRead . '>'. date("d/n-Y H:i:s", strtotime($message['created'])) .' - '. $message['subject'] .'</a>';
+                    } else if($tmp[0] == 'ENTITYUPDATE') {
+                        if(ctype_digit((string) $tmp[1])) {
+                            $entity = new sspmod_janus_Entity($janus_config);
+                            $entity->setEid($tmp[1]);
+                            $entity->load();
+                            $name = $entity->getEntityid();
+                        } else {
+                            $name = '';
+                        }
+                    }else {
+                        $tmp2 = $tmp;
+                        unset($tmp2[0]);
+                        $name = implode($tmp2);
+                    }
+                    echo '<div class="dashboard_inbox" id="subscription_list_' . $subscription['subscription'] . '">';
+                    echo $tmp[0] . ' - ';
+                    echo $name;
+                    echo ' - <a onclick="deleteSubscription(' . $this->data['user']->getUid() . ', \'' . $subscription['subscription'] . '\');">X</a>';
                     echo '</div>';
-                    echo '<div id="message-'. $message['mid'] .'" class="dashboard_inbox_message_desc"></div>';
                 }
-            }
-            ?>
-            </div>
-            <div class="paginator"><?php renderPaginator($this->data['user']->getUid(), $this->data['current_page'], $this->data['last_page']); ?></div>
-        </div>
-        <!-- END - INBOX SUBTAB -->
-        <!-- START - SUBSCRIPTION SUBTAB -->
-        <?php
-        if($this->data['uiguard']->hasPermission('showsubscriptions', null, $this->data['user']->getType(), TRUE)) {
-        ?>
-        <div id="subscriptions">
-            <script type="text/javascript">
-                function editSubscription(uid, sid) {
-                    <?php
-                    $select_types = '<option value="INBOX">Inbox</option>';
-                    foreach($this->data['external_messengers'] as $kmessenger => $vmessenger) {
-                        $select_types .= '<option value="'.$kmessenger.'">'.$vmessenger['name'].'</option>';
-                    }
-                    ?>
-                    type = $("#subscription_type_"+sid).text();
-                    $("#subscription_type_"+sid).html('<select id="subscription_type_select_'+sid+'"><?php echo $select_types; ?></select>');
-                    $("#subscription_type_select_"+sid+' option[value="'+type+'"]').attr("selected", "selected");
-                    
-                    $("#edit_subscription_link_"+sid).replaceWith("<a id=\"save_subscription_link_"+sid+"\" class=\"janus_button\" onclick=\"saveSubscription("+sid+", "+uid+");\">Save</a>");
-                }
+                echo '</div>';
 
-                function saveSubscription(sid, uid) {
-                    type = $("#subscription_type_select_"+sid+" option:selected").val();
-                    updateSubscription(sid, uid, type);
-                }
-            </script>
-            <?php
-            echo '<table class="dashboard_container" id="subscription_list" style="border-collapse: collapse; width: 100%;">';
-            echo '<thead><tr>';
-            echo '<th>' . $this->t('tab_subscription_header') . '</th>';
-            echo '<th>' . $this->t('admin_type') . '</th>';
-            echo '<th>' . $this->t('admin_action') . '</th>';
-            echo '</tr></thead><tbody>';
-            foreach($this->data['subscriptions'] AS $subscription) {
-                $tmp = explode("-", $subscription['subscription']);
-                if($tmp[0] == 'USER') {
-                    if(isset($tmp[1]) && ctype_digit((string) $tmp[1])) {
-                        $user = new sspmod_janus_User($janus_config);
-                        $user->setUid($tmp[1]);
-                        $user->load();
-                        $name = $tmp[0] . ' - ' .$user->getUserid();
-                    } else if($tmp[1] == 'NEW'){
-                        $name = $tmp[0] . ' - ' . 'NEW';
-                    } else {
-                        $name = $tmp[0];
-                    } 
-                } else if($tmp[0] == 'ENTITYUPDATE') {
-                    if(ctype_digit((string) $tmp[1])) {
-                        $entity = new sspmod_janus_Entity($janus_config);
-                        $entity->setEid($tmp[1]);
-                        $entity->load();
-                        $name = $tmp[0] . ' - ' . $entity->getEntityid();
-                    } else {
-                        $name = implode('-', $tmp);
-                    }
-                } else {
-                    $name = implode('-', $tmp);
-                }
-                echo '<tr id="subscription_list_' . $subscription['sid'] . '">';
-                echo '<td style="padding: 3px;">' . $name . '</td>';
-                echo '<td id="subscription_type_' . $subscription['sid'] . '">' . $subscription['type'] . '</td>';
-                echo '<td>';
-                if($this->data['uiguard']->hasPermission('deletesubscriptions', null, $this->data['user']->getType(), TRUE)) {
-                    echo '<a class="janus_button" onclick="deleteSubscription(' . $this->data['user']->getUid() . ', ' . $subscription['sid'] . ');">' . $this->t('admin_delete') . '</a>';
-                }
-                if($this->data['uiguard']->hasPermission('editsubscriptions', null, $this->data['user']->getType(), TRUE)) {
-                    echo '  <a id="edit_subscription_link_' . $subscription['sid'] . '" class="janus_button" onclick="editSubscription(' . $this->data['user']->getUid() . ', ' . $subscription['sid'] . ');">' . $this->t('admin_edit') . '</a>';
-                }
-                echo '</td></tr>';
-            }
-            echo '</tbody></table>';
-
-            if($this->data['uiguard']->hasPermission('addsubscriptions', null, $this->data['user']->getType(), TRUE)) {
-                echo '<h2>' . $this->t('text_subscription_add_header') . '</h2>';
-                echo '<select name="subscriptions" id="subscriptions_select">';
-                echo '<option> -- ' . $this->t('tab_edit_entity_select') . ' --</option>';
-                foreach($this->data['subscriptionList'] AS $subscription) {
+                if(in_array('admin', $this->data['user_type'])) {
+                    echo '<h2>Add subscriptions</h2>';
+                    echo '<select name="subscriptions" id="subscriptions_select">';
+                    echo '<option> -- select --</option>';
+                    foreach($this->data['subscriptionList'] AS $subscription) {
                     $tmp = explode("-", $subscription);
                     if($tmp[0] == 'USER') {
                         if(isset($tmp[1]) && ctype_digit((string) $tmp[1])) {
                             $user = new sspmod_janus_User($janus_config);
                             $user->setUid($tmp[1]);
                             $user->load();
-                            $name = $tmp[0] . ' - ' . $user->getUserid();
+                            $name = $user->getUserid();
                         } else if(isset($tmp[1]) && $tmp[1] == 'NEW'){
-                            $name = $tmp[0] . ' - ' . 'NEW';
+                            $name = 'NEW';
                         } else {
-                            $name = $tmp[0];
+                            $name = '';
                         } 
                     } else if($tmp[0] == 'ENTITYUPDATE') {
                         if(isset($tmp[1]) && ctype_digit((string) $tmp[1])) {
                             $entity = new sspmod_janus_Entity($janus_config);
                             $entity->setEid($tmp[1]);
                             $entity->load();
-                            $name = $tmp[0] . ' - ' . $entity->getEntityid();
+                            $name = $entity->getEntityid();
                         } else {
-                            $name = implode('-', $tmp);
+                            $name = '';
                         }
-                    } else {
-                        $name = implode('-', $tmp);
+                    }else {
+                        $tmp2 = $tmp;
+                        unset($tmp2[0]);
+                        $name = implode($tmp2);
                     }
-                    echo '<option value="'. $subscription .'">' . $name . '</option>';
+                        echo '<option value="'. $subscription .'">' . $tmp[0] . ' - ' . $name . '</option>';
+                    }
+                    echo '</select>';
+                 echo '<a class="janus_button" onclick="addSubscription(' . $this->data['user']->getUid() . ', $(\'select#subscriptions_select option:selected\').val());">Add</a>';
                 }
-                echo '</select>';
-                echo '<a class="janus_button" onclick="addSubscription(' . $this->data['user']->getUid() . ', $(\'select#subscriptions_select option:selected\').val());">' . $this->t('admin_add') . '</a>';
+                ?>
+            </td>
+            <?php
             }
-            echo '</div>';
-        }
-        ?>
-        <!-- END - SUBSCRIPTION SUBTAB -->
-    </div>
+            ?>
+        </tr>
+    </table>
 </div>
-<!-- TABS END - MESSAGES -->
+<!-- TABS END - INBOX -->
 
 <!-- TAB- ARP -->
 <?php

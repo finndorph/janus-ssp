@@ -24,14 +24,6 @@ if ($session->isValid($authsource)) {
     SimpleSAML_Utilities::redirect(SimpleSAML_Module::getModuleURL('janus/index.php'));
 }
 
-function check_uri ($uri)
-{
-    if (preg_match('/^[a-z][a-z0-9+-\.]*:.+$/i', $uri) == 1) {
-        return TRUE;
-    }
-    return FALSE;
-}
-
 // Get metadata to present remote entitites
 $metadata = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
 // Get Entity controller
@@ -132,19 +124,11 @@ $update = FALSE;
 $note = '';
 
 if(!empty($_POST)) {
-    // Array for collecting addresses to notify
-    $addresses = array();
-
     // Change entityID
     if(isset($_POST['entityid'])) {
-        if(check_uri($_POST['entityid'])) {
-            if($entity->setEntityid($_POST['entityid'])) {
-                $update = TRUE;
-                $note .= 'Changed entityID: ' . $_POST['entityid'] . '<br />';
-                $addresses[] = 'ENTITYUPDATE-' . $eid . '-CHANGEENTITYID';
-            }
-        } else {
-            $msg = 'error_entity_not_url';
+        if($entity->setEntityid($_POST['entityid'])) {
+            $update = TRUE;
+            $note .= 'Changed entityID: ' . $_POST['entityid'] . '<br />';
         }
     }
 
@@ -318,7 +302,6 @@ if(!empty($_POST)) {
         if($entity->setWorkflow($_POST['entity_workflow'])) {
             $update = TRUE;
             $note .= 'Changed workflow: ' . $_POST['entity_workflow'] . '<br />';
-            $addresses[] = 'ENTITYUPDATE-' . $eid . '-CHANGESTATE-' . $_POST['entity_workflow'];
         }
     }
     
@@ -327,7 +310,6 @@ if(!empty($_POST)) {
         if($entity->setArp($_POST['entity_arp'])) {
             $update = TRUE;
             $note .= 'Changed arp: ' . $_POST['entity_arp'] . '<br />';
-            $addresses[] = 'ENTITYUPDATE-' . $eid . '-CHANGEARP-' . $_POST['entity_arp'];
         }
     }
 
@@ -381,8 +363,7 @@ if(!empty($_POST)) {
         $mcontroller->saveEntity();
         $mcontroller->loadEntity();
         $pm = new sspmod_janus_Postman();
-        $addresses[] = 'ENTITYUPDATE-' . $eid;
-        $pm->post('Entity updated - ' . $entity->getEntityid(), $entity->getRevisionnote() . '<br />' . $note, $addresses, $user->getUid());
+        $pm->post('Entity updated - ' . $entity->getEntityid(), $entity->getRevisionnote() . '<br />' . $note, 'ENTITYUPDATE-'.$entity->getEid(), $user->getUid());
 
         SimpleSAML_Utilities::redirect(
             SimpleSAML_Utilities::selfURLNoQuery(),            

@@ -223,7 +223,6 @@ if(isset($_GET['submit_search']) && !empty($_GET['q'])) {
     $et->data['entities'] = $mcontrol->getEntities(false, $entity_filter, $entity_filter_exclude);
 }
 
-$et->data['adminentities'] = $mcontrol->getEntities(true);
 $et->data['entity_filter'] = $entity_filter;
 $et->data['entity_filter_exclude'] = $entity_filter_exclude;
 $et->data['query'] = isset($_GET['q']) ? $_GET['q'] : '';
@@ -235,7 +234,6 @@ $et->data['subscriptions'] = $subscriptions;
 $et->data['subscriptionList'] = $subscriptionList;
 $et->data['messages'] = $messages;
 $et->data['messages_total'] = $messages_total;
-$et->data['external_messengers'] = $janus_config->getArray('messenger.external');
 $et->data['current_page'] = $page;
 $et->data['last_page'] = ceil((float)$messages_total / $pm->getPaginationCount());
 $et->data['selectedtab'] = $selectedtab;

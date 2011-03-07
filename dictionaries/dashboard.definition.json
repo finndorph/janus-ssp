@@ -2,9 +2,6 @@
 	"text_dashboard": {
 		"en": "Dashboard"
 	},
-	"tab_entities_federation_status": {
-		"en": "Click here to see the status of all entities in the federation"
-	},	
 	"tab_user_data_header": {
 		"en": "User"
 	},
@@ -17,9 +14,6 @@
 	"tab_message_header": {
 		"en": "Inbox"
 	},
-	"tab_subscription_header": {
-		"en": "Subscriptions"
-	},
 	"tab_admin_header": {
 		"en": "Admin"
 	},
@@ -30,7 +24,7 @@
 		"en": "Search"
 	},
 	"text_entities_create": {
-		"en": "Create connection"
+		"en": "Create"
 	},
 	"text_entities_help": {
 		"en": "Click on a service provider or identity provider to administer connections"
@@ -138,7 +132,7 @@
 		"en": "Connection ID already exists"
 	},
 	"error_entity_not_url": {
-		"en": "The connection ID should be a valid absolute URI complying to RFC 2396.<br />The syntax is &lt;scheme&gt;:&lt;scheme-specific-part&gt;"
+		"en": "The connection ID should be a valid absolute URI complying to RFC 2396.<\/br \/>The syntax is <scheme>:<scheme-specific-part>"
 	},
 	"tab_edit_entity_select": {
 		"en": "Select"
@@ -163,14 +157,5 @@
 	},
 	"text_entities_filter": {
 		"en": "Filter"
-	},
-    "text_subscription_add_header": {
-        "en": "Add subscription"
-    },
-    "text_message_select_all":{
-        "en": "Select all"
-    }, 
-    "text_message_mark_read":{
-        "en": "Mark as read"
-    } 
+	}
 }

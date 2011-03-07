@@ -227,6 +227,10 @@
 		"da": "Email ikke Sendte",
 		"es": "Email no enviado"
 	},
+	"tab_entities_federation_status": {
+		"da": "Klik her for at validere de enheder af forbundets",
+		"es": "Haz click aqui para validar las entidades de la federaci\u00f3n"
+	},
 	"error_no_access": {
 		"da": "Du har ikke adgang til denne ressource",
 		"es": "No tienes acceso para acceder a este recurso"
@@ -316,11 +320,5 @@
 	"admin_type": {
 		"da": "Type",
 		"es": "Tipo"
-	},
-	"error_header": {
-		"da": "Fejl"
-	},
-	"error_entity_not_url": {
-		"da": "Forbindelses ID skal v\u00e6re en gyldig URI jf. RFC 2396.<br \/>Syntaksen er &lt;skema&gt;:&lt;skema-specifik-del&gt;"
 	}
 }

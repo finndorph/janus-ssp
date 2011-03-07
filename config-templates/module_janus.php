@@ -401,7 +401,7 @@ $config = array(
             ),
         ),
         // Organization fields
-        'OrganizationName:#' => array(
+        'OrganizationName' => array(
             'type' => 'text',
             'order' => 510,
             'default' => 'defaultvalue',
@@ -412,7 +412,7 @@ $config = array(
                 'es' => 'Elemento opcional que identifica la organización responsable de la entidad SAML.',
             ),
         ),
-        'OrganizationDisplayName:#' => array(
+        'OrganizationDisplayName' => array(
             'type' => 'text',
             'order' => 520,
             'default' => 'defaultvalue',
@@ -423,7 +423,7 @@ $config = array(
                 'es' => 'Elemento opcional que identifica la organización responsable de la entidad SAML (Nombre comprensible para el usuario).',
             ),
         ),
-        'OrganizationURL:#' => array(
+        'OrganizationURL' => array(
             'type' => 'text',
             'order' => 530,
             'default' => 'defaultvalue',
@@ -624,7 +624,7 @@ $config = array(
                 'es' => 'Cero o mas elementos que representan los emails pertenecientes a la persona de contacto.',
             ),
         ),
-        'OrganizationName:#' => array(
+        'OrganizationName' => array(
             'type' => 'text',
             'order' => 150,
             'default' => 'defaultvalue',
@@ -635,7 +635,7 @@ $config = array(
                 'es' => 'Elemento opcional que identifica la organización responsable de la entidad SAML.',
             ),
         ),
-        'OrganizationDisplayName:#' => array(
+        'OrganizationDisplayName' => array(
             'type' => 'text',
             'order' => 160,
             'default' => 'defaultvalue',
@@ -646,7 +646,7 @@ $config = array(
                 'es' => 'Elemento opcional que identifica la organización responsable de la entidad SAML (Nombre comprensible para el usuario).',
             ),
         ),
-        'OrganizationURL:#' => array(
+        'OrganizationURL' => array(
             'type' => 'text',
             'order' => 170,
             'default' => 'defaultvalue',
@@ -912,7 +912,7 @@ $config = array(
             ),
         ),
         // Organization fields
-        'OrganizationName:#' => array(
+        'OrganizationName' => array(
             'type' => 'text',
             'order' => 510,
             'default' => 'defaultvalue',
@@ -923,7 +923,7 @@ $config = array(
                 'es' => 'Elemento opcional que identifica la organización responsable de la entidad SAML.',
             ),
         ),
-        'OrganizationDisplayName:#' => array(
+        'OrganizationDisplayName' => array(
             'type' => 'text',
             'order' => 520,
             'default' => 'defaultvalue',
@@ -934,7 +934,7 @@ $config = array(
                 'es' => 'Elemento opcional que identifica la organización responsable de la entidad SAML (Nombre comprensible para el usuario).',
             ),
         ),
-        'OrganizationURL:#' => array(
+        'OrganizationURL' => array(
             'type' => 'text',
             'order' => 530,
             'default' => 'defaultvalue',
@@ -1132,7 +1132,7 @@ $config = array(
                 'es' => 'Cero o mas elementos que representan los emails pertenecientes a la persona de contacto.',
             ),
         ),
-        'OrganizationName:#' => array(
+        'OrganizationName' => array(
             'type' => 'text',
             'order' => 150,
             'default' => 'defaultvalue',
@@ -1143,7 +1143,7 @@ $config = array(
                 'es' => 'Elemento opcional que identifica la organización responsable de la entidad SAML.',
             ),
         ),
-        'OrganizationDisplayName:#' => array(
+        'OrganizationDisplayName' => array(
             'type' => 'text',
             'order' => 160,
             'default' => 'defaultvalue',
@@ -1154,7 +1154,7 @@ $config = array(
                 'es' => 'Elemento opcional que identifica la organización responsable de la entidad SAML (Nombre comprensible para el usuario).',
             ),
         ),
-        'OrganizationURL:#' => array(
+        'OrganizationURL' => array(
             'type' => 'text',
             'order' => 170,
             'default' => 'defaultvalue',
@@ -1178,27 +1178,12 @@ $config = array(
         'admin',
         'operations',
         'secretariat',
-        'experimental',
         //SAML 2.0 contact types
         'technical',
         'support',
         'administrative',
         'billing',
         'other',
-    ),
-
-    'messenger.external' => array(
-        'mail' => array(
-            'class' => 'janus:SimpleMail',
-            'name' => 'Mail',
-            'option' => array(
-                'headers' => 'MIME-Version: 1.0' . "\r\n".
-                    'Content-type: text/html; charset=iso-8859-1' . "\r\n".
-                    'From: JANUS <no-reply@example.org>' . "\r\n" .
-                    'Reply-To: JANUS Admin <admin@example.org>' . "\r\n" .
-                    'X-Mailer: PHP/' . phpversion(),
-            ),    
-        ),    
     ),
 
     /*
@@ -1437,30 +1422,6 @@ $config = array(
             ),
         ),
         
-        // Add subscriptions
-        'addsubscriptions' => array(
-            'role' => array(
-                'secretariat',
-                'operations',
-            ),
-        ),
-        
-        // Edit subscriptions
-        'editsubscriptions' => array(
-            'role' => array(
-                'secretariat',
-                'operations',
-            ),
-        ),
-        
-        // Delete subscriptions
-        'deletesubscriptions' => array(
-            'role' => array(
-                'secretariat',
-                'operations',
-            ),
-        ),
-        
         // Export all entities
         'exportallentities' => array(
             'role' => array(
@@ -1494,23 +1455,11 @@ $config = array(
             ),
         ),
         
-        // Adminitsartion users tab
-        'adminusertab' => array(
-            'role' => array(
-                'admin',
-            ),
-        ),
-        
         // Access to all entities
         'allentities' => array(
             'role' => array(
                 'admin',
             ),
-        ),
-        'experimental' => array(
-            'role' => array(
-                'experimental'    
-            ),    
         ),
     ),
 
@@ -1586,26 +1535,5 @@ $config = array(
             ),
         ),
     ),
-
-    /**
-     * Metalising configuration options
-     *
-     * The following options are for the metadlisting extension under the 
-     * federtion tab.
-     * NOTE this extension is not experimental and not yet done. Also note that 
-     * this extension relies on to other modules in order to use the full 
-     * features of this extension:
-     *
-     *  - x509 https://forja.rediris.es/svn/confia/x509/trunk/
-     *  - metalisting http://simplesamlphp-labs.googlecode.com/svn/trunk/modules/metalisting 
-     *
-     *  Expect these options to change in the future
-     */
-    /*
-    'cert.strict.validation' => true,
-    'cert.allowed.warnings' => array(),
-    'notify.cert.expiring.before' => 30,
-    'notify.meta.expiring.before' =>  5,
-     */
 );
 ?>
