@@ -5,4 +5,4 @@ The following are minimum requirements for JANUS.
 
  * SimpleSAMLphp >= 1.7.0
  * PHP 5.3 (most features may work with PHP 5.2)
- * MySQL 5 or higher (other SQL servers may be used i.e. Postgres, MSSQL, bur are not tested)
+ * MySQL 5 or higher (other SQL servers may be used i.e. Postgres, MSSQL, but are not tested)
