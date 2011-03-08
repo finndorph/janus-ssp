@@ -1,6 +1,5 @@
 =Table of content=
 
- * [Introduction Introduction]
  * [WhatIsJANUS What is JANUS]
  * [systemrequirements System requirements]
  * [installjanus Installation]
