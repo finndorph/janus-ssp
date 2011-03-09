@@ -8,13 +8,12 @@ this document will explain how to  configure metadata fields in the JANUS config
 The following table document the different options used when configuring a metadata field. Se the example config file, foe examples.
 
 || *Option* || *Value(s)* || *Description* || *Required* ||
-|| type || 'text', 'file', 'select', 'boolean' || Type of metadata || Yes ||
-|| description || _array_ (language indexed) || Description of the field. || Yes ||
-|| filetype || _string_ || Type of file that are accepted for upload || Yes (when type is file) ||
-|| maxsize || _string_ || Max size of files uploaded || Yes (when type is file) ||
+|| type || _string_ ('text', 'file', 'select', 'boolean') || Type of metadata || Yes ||
+|| filetype || _string_ || Type of file that are accepted for upload. Syntax `*.jpg`. Multiple can be choosen by seperating the with a `;` || Yes (when type is file) ||
+|| maxsize || _string_ || Max size of files uploaded. Valid units are B, KB, MB, and GB. The default unit is KB. || Yes (when type is file) ||
 || select_values || _array_ || Values in the select box (used for both value and display) || Yes (if type is select) ||
 || order || _int_ || The sort order || No ||
-|| default|| _string_, _boolean_ || Default value (_string_ when type is text, file, select and _boolean_ when type is boolean) || No ||
+|| default|| _string_, _boolean_ || Default value (_string_ when type is `text`, `file`, `select` and _boolean_ when type is `boolean`) || No ||
 || required || _boolean_ || Is field required. NOTE that the `required` field can not be used with the `supported` field|| No ||
 || validate || _string_ || Name of function that should validate input. See [metacustomvalidation this page] for more details. || No ||
 || supported || _array_ || Substitute a # char in the name to produce multible keys, with different index. NOTE that the `required` field can not be used with `supported`|| No ||
