@@ -1,4 +1,5 @@
 #summary Install guide for JANUS
+#labels Featured
 
 = Install simpleSAMLphp = 
 The first thing you need to do is to install simpleSAMLphp on to your system.
@@ -27,29 +28,22 @@ In order to easily set up the database, create the initial admin user and a basi
 The following is a description of the different options set in the
 configuration file.
 
-* admin.name - The name of the administrator responsible for the
-installation
-* admin.email - The administrators email address
-* auth - The authencitacion source used
-* useridattr - The attribute used as refrence to entities
-* store - Database configuration
-   - dsn - Database source name
-   - username - The username used to connect to the database
-   - password - The password used to connect to the database
-   - prefix - The table prefix used
-* workflowstates - Definition of available states
-* workflowstate.default - The default state a new entity will be created
-with
-* metadatafields.TYPE - A list of metadata fields that can be created for an
-entity of a given TYPE
-* required.metadatafields.TYPE - Metadata fields that are required to export
-metadata
-* usertypes - The usertypes defined for the current installation. The admin
-type should not be removed.
-* access - A matrix defining access permissions different elements in the
-user interface
-* workflow_states - Definition of state transitions between the states
-defined in 'workflowstates'
+ * admin.name - The name of the administrator responsible for the installation
+ * admin.email - The administrators email address
+ * auth - The authencitacion source used
+ * useridattr - The attribute used as refrence to entities
+ * store - Database configuration
+  * dsn - Database source name
+  * username - The username used to connect to the database
+  * password - The password used to connect to the database
+  * prefix - The table prefix used
+ * workflowstates - Definition of available states
+ * workflowstate.default - The default state a new entity will be created with
+ * metadatafields.TYPE - A list of metadata fields that can be created for an entity of a given TYPE
+ * required.metadatafields.TYPE - Metadata fields that are required to export metadata
+ * usertypes - The usertypes defined for the current installation. The admin type should not be removed.
+ * access - A matrix defining access permissions different elements in the user interface
+ * workflow_states - Definition of state transitions between the states defined in 'workflowstates'
 
 == Defining access permissions ==
 In JANUS a number of different elements are defined that you can control
