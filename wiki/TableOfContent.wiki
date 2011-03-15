@@ -1,6 +1,7 @@
 =Table of content=
 
  * [WhatIsJANUS What is JANUS]
+ * [Contribute Contributing to JANUS]
  * [systemrequirements System requirements]
  * [installjanus Installation]
  * [REST_API REST API]
