@@ -1,0 +1,32 @@
+#summary Documentation for the access control option
+
+Note this document is not complete
+
+= Introduction =
+
+|| Name || Global || Description || 
+|| changeentitytype || false || Allow the user to change the entity type of entities || 
+|| exportmetadata || false || Allow users to export metadata for entities ||
+|| blockremoteentity || false || Block or unblock remote entities ||
+|| changeworkflow || false || Change workflow state ||
+|| changearp || false || Change ARP ||
+|| editarp || false || Edit ARP ||
+|| addearp || false || Add ARP ||
+|| addmetadata || false || Add metadata ||
+|| deletemtadata || false || Delete metadata ||
+|| modifymetadata || false || Edit metadata ||
+|| importmetadata || false || Inport metadata ||
+|| entityhistory || false || See History tab ||
+|| disableconcent || false || Disable consent ||
+|| createnewentity || true || Create new entity ||
+|| showsubscriptions || true || Show subscriptions ||
+|| editsubscriptions || true || Edit subscriptions ||
+|| addsubscriptions || true || Add subscriptions ||
+|| deletesubscriptions || true || Delete subscriptions ||
+|| exportallentities || true || Export all entities ||
+|| arpeditor || true || ARP editor tab ||
+|| federationtab || true || Federation tab ||
+|| admintab || true || Adminitsartion tab ||
+|| adminusertab || true || Adminitsartion users tab ||
+|| allentities || true || Access to all entities ||
+|| experimental || true || Experimental features ||
