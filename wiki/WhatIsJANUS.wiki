@@ -15,7 +15,7 @@ JANUS key features are:
 
 = Quick overview =
 
-To get a quick feel of what JANUS does please have a look of the videos below. The videos is a quick tour of JANSU and displays the basic features.
+To get a quick feel of what JANUS does please have a look of the videos below. The videos is a quick tour of JANUS and displays the basic features.
 
 NOTE these videos do not reflect the functionality fot the current JANUS version and functionality will wary from the current version
 
