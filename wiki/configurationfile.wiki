@@ -3,7 +3,7 @@
 The following is a list of all configuration options in the configuration file
 
 
- * [AccessControlConfig `access`]
+ * [AccessControlConfig access]
 
 {{{
     'admin.name' => 'JANUS admin',
