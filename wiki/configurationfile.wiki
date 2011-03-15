@@ -1,0 +1,1 @@
+#summary Quick overwiev of the content of the configuration file
