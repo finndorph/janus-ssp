@@ -5,6 +5,7 @@
  * [installjanus Installation]
  * [REST_API REST API]
  * [metacustomvalidation Metadata validation functions]
- * [Metadata Metadata configuration]
+ * [configurationfile Configuration]
+  * [Metadata Metadata configuration]
  * [translation Translating JANUS]
  * [MetadataExport Export of metadata]
