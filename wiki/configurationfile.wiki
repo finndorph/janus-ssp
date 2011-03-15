@@ -8,6 +8,8 @@ The following is a list of all configuration options in the configuration file
  * [Metadata metadatafields.saml20-sp]
  * [Metadata metadatafields.shib13-idp]
  * [Metadata metadatafields.shib13-sp]
+ * [Attributes attributes]
+ * [Attributes entity.defaultarp]
 
 {{{
     'admin.name' => 'JANUS admin',
@@ -62,13 +64,6 @@ The following is a list of all configuration options in the configuration file
      */
     'entity.useblacklist' => true,
     'entity.usewhitelist' => false,
-
-    /*
-     * Default ARP
-     */
-    'entity.defaultarp' => array(
-        'eduPersonTargetdID', 
-    ),
 
     /*
      * Configuration of systems in JANUS.
@@ -138,28 +133,6 @@ The following is a list of all configuration options in the configuration file
 
     // Default workflow state when creating new entities
     'workflowstate.default' => 'testaccepted',
-
-    /*
-     * Allowed attributes
-     */
-    'attributes' => array( 
-        'cn',   
-        'sn',       
-        'gn',       
-        'eduPersonPrincipalName',
-        'mail', 
-        'eduPersonPrimaryAffiliation',
-        'organizationName',
-        'norEduPersonNIN',
-        'schacPersonalUniqueID',
-        'eduPersonScopedAffiliation',
-        'preferredLanguage',
-        'eduPersonEntitlement',
-        'norEduPersonLIN',
-        'eduPersonAssurance',
-        'schacHomeOrganization',
-        'eduPersonTargetedID',
-    ),
 
     /*
      * Configuration of usertypes in JANUS.
