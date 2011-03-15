@@ -1,0 +1,15 @@
+#summary Contributing to JANUS
+
+= Contributing =
+We would like as many people to contribute to the development of JANUS. There are several ways of contributing to JANUS: patches, new features, translation and documentation.
+
+= Contributing code =
+The best way of contributing patches or new features to JANUS is to create a new issue and attach the code. Please give time for other users to comment on the supplied patch. So do not expect inclusion of patches strait away.
+
+
+== Coding standard ==
+JANUS is using the PEAR coding standard. Please note that not all requirements from the PEAR coding standard can be followed in JANUS, since the naming is dictated by SSP.
+
+You can find the PEAR coding standard here [http://pear.php.net/manual/en/coding-standards.php here].
+
+Please use PHP_CodeSniffer to check your code before committing. The PEAR coding standard are delivered with [http://pear.php.net/package/PHP_CodeSniffer PHP_CodeSniffer].
