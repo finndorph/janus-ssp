@@ -1,11 +1,9 @@
 #summary Contributing to JANUS
 
-= Contributing =
 We would like as many people to contribute to the development of JANUS. There are several ways of contributing to JANUS: patches, new features, translation and documentation.
 
 = Contributing code =
-The best way of contributing patches or new features to JANUS is to create a new issue and attach the code. Please give time for other users to comment on the supplied patch. So do not expect inclusion of patches strait away.
-
+The best way of contributing patches or new features to JANUS is to create a [http://code.google.com/p/janus-ssp/issues/entry new issue] and attach the code. Please give time for other users to comment on the supplied patch. So do not expect inclusion of patches strait away.
 
 == Coding standard ==
 JANUS is using the PEAR coding standard. Please note that not all requirements from the PEAR coding standard can be followed in JANUS, since the naming is dictated by SSP.
@@ -13,3 +11,11 @@ JANUS is using the PEAR coding standard. Please note that not all requirements f
 You can find the PEAR coding standard here [http://pear.php.net/manual/en/coding-standards.php here].
 
 Please use PHP_CodeSniffer to check your code before committing. The PEAR coding standard are delivered with [http://pear.php.net/package/PHP_CodeSniffer PHP_CodeSniffer].
+
+
+
+= Contributing translation = 
+We would also very much appreciate help on translating JANUS to new languages and to keep the existing translation up to date. All translation are done though the Feide RnD Translation portal located here: [https://translation.rnd.feide.no/]. You can get a free Feide OpenIdP account and get started instantly.
+
+= Contributing documentation = 
+If you would like to contribute with documentation, please create an issue telling what you would like to contribute. You can also attach a patch on the wiki page in question
