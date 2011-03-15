@@ -4,7 +4,7 @@ Note this document is not complete
 
 = Introduction =
 
-|| Name || Global || Description || 
+|| *Name* || *Global* || *Description* || 
 || changeentitytype || false || Allow the user to change the entity type of entities || 
 || exportmetadata || false || Allow users to export metadata for entities ||
 || blockremoteentity || false || Block or unblock remote entities ||
@@ -30,3 +30,5 @@ Note this document is not complete
 || adminusertab || true || Adminitsartion users tab ||
 || allentities || true || Access to all entities ||
 || experimental || true || Experimental features ||
+
+If a permission is not set for a given user for a given system, the default permission is given.
