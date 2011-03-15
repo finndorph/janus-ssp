@@ -1,5 +1,8 @@
 #summary JANUS system requirements
 #labels Phase-Deploy
+
+Please note that the documentation supplied on this wiki reflects the latest version of JANUS. Documentation for older versions are not supplied at this moment.
+
 =Requirements=
 The following are minimum requirements for JANUS.
 
