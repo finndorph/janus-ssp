@@ -10,7 +10,7 @@ JANUS is using the PEAR coding standard. Please note that not all requirements f
 
 You can find the PEAR coding standard here [http://pear.php.net/manual/en/coding-standards.php here].
 
-Please use PHP_CodeSniffer to check your code before committing. The PEAR coding standard are delivered with [http://pear.php.net/package/PHP_CodeSniffer PHP_CodeSniffer].
+Please use [http://pear.php.net/package/PHP_CodeSniffer PHP_CodeSniffer] to check your code before committing. The PEAR coding standard are delivered with [http://pear.php.net/package/PHP_CodeSniffer PHP_CodeSniffer].
 
 
 
