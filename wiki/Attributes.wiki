@@ -1,0 +1,16 @@
+#summary Attribute configuration
+
+= Attributes =
+In the configuration file, you can define what attributes, that can be used for generation Attribute Release Policies. The attributes are defined in the option `attributes`.
+
+= Default ARP = 
+You can define a default ARP for those entities, that do not have an ARP selected. This is defined in the option `entity.defaultarp`. 
+
+Example on configuring the `entity.defaultarp`
+
+{{{
+'entity.defaultarp' => array(
+    'eduPersonTargetdID',
+    'mail',
+),
+}}}
