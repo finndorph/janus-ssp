@@ -7,5 +7,6 @@
  * [metacustomvalidation Metadata validation functions]
  * [configurationfile Configuration]
   * [Metadata Metadata configuration]
+  * [AccessControlConfig Access control configuration]
  * [translation Translating JANUS]
  * [MetadataExport Export of metadata]
