@@ -2,12 +2,18 @@
 #labels Featured
 
 = Install simpleSAMLphp = 
-The first thing you need to do is to install simpleSAMLphp on to your system.
+The first thing you need to do is to install simpleSAMLphp (SSP) on to your system.
 
 == Setup an authentication source ==
 You need to setup an authentication source in SSP for JANUS to use.
 
 = Install JANUS = 
+Before installing JANUS, you need get the version that is suited for your SSP installation.
+
+If you are using SSP 1.6.x you need to install JANUS version 1.7.2. 
+
+If you are using SSP version 1.7.x or higher you should install the newest version featured in the [http://code.google.com/p/janus-ssp/downloads/list "Downloads"] section.
+
 To set up JANUS you need to do the following:
 
   * Set up the database
