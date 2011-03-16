@@ -1,11 +1,14 @@
 =Table of content=
 
  * [WhatIsJANUS What is JANUS]
+
 == Installation ==
  * [systemrequirements System requirements]
  * [installjanus Installation]
+
 == Usage ==
  * [REST_API REST API]
+
 == Configuration ==
  * [metacustomvalidation Metadata validation functions]
  * [configurationfile Configuration]
@@ -13,6 +16,7 @@
   * [AccessControlConfig Access control configuration]
   * [Attributes Configuring attributes and default ARP]
  * [MetadataExport Export of metadata]
+
 == Development ==
  * [Contribute Contributing to JANUS]
  * [translation Translating JANUS]
