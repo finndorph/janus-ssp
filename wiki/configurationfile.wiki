@@ -9,7 +9,7 @@ The following is a list of all configuration options in the configuration file
  * [GeneralConfig admin.name]
  * [GeneralConfig admin.email]
  * [GeneralConfig auth]
- * aggregators
+ * [MetadataExport aggregators]
 *C*
  * cron
  * cert.strict.validation
