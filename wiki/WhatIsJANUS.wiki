@@ -17,7 +17,7 @@ JANUS key features are:
 
 To get a quick feel of what JANUS does please have a look of the videos below. The videos is a quick tour of JANUS and displays the basic features.
 
-NOTE these videos do not reflect the functionality fot the current JANUS version and functionality will wary from the current version
+NOTE these videos are made using JANUS version 1.6.0 and therefor do not reflect the current functionality of the latest  JANUS version.
 
 == Login intro ==
 <wiki:video url="http://www.youtube.com/v/-iNDtGhaA_8">
