@@ -51,37 +51,6 @@ configuration file.
  * access - A matrix defining access permissions different elements in the user interface
  * workflow_states - Definition of state transitions between the states defined in 'workflowstates'
 
-== Defining access permissions ==
-In JANUS a number of different elements are defined that you can control
-access to. A complete list can be seen in the configuration file. The access
-definitions are done using arrays. The syntax is as following:
-
-{{{
-'ELEMENT' => array(
-    'default' => BOOLEANVALUE,
-	'STATE' => array(
-	    'role' => array(
-	        'USERTYPE',
-	    ),
-	),
-	'STATE' => array(
-	    'role' => array(
-	        'USERTYPE',
-	    ),
-	),
-    ...
-),
-}}}
-Allowed values for STATE is the states defined in the 'workflowstates'
-option. The allowed values for USERTYPE is the usertypes defined in the
-'usertypes' option and the value 'all'. Furthermore you can negate the
-values by prefixing the value with a '-'.
-If the element do not relate to a state, the 'role' parameter should replace
-the STATE parameter. By setting the dafault parameter, you will control
-access to all states you have not defined access for.
-you can define multible instances of the STATE parameter, for fine grained
-access control.
-
 == Defining workflows ==
 JANUS uses workflow to control the evolution ofan entity. The differet
 states an entiy can be in is defined by the option 'workflowstates' in the
