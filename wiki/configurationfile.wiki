@@ -6,9 +6,9 @@ The following is a list of all configuration options in the configuration file
  * [AccessControlConfig access]
  * [Attributes attributes]
  * [Attributes entity.defaultarp]
- * admin.name
- * admin.email
- * auth
+ * [GeneralConfig admin.name]
+ * [GeneralConfig admin.email]
+ * [GeneralConfig auth]
  * aggregators
 *C*
  * cron
@@ -22,7 +22,7 @@ The following is a list of all configuration options in the configuration file
  * enable.saml20-idp
  * enable.shib13-sp
  * enable.shib13-idp
- * 'entity.useblacklist
+ * entity.useblacklist
  * entity.usewhitelist
  * export.external
  * export.entitiesDescriptorName
@@ -38,11 +38,11 @@ The following is a list of all configuration options in the configuration file
  * notify.cert.expiring.before
  * notify.meta.expiring.before
 *U*
- * useridattr
- * user.autocreate
+ * [GeneralConfig useridattr]
+ * [GeneralConfig user.autocreate]
  * usertypes
 *S*
- * store
+ * [GeneralConfig store]
  * sign.enable
  * sign.privatekey
  * sign.privatekey_pass
