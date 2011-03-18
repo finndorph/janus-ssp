@@ -17,3 +17,17 @@ We would also very much appreciate help on translating JANUS to new languages an
 
 = Contributing documentation = 
 Please se the page about [translation translation]
+
+= Contributers = 
+
+The following delevopers hvad contributed to the delevopment og JANUS:
+
+ * Jacob Christiansen, WAYF
+ * Lorenzo Gil Sanches, Yaco Sistemas
+ * Sixto Martin, Yaco Sistemas
+ * fidelramos, Yaco Sistemas
+ * Ivo Jansch, iBuildings/Egeniq
+ * Stein Welberg, Everett
+ * Hans Zandbelt, SURFnet
+
+If your name is missing from the list, please leave a comment and we will add you as soon as possible.
