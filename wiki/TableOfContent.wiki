@@ -3,6 +3,7 @@
   * [WhatIsJANUS What is JANUS]
   * [systemrequirements System requirements]
   * [installjanus Installation]
+  * [upgradejanus Upgrade notes]
   * [REST_API REST API]
   * [configurationfile Configuration]
     * [Metadata Metadata configuration]
