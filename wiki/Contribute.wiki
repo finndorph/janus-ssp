@@ -19,8 +19,7 @@ We would also very much appreciate help on translating JANUS to new languages an
 Please se the page about [translation translation]
 
 = Contributers = 
-
-The following delevopers hvad contributed to the delevopment og JANUS:
+The following delevopers hvad contributed to the delevopment of JANUS:
 
  * Jacob Christiansen, WAYF
  * Lorenzo Gil Sanches, Yaco Sistemas
@@ -29,5 +28,11 @@ The following delevopers hvad contributed to the delevopment og JANUS:
  * Ivo Jansch, iBuildings/Egeniq
  * Stein Welberg, Everett
  * Hans Zandbelt, SURFnet
+
+Functionallity for JSON encoding and decoding prior to PHP 5.2.0 is developed by:
+
+ * Michal Migurski
+ * Matt Knapp
+ * Brett Stimmerman
 
 If your name is missing from the list, please leave a comment and we will add you as soon as possible.
