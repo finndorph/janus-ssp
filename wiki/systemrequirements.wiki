@@ -11,7 +11,7 @@ Version 1.7.2
  * PHP 5.2
  * MySQL 5 or higher (other SQL servers may be used i.e. Postgres, MSSQL, but are not tested)
 
-Version 1.8.0 or higher
+Version 1.9.0 or higher
  * SimpleSAMLphp >= 1.7.0
  * PHP 5.3
  * MySQL 5 or higher (other SQL servers may be used i.e. Postgres, MSSQL, but are not tested)
