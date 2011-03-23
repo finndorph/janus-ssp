@@ -8,7 +8,7 @@ JANUS offers the possibility to define your own custom validation functions for 
 
 = Details =
 
-You can define your function in the Metadata.php file in the lib/Validation directory. An example of a function can be seen here:
+You can define your function in the `Metadata.php` file in the `<PATH TO JANUS>/lib/Validation` directory. An example of a function can be seen here:
 {{{
 'leneq40' => array(
     'code' => '
