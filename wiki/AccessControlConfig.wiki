@@ -56,11 +56,11 @@ You can define multible instances of the `STATE` parameter, one for each defined
 || editsubscriptions || true || Edit subscriptions ||
 || addsubscriptions || true || Add subscriptions ||
 || deletesubscriptions || true || Delete subscriptions ||
-|| exportallentities || true || Export all entities ||
+|| exportallentities || true || Export all entities ||
 || arpeditor || true || ARP editor tab ||
-|| federationtab || true || Federation tab ||
-|| admintab || true || Adminitsartion tab ||
-|| adminusertab || true || Adminitsartion users tab ||
+|| federationtab || true || Federation tab ||
+|| admintab || true || Adminitsartion tab ||
+|| adminusertab || true || Adminitsartion users tab ||
 || allentities || true || Access to all entities ||
 || experimental || true || Experimental features ||
 
