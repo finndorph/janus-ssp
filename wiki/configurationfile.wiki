@@ -31,7 +31,7 @@ The following is a list of all configuration options in the configuration file
  * [Metadata metadatafields.saml20-sp]
  * [Metadata metadatafields.shib13-idp]
  * [Metadata metadatafields.shib13-sp]
- * messenger.external
+ * [ExternalMessenger messenger.external]
  * maxCache
  * maxDuration
 *N*
