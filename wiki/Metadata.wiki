@@ -1,75 +1,120 @@
 #summary Metadata fields configuration options
 
-= Introduction =
+= Defining metadata fields =
 In JANUS there is a distinction between metadata and metadata fileds. Metadata fields are configuration, describing the different types of metadata that can be configured for the entities and metadata is the actual values set for the individual entities.
 
 This document will explain how to  configure metadata fields in the JANUS configuration file.
- 
+
+Defining a metadata field is done using an array:
+
+{{{
+'METADATAFIELDNAME' => array(
+    'OPTION1' => 'OPTIONVALUE1',
+    'OPTION2' => 'OPTIONVALUE2',
+    ...
+),
+}}} 
+
 = Options =
-The following table document the different options used when configuring a metadata field. Se the example config file, foe examples.
+The following options can be used when defining metadata fields. See [Metadata#Examples Examples] section for examples or the example config file.
 
-|| *Option* || *Value(s)* || *Description* || *Required* ||
-|| [Metadata#type type] || _string_ ('text', 'file', 'select', 'boolean') || Type of metadata || Yes ||
-|| [Metadata#filetype filetype] || _string_ || Type of file that are accepted for upload. Syntax `*.jpg`. Multiple can be choosen by seperating the with a `;` || Yes (when type is `file`) ||
-|| [Metadata#maxsize maxsize] || _string_ || Max size of files uploaded. Valid units are B, KB, MB, and GB. The default unit is KB. || Yes (when type is `file`) ||
-|| [Metadata#select_values select_values] || _array_ || Values in the select box (used for both value and display) || Yes (if type is `select`) ||
-|| [Metadata#order order] || _int_ || The sort order || No ||
-|| [Metadata#default default] || _string_, _boolean_ || Default value (_string_ when type is `text`, `file`, `select` and _boolean_ when type is `boolean`) || No ||
-|| [Metadata#required required] || _boolean_ || Is field required. NOTE that if the `required` field is used with the `supported` field, than all expanded metadata fields are required|| No ||
-|| [Metadata#validate validate] || _string_ || Name of function that should validate input. See [metacustomvalidation this page] for more details. || No ||
-|| [Metadata#supported supported] || _array_ || Substitute a # char in the field name to produce multible keys, with different index. NOTE that the `required` field SHOULD NOT be used with `supported`|| No ||
-|| [Metadata#default_allow default_allow] || _boolean_ || Is the given default values allowed as valid input || No ||
+|| *Option* || *Value* || *Required* ||
+|| [Metadata#type type] || _string_ ('text', 'file', 'select', 'boolean') || Yes ||
+|| [Metadata#filetype filetype] || _string_ || Yes (when type is `file`) ||
+|| [Metadata#maxsize maxsize] || _string_ || Yes (when type is `file`) ||
+|| [Metadata#select_values select_values] || _array_ || Yes (if type is `select`) ||
+|| [Metadata#order order] || _int_ || No ||
+|| [Metadata#default default] || _string_, _boolean_ || No ||
+|| [Metadata#required required] || _boolean_ || No ||
+|| [Metadata#validate validate] || _string_ || No ||
+|| [Metadata#supported supported] || _array_ || SNo ||
+|| [Metadata#default_allow default_allow] || _boolean_ || No ||
 
+----
 == type ==
 || *Type * || _string_ || 
-|| *Allowed value(s)* || `text`, `file`, `select`, `boolean` ||
 || *Required* || Yes ||
 
+Describes the type of metadata. The different types will be displayed with different input types in the edit connection view. The following types are defined:
+
+ * `text` - Will be rendered as a text field.
+ * `file` - Will be rendered as a file input box and it will allow for file upload.
+ * `select` - Will be renderes as a select box.
+ * `boolean` - Will be rendered as a checkbox.
+
+----
 == filetype ==
-|| *Type * ||  || 
-|| *Allowed value(s)* || ||
+|| *Type * || _string_ || 
 || *Required* || Yes, if type is `file` ||
 
+Describes what file types are allowed to be uploaded. The syntax is a ; (semicolon) separated list of file types given in the form `*.extension`.
+
+NOTE that filtering is only done on the files extension. No mimetype inspection is done.
+
+----
 == maxsize ==
-|| *Type * ||  || 
-|| *Allowed value(s)* || ||
+|| *Type * || _string_  || 
 || *Required* || yes, if type is `file` ||
 
+Describes  the maximum file size allowed to be uploaded. The values is given on the form `NUMBER QUANTIFIER`. Valid `QUANTIFIER` are B, KB, MB, and GB. If no `QUANTIFIER` is set, then KB is used.
+
+----
 == select_values ==
-|| *Type * ||  || 
-|| *Allowed value(s)* || ||
+|| *Type * || _array_ || 
 || *Required* || yes, is type is `select` ||
 
+Describes all possible values to be selected in the select box. The array is a simple array with string values. The values are used both as key and value in the select box.
+
+----
 == order ==
-|| *Type * ||  || 
-|| *Allowed value(s)* || ||
+|| *Type * || _int_ || 
 || *Required* || No ||
 
+Describes the sort order in which the different fields are displayed, both for existing metadata and for metadata fields. If two metadata fields have the same order, the the metadata field defined first takes precedents.
+
+----
 == default ==
-|| *Type * ||  || 
-|| *Allowed value(s)* || ||
+|| *Type * || _string_, _boolean_ || 
 || *Required* || No ||
 
+The default values the field are populated with when forst selected. The type is _string_ when type is `text`, `file`, `select` and _boolean_ when type is `boolean`. If `default` is not set, then the field will not be populated with predefined text when created.
+
+----
 == required ==
-|| *Type * ||  || 
-|| *Allowed value(s)* || ||
+|| *Type * || _boolean_  || 
 || *Required* || No ||
 
+Describes if a field is required for the entity. All fields marked with `required` are automatically created when new entities are created and fields marked with `required` can not be deleted.
+
+*NOTE:* If the `required` option is used with the `supported` option, than all expanded metadata fields are marked required.
+
+----
 == validate ==
 || *Type * ||  || 
 || *Allowed value(s)* || ||
 || *Required* || No ||
 
+Name of function that should validate input. See [metacustomvalidation this page] for more details.
+
+----
 == supported ==
-|| *Type * ||  || 
-|| *Allowed value(s)* || ||
+|| *Type * || _array_  || 
 || *Required* || No ||
 
+Expand the metadata field to multiple fields, based on the content of the array. The array can contain both _int_ and _string_ values.
+
+The field name must contain a `#`for the `supported` option to take effect. The `#` character in the field name is substituted with the values in the array to produce identical fields, where only the name differs.
+
+NOTE that the `required` field SHOULD NOT be used with `supported`, since all expanded fields are then required.
+
+----
 == default_allow ==
-|| *Type * ||  || 
-|| *Allowed value(s)* || ||
+|| *Type * || _boolean_ || 
 || *Required* || No ||
 
+Describes whether or not the dafault value for the field is a valid value for the field.
+
+----
 = Examples =
 Below is an example of how to define a new metadata field using the most common options.
 
@@ -99,4 +144,4 @@ An example of the use of supported
     'supported' => array(0,1,2,3,4),
 ),
 }}}
-The above example will give 5 entries for adding AssertionConsumerService endpoints.
+The above example will give 5 entries for adding !AssertionConsumerService endpoints.
