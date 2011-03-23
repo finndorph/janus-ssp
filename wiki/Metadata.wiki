@@ -10,28 +10,67 @@ The following table document the different options used when configuring a metad
 
 || *Option* || *Value(s)* || *Description* || *Required* ||
 || [Metadata#type type] || _string_ ('text', 'file', 'select', 'boolean') || Type of metadata || Yes ||
-|| filetype || _string_ || Type of file that are accepted for upload. Syntax `*.jpg`. Multiple can be choosen by seperating the with a `;` || Yes (when type is `file`) ||
-|| maxsize || _string_ || Max size of files uploaded. Valid units are B, KB, MB, and GB. The default unit is KB. || Yes (when type is `file`) ||
-|| select_values || _array_ || Values in the select box (used for both value and display) || Yes (if type is `select`) ||
-|| order || _int_ || The sort order || No ||
-|| default|| _string_, _boolean_ || Default value (_string_ when type is `text`, `file`, `select` and _boolean_ when type is `boolean`) || No ||
-|| required || _boolean_ || Is field required. NOTE that if the `required` field is used with the `supported` field, than all expanded metadata fields are required|| No ||
-|| validate || _string_ || Name of function that should validate input. See [metacustomvalidation this page] for more details. || No ||
-|| supported || _array_ || Substitute a # char in the field name to produce multible keys, with different index. NOTE that the `required` field SHOULD NOT be used with `supported`|| No ||
-|| default_allow || _boolean_ || Is the given default values allowed as valid input || No ||
+|| [Metadata#filetype filetype] || _string_ || Type of file that are accepted for upload. Syntax `*.jpg`. Multiple can be choosen by seperating the with a `;` || Yes (when type is `file`) ||
+|| [Metadata#maxsize maxsize] || _string_ || Max size of files uploaded. Valid units are B, KB, MB, and GB. The default unit is KB. || Yes (when type is `file`) ||
+|| [Metadata#select_values select_values] || _array_ || Values in the select box (used for both value and display) || Yes (if type is `select`) ||
+|| [Metadata#order order] || _int_ || The sort order || No ||
+|| [Metadata#default default] || _string_, _boolean_ || Default value (_string_ when type is `text`, `file`, `select` and _boolean_ when type is `boolean`) || No ||
+|| [Metadata#required required] || _boolean_ || Is field required. NOTE that if the `required` field is used with the `supported` field, than all expanded metadata fields are required|| No ||
+|| [Metadata#validate validate] || _string_ || Name of function that should validate input. See [metacustomvalidation this page] for more details. || No ||
+|| [Metadata#supported supported] || _array_ || Substitute a # char in the field name to produce multible keys, with different index. NOTE that the `required` field SHOULD NOT be used with `supported`|| No ||
+|| [Metadata#default_allow default_allow] || _boolean_ || Is the given default values allowed as valid input || No ||
 
 == type ==
-== filetype ==
-== maxsize ==
-== select_values ==
-== order ==
-== default ==
-== required ==
-== validate ==
-== supported ==
-== default_allow ==
+|| *Type* || _string_ || 
+|| *Allowed value(s)* || `text`, `file`, `select`, `boolean` ||
+|| *Required* || Yes ||
 
-= Example =
+== filetype ==
+|| *Type* ||  || 
+|| *Allowed value(s)* || ||
+|| *Required* || Yes, if type is `file` ||
+
+== maxsize ==
+|| *Type* ||  || 
+|| *Allowed value(s)* || ||
+|| *Required* || yes, if type is `file` ||
+
+== select_values ==
+|| *Type* ||  || 
+|| *Allowed value(s)* || ||
+|| *Required* || yes, is type is `select` ||
+
+== order ==
+|| *Type* ||  || 
+|| *Allowed value(s)* || ||
+|| *Required* || No ||
+
+== default ==
+|| *Type* ||  || 
+|| *Allowed value(s)* || ||
+|| *Required* || No ||
+
+== required ==
+|| *Type* ||  || 
+|| *Allowed value(s)* || ||
+|| *Required* || No ||
+
+== validate ==
+|| *Type* ||  || 
+|| *Allowed value(s)* || ||
+|| *Required* || No ||
+
+== supported ==
+|| *Type* ||  || 
+|| *Allowed value(s)* || ||
+|| *Required* || No ||
+
+== default_allow ==
+|| *Type* ||  || 
+|| *Allowed value(s)* || ||
+|| *Required* || No ||
+
+= Examples =
 Below is an example of how to define a new metadata field using the most common options.
 
 {{{
