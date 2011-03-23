@@ -21,52 +21,52 @@ The following table document the different options used when configuring a metad
 || [Metadata#default_allow default_allow] || _boolean_ || Is the given default values allowed as valid input || No ||
 
 == type ==
-|| *Type* || _string_ || 
+|| *Type * || _string_ || 
 || *Allowed value(s)* || `text`, `file`, `select`, `boolean` ||
 || *Required* || Yes ||
 
 == filetype ==
-|| *Type* ||  || 
+|| *Type * ||  || 
 || *Allowed value(s)* || ||
 || *Required* || Yes, if type is `file` ||
 
 == maxsize ==
-|| *Type* ||  || 
+|| *Type * ||  || 
 || *Allowed value(s)* || ||
 || *Required* || yes, if type is `file` ||
 
 == select_values ==
-|| *Type* ||  || 
+|| *Type * ||  || 
 || *Allowed value(s)* || ||
 || *Required* || yes, is type is `select` ||
 
 == order ==
-|| *Type* ||  || 
+|| *Type * ||  || 
 || *Allowed value(s)* || ||
 || *Required* || No ||
 
 == default ==
-|| *Type* ||  || 
+|| *Type * ||  || 
 || *Allowed value(s)* || ||
 || *Required* || No ||
 
 == required ==
-|| *Type* ||  || 
+|| *Type * ||  || 
 || *Allowed value(s)* || ||
 || *Required* || No ||
 
 == validate ==
-|| *Type* ||  || 
+|| *Type * ||  || 
 || *Allowed value(s)* || ||
 || *Required* || No ||
 
 == supported ==
-|| *Type* ||  || 
+|| *Type * ||  || 
 || *Allowed value(s)* || ||
 || *Required* || No ||
 
 == default_allow ==
-|| *Type* ||  || 
+|| *Type * ||  || 
 || *Allowed value(s)* || ||
 || *Required* || No ||
 
