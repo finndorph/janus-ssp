@@ -1,7 +1,7 @@
 #summary Description of workflows in JANUS
 
 = Workflows =
-JANUS uses workflow to control the evolution of an entity. The differet
+JANUS uses workflow to control the evolution of an entity. The different
 states an entiy can be in is defined by the option `workflowstates` in the
 configuration file. The syntax is as following:
 
@@ -40,6 +40,6 @@ You can define multiple endstates to allow for different workflows. `USERTYPE` u
 = Configuration options =
 
 || *Name* || *Value* || *Description* ||
-|| workflowstates || _array_ || DEscripes the different states in JANUS ||
+|| workflowstates || _array_ || Describes the different states in JANUS ||
 || workflow_states || _array_ || Describes the transissions allowed between the states an who are allowed to make these transissions. ||
 || workflowstate.default || _string_ || Name of the state that all newly created entities should be put in. ||
