@@ -41,5 +41,5 @@ You can define multiple endstates to allow for different workflows. `USERTYPE` u
 
 || *Name* || *Value* || *Description* ||
 || workflowstates || _array_ || DEscripes the different states in JANUS ||
-|| workflow_states || _arrat_ || Describes the transissions allowed between the states an who are allowed to make these transissions. ||
-|| workflowstate.default || _string_ || Name of the state that all newly created entities should be put in. ||
+|| workflow_states || _array_ || Describes the transissions allowed between the states an who are allowed to make these transissions. ||
+|| workflowstate.default || _string_ || Name of the state that all newly created entities should be put in. ||
