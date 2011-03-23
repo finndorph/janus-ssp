@@ -12,5 +12,6 @@
     * [Attributes Attributes and default ARP]
     * [MetadataExport Metadata export]
     * [metacustomvalidation Metadata validation functions]
+    * [ExternalMessenger External messenger]
   * [Contribute Contributing to JANUS]
   * [translation Translating JANUS]
