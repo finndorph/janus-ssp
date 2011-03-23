@@ -1,14 +1,15 @@
-#summary Metadata configuration options
-`NOTE this document is not complete`
+#summary Metadata fields configuration options
 
 = Introduction =
-this document will explain how to  configure metadata fields in the JANUS configuration file.
+In JANUS there is a distinction between metadata and metadata fileds. Metadata fields are configuration, describing the different types of metadata that can be configured for the entities and metadata is the actual values set for the individual entities.
+
+This document will explain how to  configure metadata fields in the JANUS configuration file.
  
 = Options =
 The following table document the different options used when configuring a metadata field. Se the example config file, foe examples.
 
 || *Option* || *Value(s)* || *Description* || *Required* ||
-|| type || _string_ ('text', 'file', 'select', 'boolean') || Type of metadata || Yes ||
+|| [Metadata#type type] || _string_ ('text', 'file', 'select', 'boolean') || Type of metadata || Yes ||
 || filetype || _string_ || Type of file that are accepted for upload. Syntax `*.jpg`. Multiple can be choosen by seperating the with a `;` || Yes (when type is `file`) ||
 || maxsize || _string_ || Max size of files uploaded. Valid units are B, KB, MB, and GB. The default unit is KB. || Yes (when type is `file`) ||
 || select_values || _array_ || Values in the select box (used for both value and display) || Yes (if type is `select`) ||
@@ -19,7 +20,18 @@ The following table document the different options used when configuring a metad
 || supported || _array_ || Substitute a # char in the field name to produce multible keys, with different index. NOTE that the `required` field SHOULD NOT be used with `supported`|| No ||
 || default_allow || _boolean_ || Is the given default values allowed as valid input || No ||
 
-== Example ==
+== type ==
+== filetype ==
+== maxsize ==
+== select_values ==
+== order ==
+== default ==
+== required ==
+== validate ==
+== supported ==
+== default_allow ==
+
+= Example =
 Below is an example of how to define a new metadata field using the most common options.
 
 {{{
