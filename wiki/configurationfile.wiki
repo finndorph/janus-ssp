@@ -48,6 +48,6 @@ The following is a list of all configuration options in the configuration file
  * sign.privatekey_pass
  * sign.certificate
 *W*
- * [workflows workflowstates]
- * [workflows workflowstate.default]
- * [workflows workflow_states]
+ * [Workflows workflowstates]
+ * [Workflows workflowstate.default]
+ * [Workflows workflow_states]
