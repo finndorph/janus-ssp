@@ -103,7 +103,9 @@ Name of function that should validate input. See [metacustomvalidation this page
 
 Expand the metadata field to multiple fields, based on the content of the array. The array can contain both _int_ and _string_ values.
 
-The field name must contain a `#`for the `supported` option to take effect. The `#` character in the field name is substituted with the values in the array to produce identical fields, where only the name differs.
+The field name must contain a `#` for the `supported` option to take effect. The `#` character in the field name is substituted with the values in the array to produce identical fields, where only the name differs.
+
+REMEMBER to add a `:` if you want to create multiple of the same field, but with different subkeys. 
 
 NOTE that the `required` field SHOULD NOT be used with `supported`, since all expanded fields are then required.
 
