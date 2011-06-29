@@ -252,21 +252,13 @@ class sspmod_janus_UserController extends sspmod_janus_Database
         $ec->setEntity($entity);
 
         $update = false;
-        
-        // Get metadatafields for new type
-        $nm_mb = new sspmod_janus_MetadatafieldBuilder(
-            $this->_config->getArray('metadatafields.' . $type)
-        );
-        $metadatafields = $nm_mb->getMetadatafields();
-        
-        // Add all required fileds
-        foreach ($metadatafields AS $mf) {
-            if (isset($mf->required) && $mf->required === true) {
-                $ec->addMetadata($mf->name, $mf->default);
+        foreach ($this->_config->getValue('metadatafields.'.$type) AS $mk => $mv) {
+            if (isset($mv['required']) && $mv['required'] === true) {
+                $ec->addMetadata($mk, $mv['default']);
                 $update = true;
             }
         }
-        
+
         if ($update === true) {
             $ec->saveEntity();
         }
