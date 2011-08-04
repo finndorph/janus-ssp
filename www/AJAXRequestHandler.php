@@ -7,7 +7,6 @@
 // Ses session when using Flash to do file upload
 // Should be removed when bug in Flash player is fixed
 // Set cookie as SSP uses a cookie for retriving authentication
-
 if (isset($_POST["SimpleSAMLAuthToken"])) {
     $_COOKIE['SimpleSAMLAuthToken'] = $_POST['SimpleSAMLAuthToken'];
 }
@@ -56,6 +55,7 @@ if(isset($_POST)) {
 
     // Send back result
     // PHP versions prior to 5.2 don't have json_encode
+    require dirname(__FILE__) . '/../lib/jsonwrapper/jsonwrapper.php';
     echo json_encode($result);
 } else if(isset($_GET)) {
     // Handle GET requests

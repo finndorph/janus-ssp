@@ -47,56 +47,41 @@ class sspmod_janus_MetaExport
         $econtroller = new sspmod_janus_EntityController($janus_config);
 
         if(!$entity = $econtroller->setEntity($eid, $revision)) {
-            self::$_error = array('Entity could not be loaded - Eid: ' . $eid . ' Revisionid: ' . $revisionid);
             return false;
         }
 
         $metadata_raw = $econtroller->getMetadata();
 
-        // Get metadata fields
-        $nm_mb = new sspmod_janus_MetadatafieldBuilder(
-            $janus_config->getArray('metadatafields.' . $entity->getType())
-        );
-        $metadatafields_required = $nm_mb->getMetadatafields();
+        $metadata_required = $janus_config->getArray('metadatafields.' . $entity->getType());
 
-        // Get required metadata fields
         $required = array();
-        foreach($metadatafields_required AS $mf) {
-            if(isset($mf->required) && $mf->required === true) {
-                $required[] = $mf->name;
+        foreach($metadata_required AS $k => $v) {
+            if(array_key_exists('required', $v) && $v['required'] === true) {
+                $required[] = $k;
             }
         }
 
-        // Get metadata to me tested
         $metadata = array();
         foreach($metadata_raw AS $k => $v) {
-            // Metadata field not defined
-            if (!isset($metadatafields_required[$v->getKey()])) {
+            if (!isset($metadata_required[$v->getKey()])) {
                 continue;
             }
-            // Value not set for metadata
             if ($v->getValue() == '') {
                 continue;
             }
 
-            // Compute is the default values is allowed
             $default_allow = false;
-            if(isset($metadatafield_required[$v->getKey()]->default_allow) && is_bool($metadata_required[$v->getKey()]->default_allow)) {
-                $default_allow = $metadata_required[$v->getKey()]->default_allow;
+            if(isset($metadata_required[$v->getKey()]['default_allow']) && is_bool($metadata_required[$v->getKey()]['default_allow'])) {
+                $default_allow = $metadata_required[$v->getKey()]['default_allow'];
             }
 
-            /*
-             * Do not include metadata if value is set to default and default
-             * is not allowed.
-             */ 
-            if (!$default_allow && (isset($metadata_required[$v->getKey()]->default) && ($v->getValue() == $metadata_required[$v->getKey()]->default))) {
+            if (!$default_allow && (isset($metadata_required[$v->getKey()]['default']) && ($v->getValue() == $metadata_required[$v->getKey()]['default']))) {
                 continue;
             }
 
             $metadata[] = $v->getKey();
         }
 
-        // Compute missing metadata that is required
         $missing_required = array_diff($required, $metadata);
         
         $entityid = $entity->getEntityid();
@@ -154,7 +139,6 @@ class sspmod_janus_MetaExport
                     $metaBuilder->addMetadata($metaArray['metadata-set'], $metaArray);
                 } catch (Exception $e) {
                     SimpleSAML_Logger::error('JANUS - Entity_id:' . $entityid . ' - Error generating XML metadata - ' . var_export($e, true));
-                    self::$_error = array('Error generating XML metadata - ' . $e->getMessage());
                     return false;
                 }
 
@@ -190,7 +174,7 @@ class sspmod_janus_MetaExport
                 $session = SimpleSAML_Session::getInstance();
                 SimpleSAML_Utilities::fatalError($session->getTrackID(), 'JANUS - Metadatageneration', $exception);
             }
-        } else {
+        }  else {
             SimpleSAML_Logger::error('JANUS - Missing required metadata fields. Entity_id:' . $entityid);
             self::$_error = $missing_required;
             return false;
