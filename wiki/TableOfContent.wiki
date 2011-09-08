@@ -1,4 +1,4 @@
-=Table of content=
+=JANUS=
 
   * [WhatIsJANUS What is JANUS]
   * [systemrequirements System requirements]
