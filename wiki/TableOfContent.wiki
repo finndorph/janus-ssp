@@ -14,4 +14,5 @@
     * [metacustomvalidation Metadata validation functions]
     * [ExternalMessenger External messenger]
   * [Contribute Contributing to JANUS]
-  * [translation Translating JANUS]
+    * [SubmittingCode Submitting code]
+    * [translation Translating JANUS]
