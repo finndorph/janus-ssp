@@ -15,8 +15,10 @@ Please use [http://pear.php.net/package/PHP_CodeSniffer PHP_CodeSniffer] to chec
 = Contributing translation = 
 We would also very much appreciate help on translating JANUS to new languages and to keep the existing translation up to date. All translation are done though the Feide RnD Translation portal located here: [https://translation.rnd.feide.no/]. You can get a free Feide OpenIdP account and get started instantly.
 
-= Contributing documentation = 
 Please se the page about [translation translation]
+
+= Contributing documentation = 
+if you would like to contribute to the documentation of JANUS, please create an issue with your contributions. Your contribution wil be proof read and then added to the documentation of JANUS.
 
 = Contributers = 
 The following delevopers hvad contributed to the delevopment of JANUS:
