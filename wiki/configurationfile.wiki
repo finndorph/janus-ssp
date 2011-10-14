@@ -36,7 +36,7 @@ The following is a list of all configuration options in the configuration file
  * [ExternalMessenger messenger.external]
  * maxCache
  * maxDuration
- * messenger.default
+ * [ExternalMessenger messenger.default]
 *N*
  * notify.cert.expiring.before
  * notify.meta.expiring.before
