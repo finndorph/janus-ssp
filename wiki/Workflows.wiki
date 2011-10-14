@@ -8,13 +8,14 @@ configuration file. The syntax is as following:
 {{{
 'STATEKEY' => array(
     'name' => 'STATENAME',
-    'description' => 'STATEDESCRIPTION'
+    'description' => 'STATEDESCRIPTION',
+    'isDeployable' => 'BOOLEAN',
 ),
 }}}
 
-The `STATEKEY` is userdefined and is only used as an internal key. The
+The `STATEKEY` is user defined and is only used as an internal key. The
 `STATENAME` is a human readable name for the state and is the information
-presented to the users. The `STATEDESCRIPTION` is a description of the meaning of the state. This information is also displayed to the user.
+presented to the users. The `STATEDESCRIPTION` is a description of the meaning of the state. This information is also displayed to the user. The isDeployable specifies whether entities located in  this state should be returned when using the REST interface to JANUS.
 
 The state transitions is defined in the option `workflow_states`. The syntax
 for defining state transitions is as following:
