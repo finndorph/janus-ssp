@@ -36,12 +36,15 @@ Remember to change the from and reply-to email addresses. In the `headers`option
 
 You can configure as many external messengers as you like, just remember to give them unique ids.
 
-= Options = 
+== Options == 
 
 || *Name* || *Value* || *Required* ||
 || class || the class that implements the messenger || Yes ||
 || name || A human readable name for the messenger || Yes ||
 || option || Options specific for the messenger given as an _array_ || Yes ||
+
+= Setting the default external messenger = 
+By setting the `messenger.default` option in the configuration file, you can control what external messenger is used by default when new subscriptions are created. Valid values are all defined `MESSENGERID` values.
 
 = Implementing an external messenger =
 The most basic implementation of an external messenger requires on class placed in `<PATH TO JANUS>/lib/Messenger/`. The class must be called `sspmod_janus_Messenger_<MESSENGERNAME>`and must extend the class `sspmod_janus_Messenger`. It must contain to methods `__construct` and `send`.
