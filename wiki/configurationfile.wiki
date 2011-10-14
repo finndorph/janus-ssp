@@ -11,7 +11,8 @@ The following is a list of all configuration options in the configuration file
  * [GeneralConfig auth]
  * [MetadataExport aggregators]
 *C*
- * cron
+ * ca_bundle_file
+ * cron (Deprecated in version 1.10)
  * cert.strict.validation
  * cert.allowed.warnings
 *D*
@@ -31,22 +32,27 @@ The following is a list of all configuration options in the configuration file
  * [Metadata metadatafields.saml20-sp]
  * [Metadata metadatafields.shib13-idp]
  * [Metadata metadatafields.shib13-sp]
+ * metadata_refresh_cron_tags
  * [ExternalMessenger messenger.external]
  * maxCache
  * maxDuration
+ * messenger.default
 *N*
  * notify.cert.expiring.before
  * notify.meta.expiring.before
-*U*
- * [GeneralConfig useridattr]
- * [GeneralConfig user.autocreate]
- * usertypes
 *S*
  * [GeneralConfig store]
  * sign.enable
  * sign.privatekey
  * sign.privatekey_pass
  * sign.certificate
+*U*
+ * [GeneralConfig useridattr]
+ * [GeneralConfig user.autocreate]
+ * usertypes
+*V*
+ * validate_entity_certificate_cron_tags
+ * validate_entity_endpoints_cron_tags
 *W*
  * [Workflows workflowstates]
  * [Workflows workflowstate.default]
