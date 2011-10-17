@@ -5,6 +5,7 @@
   * [installjanus Installation]
   * [upgradejanus Upgrade notes]
   * [REST_API REST API]
+  * [Metadata_Validation Metadata Validation]
   * [configurationfile Configuration]
     * [GeneralConfig General options]
     * [Metadata Metadata]
