@@ -6,6 +6,7 @@
   * [upgradejanus Upgrade notes]
   * [REST_API REST API]
   * [Metadata_Validation Metadata Validation]
+  * [CertificateRollOver Certificate rollover]
   * [configurationfile Configuration]
     * [GeneralConfig General options]
     * [Metadata Metadata]
