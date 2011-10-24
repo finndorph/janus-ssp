@@ -19,15 +19,17 @@ To set up JANUS you need to do the following:
   * Set up the database
   * Configure JANUS
 
-Set the parameter 'useridattr' to match the attribute you want
+Set the parameter `useridattr` to match the attribute you want
 to make the connection between the user and the entities. This attribute must be delivered for all uses.
 
-Next you need to set up a database. Complete SQL statements for MySQL is located in a separate file, janus.sql which is located in the docs directory.
+Next you need to set up a database. Complete SQL statements for MySQL is located in a separate file, `janus.sql` which is located in the `docs` directory.
 
 You should change the storageengine and characterset to fit your needs. You can
 use another prefix for the table names, by editing the `prefix` option in the
 configuration file.
 
 In order to easily set up the database, create the initial admin user and a basic configuration file, please run the install script in your browser located in `<doman>/module.php/janus/install/`
+
+*NB!* You should delete the `install`directory after use, before using JANSU in a production enviroment.
 
 For a complete list of all options in the configuration file please see the documentation the configuration file located [configurationfile here].
