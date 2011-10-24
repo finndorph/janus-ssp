@@ -38,31 +38,32 @@ You can define multible instances of the `STATE` parameter, one for each defined
 = Configuration options =
 
 || *Name* || *Global* || *Description* || 
-|| changeentitytype || false || Allow the user to change the entity type of entities || 
-|| exportmetadata || false || Allow users to export metadata for entities ||
-|| blockremoteentity || false || Block or unblock remote entities ||
-|| changeworkflow || false || Change workflow state ||
-|| changearp || false || Change ARP ||
-|| editarp || false || Edit ARP ||
 || addearp || false || Add ARP ||
 || addmetadata || false || Add metadata ||
-|| deletemtadata || false || Delete metadata ||
-|| modifymetadata || false || Edit metadata ||
-|| importmetadata || false || Inport metadata ||
-|| entityhistory || false || See History tab ||
-|| disableconcent || false || Disable consent ||
-|| createnewentity || true || Create new entity ||
-|| showsubscriptions || true || Show subscriptions ||
-|| editsubscriptions || true || Edit subscriptions ||
 || addsubscriptions || true || Add subscriptions ||
-|| deletesubscriptions || true || Delete subscriptions ||
-|| exportallentities || true || Export all entities ||
-|| arpeditor || true || ARP editor tab ||
-|| federationtab || true || Federation tab ||
 || admintab || true || Adminitsartion tab ||
 || adminusertab || true || Adminitsartion users tab ||
 || allentities || true || Access to all entities ||
+|| arpeditor || true || ARP editor tab ||
+|| blockremoteentity || false || Block or unblock remote entities ||
+|| changearp || false || Change ARP ||
+|| changeentitytype || false || Allow the user to change the entity type of entities || 
+|| changeworkflow || false || Change workflow state ||
+|| createnewentity || true || Create new entity ||
+|| deletemtadata || false || Delete metadata ||
+|| deletesubscriptions || true || Delete subscriptions ||
+|| disableconcent || false || Disable consent ||
+|| editarp || false || Edit ARP ||
+|| editsubscriptions || true || Edit subscriptions ||
+|| entityhistory || false || See History tab ||
 || experimental || true || Experimental features ||
+|| exportallentities || true || Export all entities ||
+|| exportmetadata || false || Allow users to export metadata for entities ||
+|| federationtab || true || Federation tab ||
+|| importmetadata || false || Inport metadata ||
+|| modifymetadata || false || Edit metadata ||
+|| showsubscriptions || true || Show subscriptions ||
+|| validatemetadata || false || Give access to validation tab ||
 
 If a permission is not set for a given user for a given state, the `default` permission is given.
 
