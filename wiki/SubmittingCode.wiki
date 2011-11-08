@@ -7,6 +7,14 @@ This means that if you have fixed several issues, then you should split the code
 
 Do not submit code that changes the indentation or add new lines on code that are not directly affected by the actual code changes. This pollutes the code diff and make it really hard to see the actual code change. If the indentation do not adhere to the coding standard for JANUS, then you should make a separate code submit only containing the new indentations along with an appropriate message.
 
+When submitting code, you have to distinguish between bugfixes and new features. This have a consequence on how you should contribute your code.
+
+==Bugfixing==
+Bugfixes should be committed to the latest release brach first and the merged to trunk, if the bug is still present in the trunk version as well.
+
+== New features==
+New features should always be committed to trunk and newer to any branch 
+
 ==In an issue==
 If you do not have access to commit code directly, you should always state by creating an issue. state what is broken or the proposed new feature and the attach the code change that will fix the issue. A member of the team will then review your patch and apply it.
 
