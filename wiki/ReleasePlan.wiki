@@ -1,0 +1,10 @@
+#summary Release plan for JANUS
+#labels Featured
+
+This is an overview over the upcoming releases of JANUS.
+
+= Version 1.11 (Expected April 2012) =
+Click [http://code.google.com/p/janus-ssp/issues/list?q=label:Milestone-Release1.11 here] to see the issues that will be resolved in this release.
+= Version 2.0 (Expected ?) =
+
+Click [http://code.google.com/p/janus-ssp/issues/list?q=label:Milestone-Release2.0 here] to see the issues that will be resolved in this release.
