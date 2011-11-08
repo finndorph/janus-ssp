@@ -7,6 +7,7 @@
   * [REST_API REST API]
   * [Metadata_Validation Metadata Validation]
   * [CertificateRollOver Certificate rollover]
+  * [KeyboardShortcuts Keyboard shortcuts]
   * [configurationfile Configuration]
     * [GeneralConfig General options]
     * [Metadata Metadata]
