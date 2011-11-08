@@ -1,6 +1,7 @@
 =JANUS=
 
   * [WhatIsJANUS What is JANUS]
+  * [ReleasePlan Release plan]
   * [systemrequirements System requirements]
   * [installjanus Installation]
   * [upgradejanus Upgrade notes]
