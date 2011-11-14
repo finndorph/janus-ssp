@@ -27,10 +27,11 @@ The following delevopers hvad contributed to the delevopment of JANUS:
  * Lorenzo Gil Sanches, Yaco Sistemas
  * Sixto Martin, Yaco Sistemas
  * fidelramos, Yaco Sistemas
- * Ivo Jansch, iBuildings/Egeniq
+ * Ivo Jansch, Ibuildings/Egeniq
  * Stein Welberg, Everett
  * Hans Zandbelt, SURFnet
- * Lucas van Lierop, iBuildings
+ * Boy Baukema, Ibuildings
+ * Lucas van Lierop, Ibuildings
 
 Functionallity for JSON encoding and decoding prior to PHP 5.2.0 is developed by:
 
