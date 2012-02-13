@@ -12,7 +12,7 @@ Before installing JANUS, you need get the version that is suited for your SSP in
 
 If you are using SSP 1.6.x you need to install the 1.7.x version of JANUS. 
 
-If you are using SSP version 1.7.x or higher you should install the latest version featured in the [http://code.google.com/p/janus-ssp/downloads/list "Downloads"] section.
+If you are using SSP version 1.7.x or higher you should install the latest version featured in the [http://code.google.com/p/janus-ssp/downloads/list "Downloads"] section or via SimpleSAMLphp [http://simplesamlphp.org/docs/1.8/pack pack.php] tool, see [QuickInstall guide].
 
 To set up JANUS you need to do the following:
 
@@ -30,6 +30,6 @@ configuration file.
 
 In order to easily set up the database, create the initial admin user and a basic configuration file, please run the install script in your browser located in `<doman>/module.php/janus/install/`
 
-*NB!* You should delete the `install`directory after use, before using JANUS in a production enviroment.
+*NB!* You should delete the `install` directory after use, before using JANUS in a production enviroment.
 
 For a complete list of all options in the configuration file please see the documentation the configuration file located [configurationfile here].
