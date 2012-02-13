@@ -1,0 +1,26 @@
+#summary JANUS quick install guide
+Quick installation of JANUS (Stable Version)
+
+ # Obtain the Root priviliges 
+  {{{$ sudo su -}}}
+ # {{{$ apt-get install subversion}}}
+ # {{{$ cd /var/simplesamlphp/bin}}}
+ # {{{$ ./pack.php install http://janus-ssp.googlecode.com/svn/trunk/definition.json stable}}}
+ # {{{$ sudo apt-get install phpmyadmin}}}
+ # Try to open {{{https://<your_hostname>/phpmyadmin}}} sure it comes out the required credentials
+ # Create a new database and a new user.
+   # {{{$ mysql -u root -pYOURPASS}}}
+   # {{{create database character set utf8 <name_of_janus_db>;}}}
+   # {{{grant all privileges on <name_of_janus_db>. <name_of_user_janus_db> * to @ localhost IDENTIFIED BY '<userdb_password>';}}}
+   # {{{quit}}}
+ # Installation JANUS Web Installer:
+   # Decide the Storage Engine (ENGINE = INNODB) and the Character Set (DEFAULT CHARSET = utf8) to use and set them for all tables in the file "janus.sql"
+   # Activate the JANUS form:
+    {{{$ touch /var/simplesamlphp/modules/janus/enable}}}
+   # Access {{{https://<your_hostname>/simplesaml/module.php/janus/install/index.php}}} and fill in the fields with "localhost" as the host and press on the button "Install"
+   # Replace the contents of the {{{module_janus.php}}} with the code that created the summary page and change {{{'auth' => 'mailtoken'}}}, in {{{'auth' => 'Janus-SSP-SP'}}}, where {{{Janus-SSP-SP}}} is an auth source for a SimpleSAMLphp Service Provider you can authenticate to an Identity Provider.
+   # Remove the folder janus/www/install/:
+    {{{$ rm -Rf /var/simplesamlphp/modules/janus/www/install/}}}
+ # Now, when you try to launch the module you will be redirected SimpleSAMLphp by JANUS on IdP to authenticate and gain access to the JANUS Dashboard where you can manage the metadata of the various SP and IdP.
+
+This guide was kindly provided by Marco Malavolti
