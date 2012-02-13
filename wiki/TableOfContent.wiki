@@ -4,6 +4,7 @@
   * [ReleasePlan Release plan]
   * [systemrequirements System requirements]
   * [installjanus Installation]
+    * [QuickInstall Quick install guide]
   * [upgradejanus Upgrade notes]
   * [REST_API REST API]
   * [Metadata_Validation Metadata Validation]
