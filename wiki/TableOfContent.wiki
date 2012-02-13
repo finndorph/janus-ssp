@@ -7,7 +7,6 @@
     * [QuickInstall Quick install guide]
   * [upgradejanus Upgrade notes]
   * [REST_API REST API]
-  * [Metadata_Validation Metadata Validation]
   * [CertificateRollOver Certificate rollover]
   * [KeyboardShortcuts Keyboard shortcuts]
   * [configurationfile Configuration]
