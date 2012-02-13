@@ -1,7 +1,9 @@
 #summary JANUS quick install guide
-Quick installation of JANUS (Stable Version)
+=Quick installation of JANUS (Stable Version)=
 
- # Obtain the Root priviliges 
+*NOTE Latest stable version of SimpleSAMLphp is adviced*
+
+ # Obtain root priviliges 
   {{{$ sudo su -}}}
  # {{{$ apt-get install subversion}}}
  # {{{$ cd /var/simplesamlphp/bin}}}
