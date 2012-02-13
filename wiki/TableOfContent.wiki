@@ -1,4 +1,4 @@
-=JANUS=
+=Content=
 
   * [WhatIsJANUS What is JANUS]
   * [ReleasePlan Release plan]
