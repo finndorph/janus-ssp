@@ -152,6 +152,50 @@ Return metadata for the entity
 
 Return true or false depending wether connection is allowed or not.
 
+===getAllowedIdps===
+
+||*Signing*|| ||
+||Require signature|| Yes||
+
+||Parameter name||status||
+|| *spentityid* || required ||
+|| *sprevision* || loptional ||
+
+Return a list of all allowed Identity Providers for a given Service Provider.
+
+===getAllowedSps===
+
+||*Signing*|| ||
+||Require signature|| Yes||
+
+||Parameter name||status||
+|| *idpentityid* || required ||
+|| *idprevision* || loptional ||
+
+Return a list of all allowed Service Providers for a given Identity Provider.
+
+===getIdpList===
+
+||*Signing*|| ||
+||Require signature|| Yes||
+
+||Parameter name||status||
+|| *keys*       || optional ||
+|| *spentityid* || optional ||
+
+Retrieves a list of all Identity Providers. 
+
+===getSpList===
+
+||*Signing*|| ||
+||Require signature|| Yes||
+
+||Parameter name||status||
+|| *keys*       || optional ||
+|| *spentityid* || optional ||
+
+Retrieves a list of all Service Providers. 
+
 ===findIdentifierByMetadata===
 
 ||*Signing*|| ||
