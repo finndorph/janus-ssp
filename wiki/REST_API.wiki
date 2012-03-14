@@ -135,9 +135,15 @@ Return data about the entity
 
 ||Parameter name||status||
 || *entityid* || required ||
-|| *revision* || loptional ||
+|| *revision* || optional ||
+|| *keys*     || optional ||
 
-Return metadata for the entity
+Return metadata for the entity.
+
+Note that if you do not pass along any *keys* (or properties) very little will be returned.
+You must specify the metadata you want to see, for instance to get the SSO Binding, Location and name of an sp:
+
+keys=SingleSignOnService:0:Binding,SingleSignOnService:0:Location,name:en
 
 ===isConnectionAllowed===
 
@@ -184,7 +190,12 @@ Return a list of all allowed Service Providers for a given Identity Provider.
 || *spentityid* || optional ||
 
 Retrieves a list of all Identity Providers. 
+
 Note that if you do not pass along any *keys* (or properties) very little will be returned.
+You must specify the metadata you want to see, for instance to get the SSO Binding, Location and name of an sp:
+
+keys=SingleSignOnService:0:Binding,SingleSignOnService:0:Location,name:en
+
 
 ===getSpList===
 
@@ -195,6 +206,7 @@ Note that if you do not pass along any *keys* (or properties) very little will b
 || *keys*       || optional ||
 
 Retrieves a list of all Service Providers. 
+
 Note that if you do not pass along any *keys* (or properties) very little will be returned.
 You must specify the metadata you want to see, for instance to get the ACS Binding, Location and name of an sp:
 
