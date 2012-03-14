@@ -184,6 +184,7 @@ Return a list of all allowed Service Providers for a given Identity Provider.
 || *spentityid* || optional ||
 
 Retrieves a list of all Identity Providers. 
+Note that if you do not pass along any *keys* (or properties) very little will be returned.
 
 ===getSpList===
 
@@ -192,9 +193,12 @@ Retrieves a list of all Identity Providers.
 
 ||Parameter name||status||
 || *keys*       || optional ||
-|| *spentityid* || optional ||
 
 Retrieves a list of all Service Providers. 
+Note that if you do not pass along any *keys* (or properties) very little will be returned.
+You must specify the metadata you want to see, for instance to get the ACS Binding, Location and name of an sp:
+
+keys=AssertionConsumerService:0:Binding,AssertionConsumerService:0:Location,name:en
 
 ===findIdentifierByMetadata===
 
