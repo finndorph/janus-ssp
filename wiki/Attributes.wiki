@@ -1,7 +1,17 @@
-#summary Attribute configuration
+#summary Attribute Release Policies
 
-= Attributes =
-In the configuration file, you can define what attributes, that can be used for generation Attribute Release Policies. The attributes are defined in the option `attributes`.
+= Demonstration =
+<wiki:video url="http://www.youtube.com/watch?v=c2wIvwptXHk"/>
+
+= Specifying Attributes =
+In the configuration file, you can define what attributes, that can be used for generation Attribute Release Policies. The attributes are defined in the option `attributes`. The syntax is as follows:
+
+{{{
+'LABEL' => array(
+    'name' => 'ATTRIBUTE_NAME',
+    'specify_values' => BOOLEAN
+),
+}}}
 
 = Default ARP = 
 You can define a default ARP for those entities, that do not have an ARP selected. This is defined in the option `entity.defaultarp`. 
