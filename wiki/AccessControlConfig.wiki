@@ -5,7 +5,7 @@ NOTE this document is not complete
 = Defining access permissions =
 In JANUS a number of different elements are defined that you can control
 access to. A complete list can be seen in the _Configuration options_ section. The access
-definitions are done using arrays. The syntax is as following:
+definitions are done using arrays. The syntax is as follows:
 
 {{{
 'ELEMENT' => array(
