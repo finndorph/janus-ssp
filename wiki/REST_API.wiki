@@ -212,7 +212,7 @@ You must specify the metadata you want to see, for instance to get the ACS Bindi
 
 keys=AssertionConsumerService:0:Binding,AssertionConsumerService:0:Location,name:en
 
-===findIdentifierByMetadata===
+===findIdentifiersByMetadata===
 
 ||*Signing*|| ||
 ||Require signature|| Yes||
@@ -222,4 +222,4 @@ keys=AssertionConsumerService:0:Binding,AssertionConsumerService:0:Location,name
 || *value* || required ||
 || *userid* || required ||
 
-Returns entityid for those entities that has metadata key=>value pair
+Returns entityIds for those entities that have the metadata key=>value pair.
