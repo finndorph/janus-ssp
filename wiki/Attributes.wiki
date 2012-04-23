@@ -20,6 +20,8 @@ The ATTRIBUTE_NAME is the actual name of the attribute, for example "urn:mace:di
 The specify_values setting controls whether you want to require the user to specify allowed values for the attribute.
 For exmple the "urn:oid:1.3.6.1.4.1.5923.1.5.1.1" or "isMemberOf" attribute, one might specify that the membership is only released if it has the value of 'federation-users' or 'federation-admins', effectively filtering out all other (IdP supplied) memberships.
 
+Note that you can ONLY get at the specified values via the REST API, these are not supported in the metadata export.
+
 = Default ARP = 
 You can define a default ARP for those entities, that do not have an ARP selected. This is defined in the option `entity.defaultarp`. 
 
