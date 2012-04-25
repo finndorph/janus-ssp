@@ -25,11 +25,11 @@ The following is a list of all configuration options in the configuration file
  * enable.shib13-idp
  * entity.useblacklist
  * entity.usewhitelist
- * export.external
- * export.entitiesDescriptorName
+ * export.external (Deprecated in version 1.11)
+ * export.entitiesDescriptorName (Deprecated in version 1.11)
 *M*
- * maxCache
- * maxDuration
+ * maxCache (Deprecated in version 1.11)
+ * maxDuration (Deprecated in version 1.11)
  * [Metadata metadatafields.saml20-idp]
  * [Metadata metadatafields.saml20-sp]
  * [Metadata metadatafields.shib13-idp]
@@ -42,10 +42,10 @@ The following is a list of all configuration options in the configuration file
  * notify.meta.expiring.before
 *S*
  * [GeneralConfig store]
- * sign.enable
- * sign.privatekey
- * sign.privatekey_pass
- * sign.certificate
+ * sign.enable (Deprecated in version 1.11)
+ * sign.privatekey (Deprecated in version 1.11)
+ * sign.privatekey_pass (Deprecated in version 1.11)
+ * sign.certificate (Deprecated in version 1.11)
 *U*
  * [GeneralConfig useridattr]
  * [GeneralConfig user.autocreate]
