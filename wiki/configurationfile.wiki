@@ -9,7 +9,7 @@ The following is a list of all configuration options in the configuration file
  * [GeneralConfig admin.name]
  * [GeneralConfig admin.email]
  * [GeneralConfig auth]
- * [MetadataExport aggregators]
+ * [MetadataExport aggregators] (Deprecated in version 1.11)
 *C*
  * ca_bundle_file
  * cron (Deprecated in version 1.10)
