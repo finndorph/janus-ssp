@@ -5,7 +5,7 @@ The following is a list of all configuration options in the configuration file
 *A*
  * [AccessControlConfig access]
  * [Attributes attributes]
- * attributes.restrict_values
+ * [Attributes attributes.restrict_values]
  * [GeneralConfig admin.name]
  * [GeneralConfig admin.email]
  * [GeneralConfig auth]
