@@ -167,7 +167,7 @@ Return true or false depending wether connection is allowed or not.
 || *spentityid* || required ||
 || *sprevision* || loptional ||
 
-Return a list of all allowed Identity Providers for a given Service Provider.
+Return a list of all allowed Identity Provider EntityIds for a given Service Provider.
 
 ===getAllowedSps===
 
@@ -178,7 +178,7 @@ Return a list of all allowed Identity Providers for a given Service Provider.
 || *idpentityid* || required ||
 || *idprevision* || loptional ||
 
-Return a list of all allowed Service Providers for a given Identity Provider.
+Return a list of all allowed Service Provider EntityIds for a given Identity Provider.
 
 ===getIdpList===
 
