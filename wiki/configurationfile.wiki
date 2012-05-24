@@ -38,6 +38,7 @@ The following is a list of all configuration options in the configuration file
  * [Metadata metadatafields.saml20-sp]
  * [Metadata metadatafields.shib13-idp]
  * [Metadata metadatafields.shib13-sp]
+ * metadatafields.uploadpath
  * metadata_refresh_cron_tags
  * [ExternalMessenger messenger.external]
  * [ExternalMessenger messenger.default]
