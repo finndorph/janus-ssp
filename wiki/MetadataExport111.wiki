@@ -1,13 +1,25 @@
-#summary One-sentence summary of this page.
+#summary The different ways of exporting metadata in JANUS
 
 = Introduction =
+JANUS supplies different ways of exporting metadata. On the entity level and on the federation level.
 
-Add your content here.
+= Entity metadata export =
+In the edit entity view, you can hit the Export tab and click the Export matadata link.
 
+The page will display the metadata of the entity in SimpleSAMLphp flat file format. Links for displaying the metadata in SAML xml format and JSON is located in the buttom of the page.
 
-= Details =
+The page have the following parameters
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+|| *Parameter* || *Value* || *Required* ||
+|| eid || _int_ || Yes ||
+|| revisionid || _int_ || Yes ||
+|| output || 'xhtml' or not set || No ||
+
+*PLEASE* note that this page is protected, so only authorized users can access this page. This page should not be used for automatically export of metadata
+
+= Federation metadata export =
+
+== Dynamic metadata export ==
+Export of federation metadata can be done dynamically in JANUS. Go to the Federation tab and hit the Federation export link.
+
+== Configured metadata export ==
