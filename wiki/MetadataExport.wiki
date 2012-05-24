@@ -1,5 +1,7 @@
-#summary The different ways of exporting metadata in JANUS
+#summary DEPRECATED - The different ways of exporting metadata in JANUS
 #labels Phase-Deploy
+
+= DEPRECATED IN VERSION 1.11.0 =
 
 = Introduction =
 JANUS supplies different ways of exporting metadata. On entity level and on federation level.
