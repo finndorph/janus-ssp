@@ -7,7 +7,7 @@
   * [QuickInstall Quick install guide]
  * [upgradejanus Upgrade notes]
 
-----
+
 
  * [AccessControlConfig Access control]
  * [Attributes ARP and attributes]
@@ -22,7 +22,7 @@
   * [MetadataExport111ConfigOptions Options]
  * [REST_API REST API]
 
-----
+
 
  * [Contribute Contributing to JANUS]
   * [SubmittingCode Submitting code]
