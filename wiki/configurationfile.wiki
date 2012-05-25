@@ -32,8 +32,8 @@ The following is a list of all configuration options in the configuration file
  * maxDuration (Deprecated in version 1.11)
  * [MetadataExport111 mdexport.allowed_mime]
  * [MetadataExport111 mdexport.default_options]
- * [MetadataExport111mdexport.feeds]
- * [MetadataExport111mdexport.postprocessor]
+ * [MetadataExport111 mdexport.feeds]
+ * [MetadataExport111 mdexport.postprocessor]
  * [Metadata metadatafields.saml20-idp]
  * [Metadata metadatafields.saml20-sp]
  * [Metadata metadatafields.shib13-idp]
