@@ -15,156 +15,57 @@ The page have the following parameters
 || revisionid || _int_ || Yes ||
 || output || 'xhtml' or not set || No ||
 
-*PLEASE* note that this page is protected, so only authorized users can access this page. This page should not be used for automatically export of metadata
+*PLEASE* note that this page is protected, so only authorized users can access this page. This page should not be used for automatically export of metadata.
 
 = Federation metadata export =
+Federation metadata export can be done both dynamic or by pre-configuring the entities to be exported.
 
 == Configuration ==
+There are four configuration parameters related to metadata export. 
 
- * mdexport.postprocessor
- * mdexport.feeds
- * mdexport.allowed_mime
- * mdexport.default_options
+ * [MetadataExport111#Post_processors mdexport.postprocessor]
+ * [MetadataExport111#Feeds mdexport.feeds]
+ * [MetadataExport111#Mime_types mdexport.allowed_mime]
+ * [MetadataExport111#Default_options mdexport.default_options]
 
 === Options ===
 
-The following is a description of all allowed ontions for configuring how export of metadata should behave
-|| *Parameter* || *Value* || *Description* ||
-|| [MetadataExport111ConfigOptions#array__types types] || _array_ || ||
-|| states || _array_ || ||
-|| mime || _string_ || ||
-|| exclude || _array_ || ||
-|| postprocessor || _string_ || ||
-|| entitiesDescriptorName || _string_ || ||
-|| filename || _string_ || ||
-|| maxCache || _int_ || ||
-|| maxDuration || _int_ || ||
-|| sign.enable || _boolean_ || ||
-|| sign.privatekey || _string_ || ||
-|| sign.privatekey_pass || _string_ || ||
-|| sign.certificate || _string_ || ||
-
-----
-
-==== _array_ {{{types}}} ====
-|| The connection types to be exported ||
-<tr><td>
-*Example*
-{{{
-'types' => array('saml20-sp'. 'shib13-sp'),
-}}}
-</td></tr>
-
-==== _array_ {{{states}}} ====
-|| The connection states to be exported ||
-<tr><td>
-*Example*
-{{{
-'states' => array('prod-accepted'. 'qa-accepted'),
-}}}
-</td></tr>
-
-==== _string_ {{{mime}}} ====
-|| Defines the mime type of the exported metadata. Only values defined in `mdexport.allowed_mime` is allowed ||
-<tr><td>
-*Example*
-{{{
-'mime' => 'application/xml',
-}}}
-</td></tr>
-
-==== _array_ {{{exclude}}} ====
-|| Array of entityIDs for connections that should be excluded from the metadata export||
-<tr><td>
-*Example*
-{{{
-'exclude' => array('https://example.org/saml/metadata.xml'),
-}}}
-</td></tr>
-
-==== _string_ {{{postprocessor}}} ====
-|| Defines which post processor the metadata should be run through ||
-<tr><td>
-*Example*
-{{{
-'exclude' => array('https://example.org/saml/metadata.xml'),
-}}}
-</td></tr>
-
-==== _string_ {{{entitiesDescriptorName}}} ====
-|| Defines the title of the generated metadata. The title is put in the `Name` attribute of the containing `EntitiesDescriptor ||
-<tr><td>
-*Example*
-{{{
-'entitiesDescriptorName' => 'Sample Federation',
-}}}
-</td></tr>
-
-==== _string_ {{{filename}}} ====
-|| Defines the name of the file that is returned. Setting this option results in the `Content-Disposition: attachment;` header being set with the given filename. ||
-<tr><td>
-*Example*
-{{{
-'filename' => 'federation-metadata.xml',
-}}}
-</td></tr>
-
-==== _int_ {{{maxCache}}} ====
-|| Defines the content of the `cacheDuration` attribute on the containing `EntitiesDescriptor` and all subsequent `EntityDescriptor` elements. ||
-<tr><td>
-*Example*
-{{{
-'maxCache' => 60*60*24,
-}}}
-</td></tr>
-
-==== _int_ {{{maxDuration}}} ====
-|| Defines the content of the `validUntil` attribute on the containing `EntitiesDescriptor` and all subsequent `EntityDescriptor` elements. ||
-<tr><td>
-*Example*
-{{{
-'validUntil' => 60*60*24*7,
-}}}
-</td></tr>
-
-==== _boolean_ {{{sign.enable}}} ====
-|| Enables signing of the exported metadata. ||
-<tr><td>
-*Example*
-{{{
-'sign.enable' => TRUE,
-}}}
-</td></tr>
-
-==== _string_ {{{sign.privatekey}}} ====
-|| The name of the file containing the private key used for signing the exported metadata. *NOTE* the file must be placed in the `cert` directory in the hosting simpleSAMLphp installation. ||
-<tr><td>
-*Example*
-{{{
-'sign.privatekey' => 'sample_server.pem',
-}}}
-</td></tr>
-
-==== _string_ {{{sign.privatekey_pass}}} ====
-|| the password for unlocking the private key used for signing the exported metadata. Do not set or set to `null` if private key is not protected by a password. ||
-<tr><td>
-*Example*
-{{{
-'sign.privatekey_pass'   => 'VERY_SECRET_PASSWORD',
-}}}
-</td></tr>
-
-==== _string_ {{{sign.certificate}}} ====
-|| The name of the file containing the public key used for signing the exported metadata. *NOTE* the file must be placed in the `cert` directory in the hosting simpleSAMLphp installation. ||
-<tr><td>
-*Example*
-{{{
-'sign.certificate' => 'sample_server.crt',
-}}}
-</td></tr>
-
+The following is a quick overview of all allowed options used for exporting metadata
+|| *Parameter* || *Value* ||
+|| [MetadataExport111ConfigOptions#array__types types] || _array_ ||
+|| [MetadataExport111ConfigOptions#array__states states] || _array_ ||
+|| [MetadataExport111ConfigOptions#string__mime mime] || _string_ ||
+|| [MetadataExport111ConfigOptions#array__exclude exclude] || _array_ ||
+|| [MetadataExport111ConfigOptions#string__postprocessor postprocessor] || _string_ ||
+|| [MetadataExport111ConfigOptions#string__entitiesDescriptorName entitiesDescriptorName] || _string_ ||
+|| [MetadataExport111ConfigOptions#string__filename filename] || _string_ ||
+|| [MetadataExport111ConfigOptions#int__maxCache maxCache] || _int_ ||
+|| [MetadataExport111ConfigOptions#int__maxDuration maxDuration] || _int_ ||
+|| [MetadataExport111ConfigOptions#boolean__sign.enable sign.enable] || _boolean_ ||
+|| [MetadataExport111ConfigOptions#string__sign.privatekey sign.privatekey] || _string_ ||
+|| [MetadataExport111ConfigOptions#string_-sign.privatekeye_pass sign.privatekey_pass] || _string_ ||
+|| [MetadataExport111ConfigOptions#string__sign.certificate sign.certificate] || _string_ ||
 
 === Default options ===
+The `mdexport.default_options` options array should contain default values for all metadata exports. These values can be overwritten in both dynamic mode and in preconfigured mode.
+
+You should define default values for at least the following two options:
+
+ * entitiesDescriptorName
+ * mime
+
+Example of a default configuration
+{{{
+'mdexport.default_options' => array(
+    'entitiesDescriptorName' => 'Example Federation',
+    'mime' => 'application/xml',
+    'maxCache'      => 60*60*24, // 24 hour cache time
+    'maxDuration'   => 60*60*24*5, // Maximum 5 days duration on ValidUntil.
+    'sign.enable' => FALSE, // Don not sign metadata by default
+),
+}}}
+
+A complete list of configuration options can eb found [MetadataExport111ConfigOptions here].
 
 === Post processors ===
 *NOTE* it is up the post processor to out put the metadata after the processing is done.
@@ -173,10 +74,15 @@ The following is a description of all allowed ontions for configuring how export
 
 
 === Mime types ===
+JANUS do by default support the following 3 mime types.
 
  * application/xml
  * application/samlmetadata+xml
  * application/simplesamlphp+text
+
+Defining your own mime type does not change the actual exported metadata, only the `Content-Type` header. 
+
+The returned metadata will always be SAML xml metadata except in the case where the mime type is set to `application/simplesamlphp+text` in which case the returned metadata is in simpleSAMLphp format.
 
 == Dynamic metadata export ==
 Export of federation metadata can be done dynamically in JANUS. Go to the Federation tab and hit the Federation export link.
