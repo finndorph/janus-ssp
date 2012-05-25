@@ -6,7 +6,9 @@
  * [installjanus Installation]
   * [QuickInstall Quick install guide]
  * [upgradejanus Upgrade notes]
+
 ----
+
  * [AccessControlConfig Access control]
  * [Attributes ARP and attributes]
  * [CertificateRollOver Certificate rollover]
@@ -19,7 +21,9 @@
  * [MetadataExport111 Metadata export]
   * [MetadataExport111ConfigOptions Options]
  * [REST_API REST API]
+
 ----
+
  * [Contribute Contributing to JANUS]
   * [SubmittingCode Submitting code]
   * [translation Translating JANUS]
