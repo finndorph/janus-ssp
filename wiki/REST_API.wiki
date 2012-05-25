@@ -94,7 +94,7 @@ $requestURL = 'http://janus-dev.test.wayf.dk/module.php/janus/services/rest/?'.$
 ||Parameter name||status||
 || *string* || optional ||
 
-Returns the parameter string or if obmitted the string "JANUS". This method can be used to see if JANUS i alive.
+Returns the parameter string or if obmitted the string "JANUS". This method can be used to see if JANUS is alive.
 
 ===arp===
 
@@ -103,7 +103,7 @@ Returns the parameter string or if obmitted the string "JANUS". This method can 
 
 ||Parameter name||status||
 || *entityid* || required ||
-|| *revision* || loptional ||
+|| *revision* || optional ||
 
 Returns the ARP for the parsed entity
 
@@ -143,7 +143,9 @@ Return metadata for the entity.
 Note that if you do not pass along any *keys* (or properties) very little will be returned.
 You must specify the metadata you want to see, for instance to get the SSO Binding, Location and name of an sp:
 
+{{{
 keys=SingleSignOnService:0:Binding,SingleSignOnService:0:Location,name:en
+}}}
 
 ===isConnectionAllowed===
 
@@ -167,7 +169,7 @@ Return true or false depending wether connection is allowed or not.
 || *spentityid* || required ||
 || *sprevision* || loptional ||
 
-Return a list of all allowed Identity Provider EntityIds for a given Service Provider.
+Return a list of all allowed Identity Provider entityIDs for a given Service Provider.
 
 ===getAllowedSps===
 
@@ -178,7 +180,7 @@ Return a list of all allowed Identity Provider EntityIds for a given Service Pro
 || *idpentityid* || required ||
 || *idprevision* || loptional ||
 
-Return a list of all allowed Service Provider EntityIds for a given Identity Provider.
+Return a list of all allowed Service Provider entityIDs for a given Identity Provider.
 
 ===getIdpList===
 
@@ -194,8 +196,9 @@ Retrieves a list of all Identity Providers.
 Note that if you do not pass along any *keys* (or properties) very little will be returned.
 You must specify the metadata you want to see, for instance to get the SSO Binding, Location and name of an sp:
 
+{{{
 keys=SingleSignOnService:0:Binding,SingleSignOnService:0:Location,name:en
-
+}}}
 
 ===getSpList===
 
@@ -209,8 +212,9 @@ Retrieves a list of all Service Providers.
 
 Note that if you do not pass along any *keys* (or properties) very little will be returned.
 You must specify the metadata you want to see, for instance to get the ACS Binding, Location and name of an sp:
-
+{{{
 keys=AssertionConsumerService:0:Binding,AssertionConsumerService:0:Location,name:en
+}}}
 
 ===findIdentifiersByMetadata===
 
