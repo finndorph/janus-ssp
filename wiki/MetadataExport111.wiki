@@ -30,7 +30,7 @@ The page have the following parameters
 
 The following is a description of all allowed ontions for configuring how export of metadata should behave
 || *Parameter* || *Value* || *Description* ||
-|| [MetadataExport111#array__types types] || _array_ || ||
+|| [MetadataExport111ConfigOptions#array__types types] || _array_ || ||
 || states || _array_ || ||
 || mime || _string_ || ||
 || exclude || _array_ || ||
