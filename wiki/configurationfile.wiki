@@ -30,10 +30,10 @@ The following is a list of all configuration options in the configuration file
 *M*
  * maxCache (Deprecated in version 1.11)
  * maxDuration (Deprecated in version 1.11)
- * [MetadataExport111 mdexport.allowed_mime]
- * [MetadataExport111 mdexport.default_options]
- * [MetadataExport111 mdexport.feeds]
- * [MetadataExport111 mdexport.postprocessor]
+ * [MetadataExport111#Mime_types mdexport.allowed_mime]
+ * [MetadataExport111#Default_options mdexport.default_options]
+ * [MetadataExport111#Pre-configured_metadata_export mdexport.feeds]
+ * [MetadataExport111#Post_processors mdexport.postprocessor]
  * [Metadata metadatafields.saml20-idp]
  * [Metadata metadatafields.saml20-sp]
  * [Metadata metadatafields.shib13-idp]
