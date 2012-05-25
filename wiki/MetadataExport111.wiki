@@ -1,5 +1,7 @@
 #summary The different ways of exporting metadata in JANUS
 
+||<wiki:toc max_depth="3" />||
+
 = Introduction =
 JANUS supplies different ways of exporting metadata. On the entity level and on the federation level.
 
@@ -15,22 +17,22 @@ The page have the following parameters
 || revisionid || _int_ || Yes ||
 || output || 'xhtml' or not set || No ||
 
-*PLEASE* note that this page is protected, so only authorized users can access this page. This page should not be used for automatically export of metadata.
+*NOTE* this page is protected, so only authorized users can access this page. This page should not be used for automatically export of metadata.
 
 = Federation metadata export =
 Federation metadata export can be done both dynamic or by pre-configuring the entities to be exported.
 
 == Configuration ==
-There are four configuration parameters related to metadata export. 
+There are three configuration parameters related to metadata export. 
 
  * [MetadataExport111#Post_processors mdexport.postprocessor]
- * [MetadataExport111#Feeds mdexport.feeds]
  * [MetadataExport111#Mime_types mdexport.allowed_mime]
  * [MetadataExport111#Default_options mdexport.default_options]
 
 === Options ===
 
-The following is a quick overview of all allowed options used for exporting metadata
+The following is a quick overview of all allowed options used for exporting metadata. These options are used in both [MetadataExport111#Default_options mdexport.default_options] and [MetadataExport111#Feeds mdexport.feeds] options.
+
 || *Parameter* || *Value* ||
 || [MetadataExport111ConfigOptions#array__types types] || _array_ ||
 || [MetadataExport111ConfigOptions#array__states states] || _array_ ||
@@ -51,8 +53,8 @@ The `mdexport.default_options` options array should contain default values for a
 
 You should define default values for at least the following two options:
 
- * entitiesDescriptorName
- * mime
+ * `entitiesDescriptorName`
+ * `mime`
 
 Example of a default configuration
 {{{
@@ -65,7 +67,7 @@ Example of a default configuration
 ),
 }}}
 
-A complete list of configuration options can eb found [MetadataExport111ConfigOptions here].
+A complete list of configuration options can be found [MetadataExport111ConfigOptions here].
 
 === Post processors ===
 JANUS gives you the option to write your own custom post processor, that can modify the metadata further after the standard metadata have been generated.
@@ -104,9 +106,6 @@ Example of post processor configuration:
 }}}
 There is no restrictions on how many post processors that can be defined, as long af the appropriate classes are implemented.
 
-=== Feeds ===
-
-
 === Mime types ===
 JANUS do by default support the following 3 mime types.
 
@@ -121,6 +120,10 @@ The returned metadata will always be SAML xml metadata except in the case where 
 == Dynamic metadata export ==
 Export of federation metadata can be done dynamically in JANUS. Go to the Federation tab and hit the Federation export link.
 
+You will be presented with a form allowing you to customize your metadata export. Values not filled in or not available via this form is fetched from the [MetadataExport111#Default_options mdexport.default_options] option.
+
+This page can also be called directly by a browser or some other client capable of making a HTTP request. The following parameters are available.
+
 || *Parameter* || *Value* || *Required* ||
 || md || _void_ || Yes ||
 || type || _array(string)_ || Yes ||
@@ -131,7 +134,51 @@ Export of federation metadata can be done dynamically in JANUS. Go to the Federa
 || postpro || _string_ || No ||
 || ignoreerrors || 'on' || No ||
 
-== Configured metadata export ==
+It is highly recommended that you use a [MetadataExport111#Pre-configured_metadata_export pre-configured] metadata export feed if you plan to use JANUS directly as a metadata exchange source.
 
+== Pre-configured metadata export ==
+Pre-configuring a metadata export feed is the easiest way of distributing metadata. Configuring a metadata export feed is done by defining an entry in the `mdexport.feeds` option.
 
-  
+=== Configuring a feed ===
+For configuring a feed you need to make an entry in the `mdexport.feeds` option. The key used is the Id used by external consumers to fetch the metadata, so be short and precise.
+
+The metadata export feed can be fetched from
+
+{{{
+https://JANUS-URL/modules.php/janus/metadataexport.php
+}}}
+
+with the following parameters
+
+|| *Parameter* || *Value* || *Required* ||
+|| id || _string_ || Yes ||
+
+`id` should be set to the ID defined for the metadata export feed.
+
+The allowed options are the same as for the `mdexport.default_options` and can be found [MetadataExport111ConfigOptions here]. 
+
+When generating the metadata the `mdexport.default_options`is merged with the configuration for the feed. If an option is supplied in both configurations, the the option defined in the feed configuration takes precedence.
+
+Example of a feed configuration:
+
+{{{
+'mdexport.feeds' => array(
+    'prod' => array(
+        'types'                  => array('saml20-sp'),
+        'states'                 => array('prod'),
+        'mime'                   => 'application/samlmetadata+xml',
+        'entitiesDescriptorName' => 'Sample Federation',
+        'maxCache'               => 60*60*48, // 48 hour cache time
+        'maxDuration'            => 60*60*24*5, // Maximum 5 days duration on ValidUntil.
+        'sign.enable'            => TRUE,
+        'sign.privatekey'        => 'sample_server.pem',
+        'sign.privatekey_pass'   => 'VERY_SECRET_PASSWORD',
+        'sign.certificate'       => 'sample_server.crt',
+    ),
+    ....
+),
+}}}
+
+You can define as many feeds as you like.
+
+*NOTE* metadata is not cached, so every request will result in hitting the database. You should therefor ensure caching by some other means, if you are planning to consume metadata heavily from  JANUS.
