@@ -51,7 +51,7 @@ The following is a complete list of all allowed configurations options for the m
 ----
 
 ==== _string_ {{{postprocessor}}} ====
-|| Defines which post processor the metadata should be run through ||
+|| Defines which post processor the metadata should be run through. You can only select post processors which have been defined in the [MetadataExport111#Configuring_a_post_processor mdexport.postprocessor] array. ||
 <tr><td>
 *Example*
 {{{
