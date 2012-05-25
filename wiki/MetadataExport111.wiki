@@ -19,7 +19,78 @@ The page have the following parameters
 
 = Federation metadata export =
 
+== Configuration ==
+
+ * mdexport.postprocessor
+ * mdexport.feeds
+ * mdexport.allowed_mime
+ * mdexport.default_options
+
+=== Options ===
+
+The following is a description of all allowed ontions for configuring how export of metadata should behave
+|| *Parameter* || *Value* || *Description* ||
+|| [MetadataExport111#array__types types] || _array_ || ||
+|| states || _array_ || ||
+|| mime || _string_ || ||
+|| exclude || _array_ || ||
+|| postprocessor || _string_ || ||
+|| entitiesDescriptorName || _string_ || ||
+|| filename || _string_ || ||
+|| maxCache || _int_ || ||
+|| maxDuration || _int_ || ||
+|| sign.enable || _boolean_ || ||
+|| sign.privatekey || _string_ || ||
+|| sign.privatekey_pass || _string_ || ||
+|| sign.certificate || _string_ || ||
+
+----
+
+==== _array_ {{{types}}} ====
+|| The connection types to be exported ||
+<tr><td>
+*Example*
+{{{
+'types' => array('saml20-sp'. 'shib13-sp'),
+}}}
+</td></tr>
+
+==== _array_ {{{states}}} ====
+|| The connection states to be exported ||
+<tr><td>
+*Example*
+{{{
+'states' => array('prod-accepted'. 'qa-accepted'),
+}}}
+</td></tr>
+
+=== Default options ===
+
+=== Post processors ===
+
+=== Feeds ===
+
+
+=== Mime types ===
+
+ * application/xml
+ * application/samlmetadata+xml
+ * application/simplesamlphp+text
+
 == Dynamic metadata export ==
 Export of federation metadata can be done dynamically in JANUS. Go to the Federation tab and hit the Federation export link.
 
+|| *Parameter* || *Value* || *Required* ||
+|| md || _void_ || Yes ||
+|| type || _array(string)_ || Yes ||
+|| state || _string_ || Yes ||
+|| mime || _string_ || Yes ||
+|| filename || _string_ || No ||
+|| exclude || _string_ || No ||
+|| postpro || _string_ || No ||
+|| ignoreerrors || 'on' || No ||
+
 == Configured metadata export ==
+
+
+  
