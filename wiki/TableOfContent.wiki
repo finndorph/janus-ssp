@@ -8,7 +8,7 @@
   * [upgradejanus Upgrade notes]
   * [REST_API REST API]
   * [MetadataExport111 Metadata export]
-    * [MetadataExport111ConfigOptions options]
+    * [MetadataExport111ConfigOptions Options]
   * [CertificateRollOver Certificate rollover]
   * [KeyboardShortcuts Keyboard shortcuts]
   * [configurationfile Configuration]
