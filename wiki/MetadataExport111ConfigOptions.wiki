@@ -1,0 +1,148 @@
+#summary Overview of the configuration options for the metadata export functionallity
+
+= Metadata export configuration options =
+
+The following is a complete list of all allowed configurations options for the metadata exporter in JANUS.
+
+----
+
+==== _array_ {{{types}}} ====
+|| The connection types to be exported ||
+<tr><td>
+*Example*
+{{{
+'types' => array('saml20-sp'. 'shib13-sp'),
+}}}
+</td></tr>
+
+----
+
+==== _array_ {{{states}}} ====
+|| The connection states to be exported ||
+<tr><td>
+*Example*
+{{{
+'states' => array('prod-accepted'. 'qa-accepted'),
+}}}
+</td></tr>
+
+----
+
+==== _string_ {{{mime}}} ====
+|| Defines the mime type of the exported metadata. Only values defined in `mdexport.allowed_mime` is allowed ||
+<tr><td>
+*Example*
+{{{
+'mime' => 'application/xml',
+}}}
+</td></tr>
+
+----
+
+==== _array_ {{{exclude}}} ====
+|| Array of entityIDs for connections that should be excluded from the metadata export||
+<tr><td>
+*Example*
+{{{
+'exclude' => array('https://example.org/saml/metadata.xml'),
+}}}
+</td></tr>
+
+----
+
+==== _string_ {{{postprocessor}}} ====
+|| Defines which post processor the metadata should be run through ||
+<tr><td>
+*Example*
+{{{
+'exclude' => array('https://example.org/saml/metadata.xml'),
+}}}
+</td></tr>
+
+----
+
+==== _string_ {{{entitiesDescriptorName}}} ====
+|| Defines the title of the generated metadata. The title is put in the `Name` attribute of the containing `EntitiesDescriptor ||
+<tr><td>
+*Example*
+{{{
+'entitiesDescriptorName' => 'Sample Federation',
+}}}
+</td></tr>
+
+----
+
+==== _string_ {{{filename}}} ====
+|| Defines the name of the file that is returned. Setting this option results in the `Content-Disposition: attachment;` header being set with the given filename. ||
+<tr><td>
+*Example*
+{{{
+'filename' => 'federation-metadata.xml',
+}}}
+</td></tr>
+
+----
+
+==== _int_ {{{maxCache}}} ====
+|| Defines the content of the `cacheDuration` attribute on the containing `EntitiesDescriptor` and all subsequent `EntityDescriptor` elements. ||
+<tr><td>
+*Example*
+{{{
+'maxCache' => 60*60*24,
+}}}
+</td></tr>
+
+----
+
+==== _int_ {{{maxDuration}}} ====
+|| Defines the content of the `validUntil` attribute on the containing `EntitiesDescriptor` and all subsequent `EntityDescriptor` elements. ||
+<tr><td>
+*Example*
+{{{
+'validUntil' => 60*60*24*7,
+}}}
+</td></tr>
+
+----
+
+==== _boolean_ {{{sign.enable}}} ====
+|| Enables signing of the exported metadata. ||
+<tr><td>
+*Example*
+{{{
+'sign.enable' => TRUE,
+}}}
+</td></tr>
+
+----
+
+==== _string_ {{{sign.privatekey}}} ====
+|| The name of the file containing the private key used for signing the exported metadata. *NOTE* the file must be placed in the `cert` directory in the hosting simpleSAMLphp installation. ||
+<tr><td>
+*Example*
+{{{
+'sign.privatekey' => 'sample_server.pem',
+}}}
+</td></tr>
+
+----
+
+==== _string_ {{{sign.privatekey_pass}}} ====
+|| the password for unlocking the private key used for signing the exported metadata. Do not set or set to `null` if private key is not protected by a password. ||
+<tr><td>
+*Example*
+{{{
+'sign.privatekey_pass'   => 'VERY_SECRET_PASSWORD',
+}}}
+</td></tr>
+
+----
+
+==== _string_ {{{sign.certificate}}} ====
+|| The name of the file containing the public key used for signing the exported metadata. *NOTE* the file must be placed in the `cert` directory in the hosting simpleSAMLphp installation. ||
+<tr><td>
+*Example*
+{{{
+'sign.certificate' => 'sample_server.crt',
+}}}
+</td></tr>
