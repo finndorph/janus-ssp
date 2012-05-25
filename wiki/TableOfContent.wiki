@@ -6,7 +6,6 @@
   * [installjanus Installation]
     * [QuickInstall Quick install guide]
   * [upgradejanus Upgrade notes]
-Manual
   * [AccessControlConfig Access control]
   * [Attributes ARP and attributes]
   * [CertificateRollOver Certificate rollover]
