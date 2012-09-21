@@ -123,10 +123,6 @@ Below is an example of how to define a new metadata field using the most common 
 {{{
 'metadatafieldname' => array(
     'type' => 'text',
-    'description' => array(
-        'en' => 'A new metadata field description',
-        'da' => 'En ny beskrivelse',
-    ),
     'order' => 130,
     'default' => 'CHANGE ME',
     'default_allowed' => false,
@@ -138,18 +134,12 @@ Two example of the use of supported
 {{{
 'AssertionConsumerService:#:Location' => array(
     'type' => 'text',
-    'description' => array(
-        'en' => 'Assertion Consumer Service endpoint',
-    ),
     'order' => 140,
     'default' => 'CHANGE ME',
     'supported' => array(0,1,2,3,4),
 ),
 'name:#' => array(
     'type' => 'text',
-    'description' => array(
-        'en' => 'NAme of the service',
-    ),
     'order' => 145,
     'default' => 'CHANGE ME',
     'supported' => array('en', 'da'),
