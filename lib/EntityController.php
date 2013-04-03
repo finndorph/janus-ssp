@@ -938,9 +938,9 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
      * Update the given metadata.
      *
      * @param string $key   Metadata key
-     * @param string $value Metadata value
+     * @param atring $value Metadata value
      *
-     * @return bool Return TRUE on success and FALSE on error
+     * @return bool Return TRUE on success and FLASE on error
      */ 
     public function updateMetadata($key, $value)
     {
@@ -1005,17 +1005,18 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
      *
      * If the blocked entity is alreade sey, the methos will return true.
      *
-     * @param string $remoteEid Entity id of blocked entity
+     * @param string $remoteentityid Entity id of blocked entity
      *
      * @return true Return true on success
      * @since Method available since Release 1.0.0
      */
-    public function addBlockedEntity($remoteEid)
+    public function addBlockedEntity($remoteentityid)
     {
-        assert('is_string($remoteEid)');
+        assert('is_string($remoteentityid)');
 
-        if (!array_key_exists($remoteEid, $this->_blocked)) {
-            $this->_blocked[$remoteEid] = array('remoteeid' => $remoteEid);
+        if (!array_key_exists($remoteentityid, $this->_blocked)) {
+            $this->_blocked[$remoteentityid] 
+                = array('remoteentityid' => $remoteentityid);
             $this->_modified = true;
             return true;
         }
@@ -1025,17 +1026,17 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
     /**
      * remove an entity from the current entity blocked list.
      *
-     * @param string $remoteEid The entity to be removed
+     * @param string $remoteentityid The entity to be removed
      *
      * @return true Returns true on success
      * @since Method available since Release 1.0.0
      */
-    public function removeBlockedEntity($remoteEid)
+    public function removeBlockedEntity($remoteentityid)
     {
         assert('is_string($remoteentityid)');
 
-        if (isset($this->_blocked[$remoteEid])) {
-            unset($this->_blocked[$remoteEid]);
+        if (isset($this->_blocked[$remoteentityid])) {
+            unset($this->_blocked[$remoteentityid]);
             $this->_modified = true;
         }
         return true;
@@ -1060,17 +1061,18 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
      *
      * If the blocked entity is alreade sey, the methos will return true.
      *
-     * @param string $remoteEid Entity id of blocked entity
+     * @param string $remoteentityid Entity id of blocked entity
      *
      * @return true Return true on success
      * @since Method available since Release 1.8.0
      */
-    public function addAllowedEntity($remoteEid)
+    public function addAllowedEntity($remoteentityid)
     {
-        assert('is_string($remoteid) && ctype_digit($remoteeid)');
+        assert('is_string($remoteentityid)');
 
-        if (!array_key_exists($remoteEid, $this->_allowed)) {
-            $this->_allowed[$remoteEid] = array('remoteeid' => $remoteEid);
+        if (!array_key_exists($remoteentityid, $this->_allowed)) {
+            $this->_allowed[$remoteentityid] 
+                = array('remoteentityid' => $remoteentityid);
             $this->_modified = true;
             return true;
         }
@@ -1080,17 +1082,17 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
     /**
      * remove an entity from the current entity allowed list.
      *
-     * @param string $remoteEid The entity to be removed
+     * @param string $remoteentityid The entity to be removed
      *
      * @return true Returns true on success
      * @since Method available since Release 1.8.0
      */
-    public function removeAllowedEntity($remoteEid)
+    public function removeAllowedEntity($remoteentityid)
     {
         assert('is_string($remoteentityid)');
 
-        if (isset($this->_allowed[$remoteEid])) {
-            unset($this->_allowed[$remoteEid]);
+        if (isset($this->_allowed[$remoteentityid])) {
+            unset($this->_allowed[$remoteentityid]);
             $this->_modified = true;
         }
         return true;
@@ -1150,17 +1152,9 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
     private function _loadLinkedEntities($type)
     {
         $st = $this->execute(
-            'SELECT linkedEntity.*, remoteEntity.entityid as remoteentityid
-            FROM '. self::$prefix . $type . 'Entity linkedEntity
-            JOIN (
-                SELECT *
-                FROM '. self::$prefix . 'entity je
-                WHERE revisionid = (
-                    SELECT MAX(revisionid)
-                    FROM  '. self::$prefix . 'entity
-                    WHERE je.eid = eid
-            )) remoteEntity ON remoteEntity.eid = linkedEntity.remoteeid
-            WHERE linkedEntity.eid = ? AND linkedEntity.revisionid = ?',
+            'SELECT * 
+            FROM '. self::$prefix . $type . 'Entity 
+            WHERE `eid` = ? AND `revisionid` = ?;',
             array($this->_entity->getEid(), $this->_entity->getRevisionid())
         );
 
@@ -1168,12 +1162,12 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
             return false;
         }
 
-        $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+        $row = $st->fetchAll(PDO::FETCH_ASSOC);
 
         $this->{'_'.$type} = array();
 
-        foreach ($rows AS $row) {
-            $this->{'_'.$type}[$row['remoteeid']] = $row;
+        foreach ($row AS $data) {
+            $this->{'_'.$type}[$data['remoteentityid']] = $data;
         }
 
         return true;
@@ -1255,12 +1249,12 @@ class sspmod_janus_EntityController extends sspmod_janus_Database
             foreach ($this->{'_'.$type} AS $linked) {
                 $st = $this->execute(
                     'INSERT INTO '. self::$prefix . $type . 'Entity (
-                    `eid`, `revisionid`, `remoteeid`, `created`, `ip`)
+                    `eid`, `revisionid`, `remoteentityid`, `created`, `ip`)
                     VALUES (?, ?, ?, ?, ?);', 
                     array(
                         $this->_entity->getEid(), 
                         $revision, 
-                        $linked['remoteeid'],
+                        $linked['remoteentityid'], 
                         date('c'), 
                         $_SERVER['REMOTE_ADDR'],
                     )

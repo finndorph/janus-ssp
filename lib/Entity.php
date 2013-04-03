@@ -73,7 +73,7 @@ class sspmod_janus_Entity extends sspmod_janus_Database
      * Entity type
      * @var string
      */
-    private $_type;
+    private $_type = 'idp';
 
     /**
      * Expiration date of current entity.

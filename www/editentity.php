@@ -12,7 +12,6 @@ $janus_config = SimpleSAML_Configuration::getConfig('module_janus.php');
 $authsource = $janus_config->getValue('auth', 'login-admin');
 $useridattr = $janus_config->getValue('useridattr', 'eduPersonPrincipalName');
 $workflow = $janus_config->getValue('workflow_states');
-$workflowstates = $janus_config->getValue('workflowstates');
 
 // Validate user
 if ($session->isValid($authsource)) {
@@ -34,6 +33,8 @@ function check_uri ($uri)
     return FALSE;
 }
 
+// Get metadata to present remote entitites
+$metadata = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
 // Get Entity controller
 $mcontroller = new sspmod_janus_EntityController($janus_config);
 
@@ -43,7 +44,7 @@ $user->setUserid($userid);
 $user->load(sspmod_janus_User::USERID_LOAD);
 
 // Get Admin util which we use to retrieve entities
-$adminUtil = new sspmod_janus_AdminUtil();
+$autil = new sspmod_janus_AdminUtil();
 
 
 // Function to fix up PHP's messing up POST input containing dots, etc.
@@ -60,7 +61,7 @@ function getRealPOST() {
             if(count($name) > 1) {
                 $subkey = substr($name[1], 0, -1);
                 if(empty($subkey)) {
-                    $vars[$name[0]][] = $value;
+                    $vars[$name[0]][] = $value; 
                 } else {
                     $vars[$name[0]][substr($name[1], 0, -1)] = $value;
                 }
@@ -85,7 +86,7 @@ if(!empty($_POST)) {
         throw new SimpleSAML_Error_Exception('eid and revisionid parameter must be set');
     }
    $eid = $_POST['eid'];
-   $revisionid = $_POST['revisionid'];
+   $revisionid = $_POST['revisionid']; 
 } else if(!empty($_GET)) {
     if(!isset($_GET['eid'])) {
         throw new SimpleSAML_Error_Exception('eid parameter must be set');
@@ -130,9 +131,6 @@ $update = FALSE;
 $note = '';
 
 if(!empty($_POST)) {
-    // Whether to redirect to importing.
-    $redirectToImport = false;
-
     // Array for collecting addresses to notify
     $addresses = array();
 
@@ -235,16 +233,20 @@ if(!empty($_POST)) {
 
     // Add metadata from pasted XML
     if(!empty($_POST['meta_xml']) && $guard->hasPermission('importmetadata', $entity->getWorkflow(), $user->getType())) {
-        $redirectToImport = true;
-        $session->setData('string', 'import_type', 'xml');
-        $session->setData('string', 'import', $_POST['meta_xml']);
-        if(!in_array($entity->getType(), array('saml20-sp', 'saml20-idp'))) {
-            throw new SimpleSAML_Error_Exception($entity->getType() . ' is not a valid type for metadata import!');
+        if($entity->getType() == 'saml20-sp') {
+            if($msg = $mcontroller->importMetadata20SP($_POST['meta_xml'], $update)) {
+                $note .= 'Imported SAML 2.0 SP metadata succesfully<br />';
+            }
+        } else if($entity->getType() == 'saml20-idp') {
+            if($msg = $mcontroller->importMetadata20IdP($_POST['meta_xml'], $update)) {
+                $note .= 'Imported SAML 2.0 IdP metadata succesfully<br />';
+            }
+        } else {
+            throw new SimpleSAML_Error_Exception('Type error');
         }
     }
 
     if (!empty($_POST['meta_json']) && $guard->hasPermission('importmetadata', $entity->getWorkflow(), $user->getType())) {
-        $redirectToImport = true;
         function convert_stdobject_to_array($object)
         {
             $object = (array)$object;
@@ -264,9 +266,17 @@ if(!empty($_POST)) {
                 $metaArray = $mcontroller->arrayFlattenSep(':', $metaArray);
 
                 if ($metaArray['entityid'] === $mcontroller->getEntity()->getEntityid()) {
-                    $redirectToImport = true;
-                    $session->setData('string', 'import_type', 'json');
-                    $session->setData('string', 'import', $_POST['meta_json']);
+                    foreach ($metaArray as $key => $value) {
+                        if ($mcontroller->hasMetadata($key)) {
+                            echo "Updating: $key<br />" . PHP_EOL;
+                            $mcontroller->updateMetadata($key, $value);
+                        } else {
+                            echo "Adding: $key<br />" . PHP_EOL;
+                            $mcontroller->addMetadata($key, $value);
+                        }
+                    }
+                    $update = TRUE;
+                    $msg = 'status_metadata_parsed_ok';
                 }
                 else {
                     $msg = 'error_metadata_wrong_entity';
@@ -349,7 +359,7 @@ if(!empty($_POST)) {
             $update = TRUE;
         }
     }
-
+    
 
     // Allowedal
     if((isset($_POST['allowall']) || isset($_POST['allownone'])) && $guard->hasPermission('blockremoteentity', $entity->getWorkflow(), $user->getType())) {
@@ -369,7 +379,7 @@ if(!empty($_POST)) {
             $addresses[] = 'ENTITYUPDATE-' . $eid . '-CHANGESTATE-' . $_POST['entity_workflow'];
         }
     }
-
+    
     // change ARPw
     if(isset($_POST['entity_arp']) && $guard->hasPermission('changearp', $entity->getWorkflow(), $user->getType())) {
         if($entity->setArp($_POST['entity_arp'])) {
@@ -382,18 +392,18 @@ if(!empty($_POST)) {
     // Change entity type
     if($entity->setType($_POST['entity_type']) && $guard->hasPermission('changeentitytype', $entity->getWorkflow(), $user->getType())) {
         $old_metadata = $mcontroller->getMetadata();
-
+        
         // Get metadatafields for new type
         $nm_mb = new sspmod_janus_MetadatafieldBuilder(
             $janus_config->getArray('metadatafields.' . $_POST['entity_type'])
         );
         $new_metadata = $nm_mb->getMetadatafields();
-
+        
         // Only remove fields specific to old type
         foreach($old_metadata AS $om) {
             if(!isset($new_metadata[$om->getKey()])) {
                 $mcontroller->removeMetadata($om->getKey());
-            }
+            }  
         }
 
         // Add all required fields for new type
@@ -438,56 +448,32 @@ if(!empty($_POST)) {
         $addresses[] = 'ENTITYUPDATE-' . $eid;
         $directlink = SimpleSAML_Module::getModuleURL('janus/editentity.php', array('eid' => $entity->getEid(), 'revisionid' => $entity->getRevisionid()));
         $pm->post('Entity updated - ' . $entity->getEntityid(), 'Permalink: <a href="' . $directlink . '">' . $directlink . '</a><br /><br />' . $entity->getRevisionnote() . '<br /><br />' . $note, $addresses, $user->getUid());
-    }
-
-    if ($redirectToImport) {
-        $entity = $mcontroller->getEntity();
-        SimpleSAML_Utilities::redirect(
-            SimpleSAML_Module::getModuleURL('janus/importentity.php'),
-            array(
-                'eid'           => $entity->getEid(),
-            )
-        );
-    }
-    else {
-        SimpleSAML_Utilities::redirect(
-            SimpleSAML_Utilities::selfURLNoQuery(),
-            Array(
-                'eid' => $eid,
-                'msg' => $msg,
-                'selectedtab' => isset($_POST['selectedtab']) ? (int)$_POST['selectedtab'] : 0,
-            )
-        );
-    }
+    } 
+    
+    SimpleSAML_Utilities::redirect(
+        SimpleSAML_Utilities::selfURLNoQuery(),            
+        Array(
+            'eid' => $eid,
+            'msg' => $msg,
+            'selectedtab' => isset($_POST['selectedtab']) ? (int)$_POST['selectedtab'] : 0,
+        ) 
+    );
 }
 
 // Get remote entities
 if($entity->getType() == 'saml20-sp') {
-    $remoteTypes = array('saml20-idp', 'shib13-idp');
+    $loaded_entities = array_merge($autil->getEntitiesByStateType(null, 'saml20-idp'),
+                                   $autil->getEntitiesByStateType(null, 'shib13-idp'));
 } else if($entity->getType() == 'saml20-idp') {
-    $remoteTypes = array('saml20-sp', 'shib13-sp');
+    $loaded_entities = array_merge($autil->getEntitiesByStateType(null, 'saml20-sp'),
+                                   $autil->getEntitiesByStateType(null, 'shib13-sp'));
 } else if($entity->getType() == 'shib13-sp') {
-    $remoteTypes = array('saml20-idp', 'shib13-idp');
+    $loaded_entities = array_merge($autil->getEntitiesByStateType(null, 'saml20-idp'),
+                                   $autil->getEntitiesByStateType(null, 'shib13-idp'));
 } else if($entity->getType() == 'shib13-idp') {
-    $remoteTypes = array('saml20-sp', 'shib13-sp');
+    $loaded_entities = array_merge($autil->getEntitiesByStateType(null, 'saml20-sp'),
+                                   $autil->getEntitiesByStateType(null, 'shib13-sp'));    
 }
-else {
-    throw new Exception('New type');
-}
-
-$remoteEntities = array();
-foreach ($remoteTypes as $remoteType) {
-    $remoteEntities = array_merge($remoteEntities, $adminUtil->getEntitiesByStateType(null, $remoteType));
-}
-
-if ($guard->hasPermission('allentities', null, $user->getType(), TRUE)) {
-    $userEntities = $remoteEntities;
-}
-else {
-    $userEntities = $adminUtil->getEntitiesFromUser($user->getUid());
-}
-
-$reverseBlockedEntities = $adminUtil->getReverseBlockedEntities($entity, $userEntities);
 
 // Get metadatafields
 $mfc = $janus_config->getArray('metadatafields.' . $entity->getType());
@@ -497,75 +483,48 @@ $et->data['metadatafields'] = $mb->getMetadatafields();
 $remote_entities = array();
 
 // Only parse name and description in current language
-foreach($remoteEntities AS $remoteEntityRow) {
+foreach($loaded_entities AS $entityRow) {
     
-    $remoteEntity = new sspmod_janus_Entity($janus_config);
-    $remoteEntity->setEid($remoteEntityRow["eid"]);
-    $remoteEntity->setRevisionid($remoteEntityRow["revisionid"]);
-    $remoteEntity->load();
+    $instance = new sspmod_janus_Entity($janus_config);
+    $instance->setEid($entityRow["eid"]);
+    $instance->setRevisionid($entityRow["revisionid"]);
+    $instance->load();
     
-    $remoteEntityFormatted = array(
-        'eid'       => $remoteEntity->getEid(),
-        'revisionid'=> $remoteEntity->getRevisionid(),
-        'type'      => $remoteEntity->getType(),
-    );
-
-    // Format the name for the remote entity
-    $remoteEntityName = $remoteEntity->getPrettyName();
-    if (isset($remoteEntityName)) {
-        if(is_array($remoteEntityName)) {
-            if (array_key_exists($language, $remoteEntityName)) {
-                $remoteEntityFormatted['name'][$language] = $remoteEntityName[$language];
+    $value = array("name"=>$instance->getPrettyName(),
+                   "description"=>$instance->getEntityId(),
+                   );
+    $key = $instance->getEntityId();
+        
+    unset($value2);
+    if(isset($value['name'])) {
+        if(is_array($value['name'])) {
+            if(array_key_exists($language, $value['name'])) {
+                $value2['name'][$language] = $value['name'][$language];
             } else {
-                reset($remoteEntityName);
-                $remoteEntityFormatted['name'][$language] = 'No name in current language (' . current($remoteEntityName) . ')';
+                reset($value['name']);
+                $value2['name'][$language] = 'No name in current language (' . current($value['name']) . ')';
             }
         } else {
-            $remoteEntityFormatted['name'][$language] = $remoteEntityName;
+            $value2['name'][$language] = $value['name'];
         }
     } else {
-        $remoteEntityFormatted['name'][$language] = 'No name given';
+        $value2['name'][$language] = 'No name given';
     }
-
-    // Format the description for the remote entity
-    $remoteEntityDescription = $remoteEntity->getEntityId();
-    if (isset($remoteEntityDescription)) {
-        if (is_array($remoteEntityDescription)) {
-            if (array_key_exists($language, $remoteEntityDescription)) {
-                $remoteEntityFormatted['description'][$language] = $remoteEntityDescription[$language];
+    if(isset($value['description'])) {
+        if(is_array($value['description'])) {
+            if(array_key_exists($language, $value['description'])) {
+                $value2['description'][$language] = $value['description'][$language];
             } else {
-                reset($remoteEntityDescription);
-                $remoteEntityFormatted['description'][$language] = 'No description in current language (' . current($remoteEntityDescription) . ')';
+                reset($value['description']);
+                $value2['description'][$language] = 'No description in current language (' . current($value['description']) . ')';
             }
         } else {
-            $remoteEntityFormatted['description'][$language] = $remoteEntityDescription;
+            $value2['description'][$language] = $value['description'];
         }
     } else {
-        $remoteEntityFormatted['description'][$language] = 'No description given';
+        $value2['description'][$language] = 'No description given';
     }
-
-    // Pass along a text color if available
-    if (isset($workflowstates[$remoteEntity->getWorkflow()]['textColor'])) {
-        $remoteEntityFormatted['textColor'] = $workflowstates[$remoteEntity->getWorkflow()]['textColor'];
-    }
-
-    // Pass along whether the remote entity has blocked the current entity
-    $remoteEntityFormatted['blocked'] = false;
-    foreach ($reverseBlockedEntities as $reverseBlockedEntity) {
-        if ($reverseBlockedEntity['eid'] === $remoteEntity->getEid()) {
-            $remoteEntityFormatted['blocked'] = true;
-        }
-    }
-
-    // Whether the current user can edit the remote entity
-    $remoteEntityFormatted['editable'] = false;
-    foreach ($userEntities as $userEntity) {
-        if ($userEntity['eid'] === $remoteEntity->getEid()) {
-            $remoteEntityFormatted['editable'] = true;
-        }
-    }
-
-    $remote_entities[$remoteEntity->getEntityId()] = $remoteEntityFormatted;
+    $remote_entities[$key] = $value2;
 }
 
 /**
