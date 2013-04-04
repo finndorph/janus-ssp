@@ -14,9 +14,6 @@
 	"tab_arpedit_header": {
 		"en": "ARP"
 	},
-	"tab_arp_no_results": {
-		"en": "No ARP records found"
-	},
 	"tab_message_header": {
 		"en": "Inbox"
 	},
@@ -241,8 +238,5 @@
     },
     "text_save_and_close":{
         "en":"Save and close"
-    },
-	"status_metadata_parsed_ok": {
-		"en": "Metadata imported"
-	}
+    }
 }
